@@ -1,0 +1,3098 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="0.4.4" xml:lang="es">
+	<xsd:element name="datosGHC" type="DatosGHCType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Es el elemento principal, dentro de el se declara los datos necesarios para poder generar un horario adecuado. También están declaradas algunas claves de relación que deben ser cumplidas, por ejemplo una materia en una sesión, debe estar declarada en la lista de materias. No todas las relaciones están declaradas, por ejemplo las de las claves de submarco-día-índice de algunos tramos en los que el submarco está definido en el padre.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:complexType name="DatosGHCType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Este tipo define el elemento raíz de los datos de intercambio de GHC</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="version" minOccurs="0" maxOccurs="1" type="xsd:string" default="20230206">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Especifica cual es la versión del formato.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="periodos" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Indica los periodos en que se divide cada marco. Estos periodos pueden representar a semanas, a trimestres, cuatrimestres, ...
+            Es un elemento opcional. Si no aparece, se supone que todo el marco pertenece al mismo periodo.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="periodo" type="PeriodoType" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				<!-- Para comprobar que no se ha definido más de una vez el mismo periodo. -->
+				<xsd:key name="nombrePeriodoKey">
+					<xsd:selector xpath=".//periodo"/>
+					<xsd:field xpath="nombre"/>
+				</xsd:key>
+				<!-- Para comprobar que no se ha definido más de una vez el mismo periodo. -->
+				<xsd:key name="diaPeriodoKey">
+					<xsd:selector xpath=".//periodo"/>
+					<xsd:field xpath="diaFin"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="marcosDeHorario" minOccurs="1">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="marcoHorario" type="SubMarcoType" maxOccurs="unbounded" minOccurs="0">
+							<xsd:key name="MarcoDiaIndiceKey">
+								<xsd:selector xpath="./tramo"/>
+								<xsd:field xpath="submarco"/>
+								<xsd:field xpath="dia"/>
+								<xsd:field xpath="indice"/>
+							</xsd:key>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="idSubMarcoKey">
+					<xsd:selector xpath="./marcoHorario"/>
+					<xsd:field xpath="@id"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="aulas" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="aula" type="AulaType" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="nombreAulaKey">
+					<xsd:selector xpath=".//aula"/>
+					<xsd:field xpath="nombre"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="conjuntoDeAulas" type="ConjuntosDeAulaType" minOccurs="0">
+				<xsd:key name="nombreConjuntoKey">
+					<xsd:selector xpath=".//otroConjunto"/>
+					<xsd:field xpath="@nombre"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="tareas" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Declara una lista de los diferentes tipos de sesiones que puede haber. Se debe declarar al menos una tarea, puesto que las sesiones necesitan un tipo de tarea, normalmente lectiva.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="tarea" type="TareasType" maxOccurs="unbounded" minOccurs="0"/>
+						<xsd:element name="lectivaPorDefecto" minOccurs="0" type="NombreType"/>
+						<xsd:element name="guardiaPorDefecto" type="NombreType" minOccurs="0"/>
+						<xsd:element name="reunionPorDefecto" minOccurs="0" type="NombreType"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="nombreTareaKey">
+					<xsd:selector xpath=".//tarea"/>
+					<xsd:field xpath="nombre"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="departamentos" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Declara la lista de los departamentos disponibles</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="departamento" minOccurs="0" maxOccurs="unbounded" type="DepartamentoType"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="profesores" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">En este elemento estarán todos los profesores</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="profesor" type="ProfesorType" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="nombreProfesorKey">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="es">Indica que el nombre de los profesores es una clave identificativa (debe ser única, no null y obligatorio).</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath="./profesor"/>
+					<xsd:field xpath="nombre"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="materias" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">En este elemento estarán declaradas todas las materias</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="materia" type="MateriaType" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="nombreMateriaKey">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="es">Indica que el nombre de las materias es una clave de identificación (debe ser única, no null y obligatorio).</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath=".//materia"/>
+					<xsd:field xpath="nombre"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="cursos" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Declara la lista de los cursos existentes. Se puede no declarar pués no es un requisito necesario para generar un horario.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="curso" type="CursoType" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="nombreCursoKey">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="es">Indica que el nombre de los cursos es una clave de identificación (debe ser única, no null y obligatorio).</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath=".//curso"/>
+					<xsd:field xpath="nombre"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="grupos" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Lista los grupos existentes.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="grupo" type="GrupoType" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="nombreGrupoKey">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="es">Indica que los grupos se identifican mediante el nombre.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath=".//grupo"/>
+					<xsd:field xpath="nombre"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="sesionesLectivas" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Contiene una lista con las sesiones lectivas que se deben colocar.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="sesion" type="SesionLectivaType" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="claveDeSesionesKey">
+					<xsd:selector xpath="./sesion"/>
+					<xsd:field xpath="@id"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="listasDeRelacion" minOccurs="0" type="ListasDeRelacionesType"/>
+			<xsd:element name="optativas" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Contiene una lista con los conjuntos de optativas. Usado por la versión de universidad.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="optativa" type="OptativaType" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="reuniones" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica una lista de las reuniones existentes.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="reunion" type="ReunionesType" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="nombreReunionUnico">
+					<xsd:selector xpath=".//reunion"/>
+					<xsd:field xpath="nombre"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="guardias" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica una lista de las guardias existentes.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="guardia" type="GuardiaType" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="nombreGuardiaUnico">
+					<xsd:selector xpath=".//guardia"/>
+					<xsd:field xpath="nombre"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="complementarias" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica una lista de las sesiones complementarias.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="complementaria" type="ComplementariasType" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="criterios" type="CriteriosType" minOccurs="0"/>
+			<xsd:element name="horario" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Define una solución de un horario.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="tramo" minOccurs="0" maxOccurs="unbounded">
+							<xsd:annotation>
+								<xsd:documentation>Declara lo que se ha colocado en un determinado tramo.</xsd:documentation>
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="aula" minOccurs="0" maxOccurs="unbounded">
+										<xsd:annotation>
+											<xsd:documentation>Declara las sesiones y profesores que se han colocado en una determinada aula</xsd:documentation>
+										</xsd:annotation>
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="sesion" minOccurs="1" maxOccurs="unbounded">
+													<xsd:annotation>
+														<xsd:documentation>Declara lo que se ha colocado en un determinado tramo.</xsd:documentation>
+													</xsd:annotation>
+													<xsd:complexType>
+														<xsd:simpleContent>
+															<xsd:extension base="xsd:nonNegativeInteger">
+																<xsd:attribute name="refAula" type="NombreType" use="optional">
+																	<xsd:annotation>
+																		<xsd:documentation>Indica el origen del aula que se ha asignado a la sesión, para poder después proyectar el resultado correctamente.
+                                       Se corresponde con origenAula del elemento otraAula, dentro de SesionLectivaType.
+                                       Se deja el identificador de refAula="0" para el aula principal de la sesión.</xsd:documentation>
+																	</xsd:annotation>
+																</xsd:attribute>
+															</xsd:extension>
+														</xsd:simpleContent>
+													</xsd:complexType>
+												</xsd:element>
+												<xsd:element name="profesor" minOccurs="1" maxOccurs="unbounded" type="NombreType"/>
+											</xsd:sequence>
+											<xsd:attribute name="id" type="NombreType" use="optional"/>
+											<xsd:attribute name="anonima" type="NombreType" use="optional"/>
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="reunion" minOccurs="0" maxOccurs="unbounded" type="NombreType">
+										<xsd:annotation>
+											<xsd:documentation>Indica una reunión que se ha colocado en el tramo.</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="guardia" minOccurs="0" maxOccurs="unbounded">
+										<xsd:annotation>
+											<xsd:documentation>Indica una guardia que se ha colocado en el tramo.</xsd:documentation>
+										</xsd:annotation>
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="nombre" minOccurs="0" type="NombreType"/>
+												<xsd:element name="profesor" minOccurs="0" maxOccurs="unbounded" type="NombreType"/>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="complementaria" minOccurs="0" maxOccurs="unbounded" type="xsd:string">
+										<xsd:annotation>
+											<xsd:documentation>Indica una sesión complementaria que se ha colocado en el tramo.</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+								<xsd:attribute name="marco" type="xsd:NCName" use="required"/>
+								<xsd:attribute name="dia" type="DiaLectivoType" use="required"/>
+								<xsd:attribute name="indice" type="xsd:int" use="required"/>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="otros" minOccurs="0">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="restriccionesCD" minOccurs="0"
+                  type="RestriccionesCDType" />
+						<xsd:element name="funcionesAdicionales" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="restriccionDePlantilla"
+                              minOccurs="0">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Contiene los elementos que
+                                      declaran las restricciones de las
+                                      plantillas de los profesores.
+											</xsd:documentation>
+										</xsd:annotation>
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element
+                                          name="cantidadDeProhibidos"
+                                          minOccurs="0"
+                                          type="xsd:integer"
+                                          default="0">
+													<xsd:annotation>
+														<xsd:documentation>
+                                                  Indica la cantidad de
+                                                  prohibidos que se
+                                                  puede colocar en la
+                                                  plantilla de los
+                                                  profesores. Un valor
+                                                  negativo indica que no
+                                                  hay ninguna
+                                                  restricción.
+														</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+												<xsd:element
+                                          name="cantidadDePrefNo1"
+                                          minOccurs="0"
+                                          type="xsd:integer"
+                                          default="-1">
+													<xsd:annotation>
+														<xsd:documentation>
+                                                  Indica la cantidad de
+                                                  PreferentementeNo1 que
+                                                  se puede colocar en la
+                                                  plantilla de los
+                                                  profesores. Un valor
+                                                  negativo indica que no
+                                                  hay ninguna
+                                                  restricción.
+														</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+												<xsd:element
+                                          name="cantidadDePrefNo2"
+                                          minOccurs="0"
+                                          type="xsd:integer"
+                                          default="-1">
+													<xsd:annotation>
+														<xsd:documentation>
+                                                  Indica la cantidad de
+                                                  PreferentementeNo2 que
+                                                  se pueden colocar en
+                                                  la plantilla de los
+                                                  profesores. Un valor
+                                                  negativo indica que no
+                                                  hay ninguna
+                                                  restricción.
+														</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="definirTutor"
+                              type="xsd:boolean" minOccurs="0"
+                              default="false">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Indica si se permite que se
+                                      establezca si un profesor quiere
+                                      ser tutor o no en el módulo de
+                                      captación de desideratas.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="elegirGrupoTutor"
+                              type="xsd:boolean" minOccurs="0"
+                              default="false">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Indica que en caso de que se pueda
+                                      decidir si un profesor es tutor o
+                                      no, pueda escoger también el grupo
+                                      del que posiblemente será tutor.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="hacerGuardias"
+                              type="xsd:boolean" minOccurs="0"
+                              default="false">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Indica si se permite que los
+                                      profesores elijan que puedan hacer
+                                      guardias o no.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="cambiarAula"
+                              type="xsd:boolean" minOccurs="0"
+                              default="false">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Indica si se permite que en el
+                                      módulo de captación de desideratas
+                                      se permita cambiar el aula de una
+                                      sesión.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="permitirDistAlt"
+                              type="xsd:boolean" minOccurs="0"
+                              default="false">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Indica si se permite en el módulo
+                                      de captación de desideratas
+                                      permitir o no establecer una
+                                      distribución alternativa de los
+                                      tramos de las sesiones.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="mensajesIntercambio" minOccurs="0"
+                  type="MensajesIntercambio" />
+						<xsd:element name="opciones" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>
+                          Declara las opciones globales del horario.
+								</xsd:documentation>
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:all>
+									<xsd:element name="opcionesGenerales"
+                              minOccurs="0">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Declara las opciones generales.
+											</xsd:documentation>
+										</xsd:annotation>
+										<xsd:complexType>
+											<xsd:all>
+												<xsd:element
+                                          name="contarHuecosMediodia"
+                                          type="xsd:boolean"
+                                          minOccurs="0"
+                                          default="false">
+													<xsd:annotation>
+														<xsd:documentation>
+                                                  Indica para los
+                                                  profesores que tengan
+                                                  mañana y tarde contar
+                                                  como huecos los
+                                                  intervalos entre las
+                                                  sesiones de la mañana
+                                                  y las de la tarde. Si
+                                                  a un profesores se le
+                                                  asignan sesiones de
+                                                  cualquier tipo, de
+                                                  mañana y de tarde el
+                                                  mismo día, se les
+                                                  contarán como huecos
+                                                  en su horario y horas
+                                                  de permanencia en el
+                                                  centro los intervalos
+                                                  no ocupados situados
+                                                  entre las
+                                                  correspondientes
+                                                  sesiones de la mañana
+                                                  y de la tarde.
+														</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+												<xsd:element
+                                          name="desecharGuardias"
+                                          type="xsd:boolean"
+                                          minOccurs="0"
+                                          default="false">
+													<xsd:annotation>
+														<xsd:documentation>
+                                                  Indica si se generan
+                                                  resultados completos
+                                                  aunque no coloque
+                                                  todas las guardias
+                                                  (desechar las guardias
+                                                  no colocadas). Esta
+                                                  opción que permite
+                                                  generar resultados
+                                                  completos aunque no se
+                                                  puedan encajar todas
+                                                  las guardias
+                                                  previstas. Simplemente
+                                                  se desecharían las
+                                                  posiciones de guardia
+                                                  que no se hayan podido
+                                                  encajar en el
+                                                  resultado.
+														</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+												<xsd:element
+                                          name="mantener5Sesiones"
+                                          type="xsd:boolean"
+                                          minOccurs="0"
+                                          default="false">
+													<xsd:annotation>
+														<xsd:documentation>
+                                                  Deprecated. En el caso
+                                                  de profesores con 20,
+                                                  21, 22, 23 ó 24
+                                                  sesiones lectivas
+                                                  semanales, mantener un
+                                                  máximo de 5 sesiones
+                                                  al día. Esta opción le
+                                                  permite, en estos
+                                                  casos particulares,
+                                                  reducir el máximo de 6
+                                                  a 5 sesiones lectivas
+                                                  diarias.
+														</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+												<xsd:element
+                                          name="minimoHuecosGrupos"
+                                          type="xsd:boolean"
+                                          minOccurs="0"
+                                          default="false">
+													<xsd:annotation>
+														<xsd:documentation>
+                                                  Deprecated. Indica si
+                                                  se da prioridad a
+                                                  quitar los huecos del
+                                                  horario de los grupos.
+														</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+												<xsd:element name="minMaxSesiones"
+                                          type="xsd:boolean"
+                                          minOccurs="0"
+                                          default="false">
+													<xsd:annotation>
+														<xsd:documentation>
+                                                  Deprecated. Este
+                                                  elemento ya no se debe
+                                                  usar y solo aparece
+                                                  definido por
+                                                  compatibilidad con
+                                                  versiones anteriores.
+                                                  Su uso será ignorado.
+                                                  Antigua definición:
+                                                  Indica si se dará
+                                                  prioridad al
+                                                  máximo/mínimo de
+                                                  sesiones diarias de
+                                                  los profesores.
+														</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+												<xsd:element
+                                          name="posNoPrefDeGrupos"
+                                          type="xsd:boolean"
+                                          minOccurs="0"
+                                          default="false">
+													<xsd:annotation>
+														<xsd:documentation>
+                                                  Indica si se prioriza
+                                                  el horario cuando se
+                                                  observa colocaciones
+                                                  en posiciones no
+                                                  preferentes de los
+                                                  grupos.
+														</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+												<xsd:element
+                                          name="maxHoraPermanencia"
+                                          type="xsd:boolean"
+                                          minOccurs="0"
+                                          default="false">
+													<xsd:annotation>
+														<xsd:documentation>
+                                                  Deprecated. Este
+                                                  elemento ya no se debe
+                                                  usar y solo aparece
+                                                  definido por
+                                                  compatibilidad con
+                                                  versiones anteriores.
+                                                  Su uso será ignorado.
+                                                  Antigua definición:
+                                                  Indica si se
+                                                  priorizará al observar
+                                                  la máximas horas de
+                                                  permanencia de los
+                                                  profesores.
+														</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+											</xsd:all>
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="valorInicialProfesores"
+                              minOccurs="0"
+                              type="OpcionesDeProfesorType">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Declara los valores iniciales que
+                                      tendrán los nuevos profesores por
+                                      defecto.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="valorInicialSesiones"
+                              minOccurs="0"
+                              type="OpcionesDeSesionType">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Declara los valores iniciales que
+                                      tendrán las sesiones por defecto.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:all>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="notas" type="xsd:string"
+                  minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>
+                          Guarda una anotación que puede usar el
+                          usuario.
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="gruposAlejados" minOccurs="0"
+                  type="GruposAlejadosType">
+							<xsd:annotation>
+								<xsd:documentation>
+                          Declara los grupos alejados.
+								</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="extensiones" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="es">
+                          Este elemento permite extender los xml con
+                          cualquier cantidad y tipos de subelementos que
+                          pueda ser necesario en el futuro.
+								</xsd:documentation>
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:any minOccurs="0" maxOccurs="unbounded"
+                              processContents="lax" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="perfil" minOccurs="0" maxOccurs="1">
+							<xsd:annotation>
+								<xsd:documentation>
+                          Indica el perfil con el que se creó el
+                          archivo.
+								</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="primaria" />
+									<xsd:enumeration value="secundaria" />
+									<xsd:enumeration value="universidad" />
+									<xsd:enumeration value="conservatorio" />
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="claveXDias" minOccurs="0"
+                  maxOccurs="1">
+							<xsd:annotation>
+								<xsd:documentation>
+                          Contiene una lista con la relación de los días
+                          y sus claves de exportación.
+								</xsd:documentation>
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:all>
+									<xsd:element name="lunes" type="xsd:string"
+                              minOccurs="0" maxOccurs="1">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Contiene la clave de exportación
+                                      usada cuando se tenga que hacer
+                                      referencia a los lunes en los
+                                      programas externos.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="martes" type="xsd:string"
+                              minOccurs="0" maxOccurs="1">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Contiene la clave de exportación
+                                      usada cuando se tenga que hacer
+                                      referencia a los martes en los
+                                      programas externos.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="miercoles"
+                              type="xsd:string" minOccurs="0"
+                              maxOccurs="1">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Contiene la clave de exportación
+                                      usada cuando se tenga que hacer
+                                      referencia a los miércoles en los
+                                      programas externos.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="jueves" type="xsd:string"
+                              minOccurs="0" maxOccurs="1">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Contiene la clave de exportación
+                                      usada cuando se tenga que hacer
+                                      referencia a los jueves en los
+                                      programas externos.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="viernes" type="xsd:string"
+                              minOccurs="0" maxOccurs="1">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Contiene la clave de exportación
+                                      usada cuando se tenga que hacer
+                                      referencia a los viernes en los
+                                      programas externos.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="sabado" type="xsd:string"
+                              minOccurs="0" maxOccurs="1">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Contiene la clave de exportación
+                                      usada cuando se tenga que hacer
+                                      referencia a los sábados en los
+                                      programas externos.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="domingo" type="xsd:string"
+                              minOccurs="0" maxOccurs="1">
+										<xsd:annotation>
+											<xsd:documentation>
+                                      Contiene la clave de exportación
+                                      usada cuando se tenga que hacer
+                                      referencia a los domingos en los
+                                      programas externos.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:all>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="origenDatos" type="xsd:string" minOccurs="0" maxOccurs="1">
+							<xsd:annotation>
+								<xsd:documentation>Sirve para guardar un identificativo de la aplicación de terceros de la que se obtuvieron los datos. Por ejemplo al realizar una importación de un gestor académico, aquí podría guardarse el nombre del mismo. GHC podría actuar de forma diferente según el valor que tenga este campo.</xsd:documentation>
+							</xsd:annotation></xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PeriodoType">
+		<xsd:annotation>
+			<xsd:documentation>Identifica cada periodo definido dentro de un marco. Si no se define ningún periodo del marco, se considera que todo el marco pertenece a un mismo periodo.
+        Si el último diaFin elegido para un marco no se corresponde con el último día del marco, se considera que hay un periodo definido desde el día siguiente
+        al último diaFin definido en un periodo para el marco, y el último día definido en el marco en sí.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="nombre" type="NombreType">
+				<xsd:annotation>
+					<xsd:documentation>Nombre asociado al periodo. Es su clave.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="descripcion" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Descripción del periodo. Es un elemento opcional.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="diaFin" type="DiaLectivoType">
+				<xsd:annotation>
+					<xsd:documentation>Día en el que termina el periodo. Este día pertenece a este periodo.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ProfesorType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Este tipo define los datos que están asociados con un profesor.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="nombre" type="NombreType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica el nombre identificativo del profesor, debería ser único</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="abreviatura" minOccurs="0" type="AbreviaturaType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Es una acortación del nombre para identificarla más fácilmente</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="nombreCompleto" minOccurs="0" type="NombreCompletoType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Nombre completo del profesor, por si tiene un nombre tan largo que no cabe en el nombre.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="departamento" minOccurs="0" type="NombreType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Nombre del departamento al que pertenece el profesor. Se corresponde con el campo nombre de un departamento definido.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="claveDeExportacion" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="tomaDePosesion" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="plantilla" minOccurs="0" maxOccurs="1" type="PlantillaSinFType">
+			</xsd:element>
+			<xsd:element name="opciones" type="OpcionesDeProfesorType" minOccurs="0"/>
+			<xsd:element name="daPracticas" type="xsd:boolean" minOccurs="0" default="false">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si el profesor imparte prácticas de FP.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="reduccionCargaLectiva" type="xsd:integer" minOccurs="0" default="0">
+				<xsd:annotation>
+					<xsd:documentation>Indica la cantidad de sesiones de reducción de carga lectiva que tiene el profesor.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="mensaje" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Indica el texto de respuesta del profesor con las preferencias recogidas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="esNuevo" minOccurs="0" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si el profesor ha sido creado nuevo en el módulo de capta desideratas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="prioridad" type="xsd:integer" minOccurs="0" default="0">
+				<xsd:annotation>
+					<xsd:documentation>Indica cuan importante es cumplir las elecciones de este profesor respecto a las de los demás. A mayor valor, mayor prioridad.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="email" type="Email" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica la dirección de correo electrónico del profesor.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="horarioAsoc" type="NombreType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Especifica el nombre de horario asociado con el que debería tener el mismo horario de entrada y salida.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="DefinicionTramoType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define y declara un tramo. En el se especifica el submarco, pero debe ser el mismo que el del submarco al que pertenece. El conjunto submarco-día-índice es lo que identifica un marco.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="submarco" type="xsd:NCName" minOccurs="0"/>
+			<xsd:element name="dia" type="DiaLectivoType" minOccurs="0"/>
+			<xsd:element name="indice" minOccurs="0" type="xsd:unsignedInt"/>
+			<xsd:element name="horaEntrada" type="xsd:time" minOccurs="0"/>
+			<xsd:element name="horaSalida" type="xsd:time" minOccurs="0"/>
+			<xsd:element name="Tipo" default="lectivo" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="lectivo"/>
+						<xsd:enumeration value="recreo"/>
+						<xsd:enumeration value="mediodia"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="clavX" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="duracion" minOccurs="0" default="1" type="DuracionesTramoType"/>
+			<xsd:element name="permitido" type="xsd:boolean" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Indica si el tramo está permitido usarlo (true) o prohibido (false). Si se omite este elemento se supone que el tramo será permitido.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="SubMarcoType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define el marco horario general, solo si esta permitido o no. Los tramos deben tener el id de marco al que pertenecen.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="tramo" type="DefinicionTramoType" maxOccurs="unbounded" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:NCName" use="required"/>
+		<xsd:attribute name="nombre" type="xsd:string"/>
+		<xsd:attribute name="claveX" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+	<xsd:complexType name="OpcionesDeProfesorType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Contiene las distintas opciones con las que se puede configurar un profesor</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="intervalosDePermanenciaSemanales" default="30" minOccurs="0" maxOccurs="2">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Máximo número de intervalos de Permanencia semanales</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="DeCeroATrescientos">
+							<xsd:attribute name="estricto" type="xsd:boolean" use="optional" default="false">
+								<xsd:annotation>
+									<xsd:documentation>Indica si el máximo de intervalos de permanencia semanal de un profesor se debe considerar como una condición estricta (true) o solo como algo que evitar (false).</xsd:documentation>
+								</xsd:annotation>
+							</xsd:attribute>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="intervalosDePermanenciaDiarios" default="5" minOccurs="0" maxOccurs="2">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Máximo número de intervalos de Permanencia diaria de un profesor.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="DeCeroANoventaynueve">
+							<xsd:attribute name="estricto" type="xsd:boolean" use="optional" default="false">
+								<xsd:annotation>
+									<xsd:documentation>Indica si el máximo de intervalos de permanencia diaria de un profesor se debe considerar como una condición estricta (true) o solo como algo que evitar (false).</xsd:documentation>
+								</xsd:annotation>
+							</xsd:attribute>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="eliminarHuecos" default="true" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si se quiere eliminar los huecos de este profesor</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="maximasHorasSeguidas" default="5" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">El número máximo de sesiones lectivas continuadas que se admiten sin incluir un hueco o una complementaria</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedByte">
+						<xsd:maxInclusive value="14"/>
+						<xsd:minInclusive value="0"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="penalizarAlrededorGuardiaRecreo" default="false" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si se quiere penalizar la existencia de sesiones a ambos lados de una guardia de recreo del profesor (true) o no (false). Por defecto vale false.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="periodosLibres" type="PeriodosLibresType" minOccurs="0"></xsd:element>
+			<xsd:element name="periodoLibreJornadaPartida" type="PeriodosLibresJornadaPartidaType" minOccurs="0"></xsd:element>
+			<xsd:element name="otrosPeriodosLibresJornadaPartida" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica otras materias que se impartirán en el aula de la sesión. Este elemento es redundante con el de otrasMateriasGrupos y es preferible no usarle.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="periodoLibreJornadaPartida" type="PeriodosLibresJornadaPartidaType" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:unique name="testUniqueTypePeriodoLibreJornadaPartida">
+					<xsd:selector xpath="periodoLibreJornadaPartida"/>
+					<xsd:field xpath="tipoDePeriodoLibre"/>
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="incompatibilidadEntreSesiones" type="IncopatibilidadEntreSesionesType" minOccurs="0"/>
+			<xsd:element name="maximoSesionesDiarias" minOccurs="0" default="limitado">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Deprecated. Indica como se gestiona el máximo de sesiones diarias de cada profesor: estableciendo un máximo que se calcula automáticamente ("limitado"), estableciendo un máximo pero ampliandolo en una sesión más ("ampliado"), sin establecer ningún límite superior ("sinlimite") o sin tenerlo en cuenta ("nopenalizar").</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="limitado"/>
+						<xsd:enumeration value="ampliado"/>
+						<xsd:enumeration value="sinlimite"/>
+						<xsd:enumeration value="nopenalizar"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="minimoSesionesDiarias" minOccurs="0" default="limitado">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Deprecated. Indica como se gestiona el mínimo de sesiones diarias de cada profesor: establecer un mínimo autocalculado pero no estricto ("limitado"), no penalizar que no se cumpla el límite mínimo aunque intente cumplirlo ("nopenalizar"), intentar concentrar las sesiones en el menor número de días posible ("concentrar") y establecer un mínimo autocalculado estricto ("estricto").</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="limitado"/>
+						<xsd:enumeration value="nopenalizar"/>
+						<xsd:enumeration value="concentrar"/>
+						<xsd:enumeration value="estricto"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="minimizarDiasOcupados" default="false" type="xsd:boolean" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si se quiere intentar minimizar los días con clase del docente buscando días libres en la optimización (true), o no (false). Esta opción es compatible con los máximos y mínimos del profesor, que se comprobarían solo en los días que no quedan libres. Por defecto vale false.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="considerarMaximasHorasDiariasSolamenteLectivas" minOccurs="0" maxOccurs="1" default="estricto">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica cómo se debe considerar el número máximo de horas diarias en las que el profesor imparte sesiones lectivas: como un criterio de construcción ("estricto"), como un criterio preferente de optimización ("optimizacionPreferente), como un criterio ponderable de optimización ("ponderable"), o no tenerlo en cuenta ("nada").</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="estricto"/>
+						<xsd:enumeration value="optimizacionPreferente"/>
+						<xsd:enumeration value="ponderable"/>
+						<xsd:enumeration value="nada"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="valorMaximasHorasCalculadoSolamenteLectivas" default="automatico" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica cómo se ha actualizar el valor del número de horas diarias máximo que el profesor puede impartir sesiones lectivas: si se deja el valor que se calcula automáticamente ("automatico"), si se suma una hora a ese valor ("unaHoraMas") o si se restas una hora a ese valor ("unaHoraMenos").</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="unaHoraMas"/>
+						<xsd:enumeration value="automatico"/>
+						<xsd:enumeration value="unaHoraMenos"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="considerarMinimasHorasDiariasSolamenteLectivas" default="estricto" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica cómo se debe considerar el número mínimo de horas diarias definidas en las que el profesor imparte sesiones lectivas: como un criterio de construcción ("estricto"), como un criterio preferente de optimización ("optimizacionPreferente), como un criterio ponderable de optimización ("ponderable"), o no tenerlo en cuenta ("nada").</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="estricto"/>
+						<xsd:enumeration value="optimizacionPreferente"/>
+						<xsd:enumeration value="ponderable"/>
+						<xsd:enumeration value="nada"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="valorMinimasHorasCalculadoSolamenteLectivas" default="automatico" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica cómo se ha de actualizar el valor del número de horas diarias mínimo que el profesor puede impartir sesiones lectivas: si se deja el valor que se calcula automáticamente ("automatico"), si se suma una hora a ese valor ("unaHoraMas"), si se restas una hora a ese valor ("unaHoraMenos").</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="unaHoraMas"/>
+						<xsd:enumeration value="automatico"/>
+						<xsd:enumeration value="unaHoraMenos"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="considerarMaximasHorasDiarias" minOccurs="0" default="estricto">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica cómo se debe considerar el número máximo de horas de ocupación (lectivas y no lectivas indicadas como computables) diarias definidas para el profesor: como un criterio de construcción ("estricto"), como un criterio preferente de optimización ("optimizacionPreferente), como un criterio ponderable de optimización ("ponderable"), o no tenerlo en cuenta ("nada").</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="estricto"/>
+						<xsd:enumeration value="optimizacionPreferente"/>
+						<xsd:enumeration value="ponderable"/>
+						<xsd:enumeration value="nada"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="valorMaximasHorasCalculado" default="automatico" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica cómo se ha actualizar el valor del número de horas diarias de ocupación (lectivas y no lectivas indicadas como computables) máximo que el profesor puede impartir: si se deja el valor que se calcula automáticamente ("automatico"), si se suma una hora a ese valor ("unaHoraMas") o si se restas una hora a ese valor ("unaHoraMenos").</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="unaHoraMas"/>
+						<xsd:enumeration value="automatico"/>
+						<xsd:enumeration value="unaHoraMenos"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="considerarMinimasHorasDiarias" default="estricto" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica cómo se debe considerar el número mínimo de horas diarias de ocupación (lectivas y no lectivas indicadas como computables) definidas para el profesor: como un criterio de construcción ("estricto"), como un criterio preferente de optimización ("optimizacionPreferente), como un criterio ponderable de optimización ("ponderable"), o no tenerlo en cuenta ("nada").</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="estricto"/>
+						<xsd:enumeration value="optimizacionPreferente"/>
+						<xsd:enumeration value="ponderable"/>
+						<xsd:enumeration value="nada"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="valorMinimasHorasCalculado" default="automatico" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica cómo se ha de actualizar el valor del número de horas diarias de ocupación (lectivas y no lectivas indicadas como computables) mínimo que el profesor puede impartir: si se deja el valor que se calcula automáticamente ("automatico"), si se suma una hora a ese valor ("unaHoraMas"), si se restas una hora a ese valor ("unaHoraMenos"). Por compatibilidad con versiones anteriores, se mantiene el valor ("minimizarDiasOcupados") para intentar minimizar los días en que el profesor tiene clase. Actualmente esta opción se controla directamente con el elemento “minimizarDiasOcupados”.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="unaHoraMas"/>
+						<xsd:enumeration value="automatico"/>
+						<xsd:enumeration value="unaHoraMenos"/>
+						<xsd:enumeration value="minimizarDiasOcupados"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PeriodosLibresType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Indica el número mínimo de periodos libres que tendrá un profesor y de que tipo</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="cantidadDeDias" default="0" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica cuantos días tendrá periodos libres. Puesto que puede haber hasta 6 días en un marco horario, 
+            se define la cantidad de días hasta 6. El máximo debería ser el número de días definidos en los marcos, no tiene sentido que sea mayor.
+            Y además, para el tipo diasCompletos, no tiene sentido que sea ese máximo, pues no podrá tener ninguna asignación el profesor si todos los días son libres.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedByte">
+						<xsd:maxInclusive value="6"/>
+						<xsd:minInclusive value="0"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="tipoDePeriodo" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica el tipo de periodo libre que tendrá.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:choice>
+						<xsd:element name="diasCompletos" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Indica que se toma el día entero libre</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="losPrimerosIntervalos" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Indica que libra los n primeros intervalos</xsd:documentation>
+								<!-- Agregada la restricción de poner al menos 1 intervalo libre, si quiere 0, que ponga 0 días. -->
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:simpleContent>
+									<xsd:extension base="Horas"></xsd:extension>
+								</xsd:simpleContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="losUltimosIntervalos" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Indica que libra los n últimos intervalos</xsd:documentation>
+								<!-- Agregada la restricción de poner al menos 1 intervalo libre, si quiere 0, que ponga 0 días. -->
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:simpleContent>
+									<xsd:extension base="Horas"></xsd:extension>
+								</xsd:simpleContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="intervalosSeguidos" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Indica que libra n intervalos seguidos.</xsd:documentation>
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:simpleContent>
+									<xsd:extension base="Horas"></xsd:extension>
+								</xsd:simpleContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:choice>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="PeriodosLibresJornadaPartidaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Indica la cantidad de tardes o mañanas tiene que tener libre como mínimo</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="cantidad" default="0" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica la cantidad de tardes o mañanas tiene que tener libre como mínimo.
+            Puesto que puede haber hasta 6 días en un marco horario, se define la cantidad hasta 6.
+            El máximo debería ser el número de días definidos en los marcos, no tiene sentido que sea mayor.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedByte">
+						<xsd:minInclusive value="0"/>
+						<xsd:maxInclusive value="6"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="preferentes" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica la cantidad de tardes o mañanas tiene que tener libre de ser posible.
+            Puesto que puede haber hasta 6 días en un marco horario, se define la cantidad hasta 6.
+            El máximo debería ser el número de días definidos en los marcos, no tiene sentido que sea mayor.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedByte">
+						<xsd:minInclusive value="0"/>
+						<xsd:maxInclusive value="6"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="tipoDePeriodoLibre" minOccurs="0" default="indistintamente">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si tiene que tener las tardes, las mañanas o cualquiera de las dos, libres</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="tardes"/>
+						<xsd:enumeration value="mañanas"/>
+						<xsd:enumeration value="indistintamente"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="IncopatibilidadEntreSesionesType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define las incompatibilidades.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="tipoDeIncompatibilidad" minOccurs="0" default="evitar">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Deprecated. Indica como se deben tratar las incompatibilidades</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="prohibición"/>
+						<xsd:enumeration value="evitar"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="salirUltimaEntrarPrimera" type="TipoDeIncompatibilidadIntervaladaType" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Que salga a la última hora y entre a primera hora del día siguiente</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="salirUltimaEntrarPrimeraLunes" type="TipoDeIncompatibilidadIntervaladaType" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Que salga a la última hora y entre a primera entre viernes y lunes.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="entrarPrimeraSalirUltima" type="TipoDeIncompatibilidadIntervaladaType" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Que entre a primera hora y salga a última del mismo día</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:group maxOccurs="1" ref="OpcionesProfesorJornadaPartidaType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Son las opciones de incompatibilidad entre sesiones si hay jornada partida</xsd:documentation>
+					<!-- El programa tiene que verificar que haya jornada partida. -->
+				</xsd:annotation>
+			</xsd:group>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="OpcionesProfesorJornadaPartidaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define las opciones de incompatibilidad entre sesiones cuando hay jornada partida (hay un tramo de parada al mediodía).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="entrarPrimeraSalirUltimaTarde" type="TipoDeIncompatibilidadType" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Que entre a primera hora y salga a última hora de la tarde cuando hay jornada partida</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="entrarPrimeraSalirUltimaManana" minOccurs="0" maxOccurs="1" default="false" type="TipoDeIncompatibilidadType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Que entre a primera hora y salga a última hora de la mañana cuando hay jornada partida</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="salirUltimaMananaEntrarPrimeraTarde" type="TipoDeIncompatibilidadType" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Que salga a última de la mañana y entre a primera de la tarde.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="salirUltimaMananaTardeCompleta" type="TipoDeIncompatibilidadType" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Que salga a la última hora de la mañana y tenga la tarde ocupada.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="menosDeDosIntervalosLibres" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Que tenga menos de dos intervalos libres alrededor del mediodía</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="TipoDeIncompatibilidadType">
+							<xsd:attribute name="minutos" type="xsd:int" use="optional" default="120">
+								<xsd:annotation>
+									<xsd:documentation>Indica los minutos que se desean respetar alrededor de la parada de mediodía. Por defecto vale 120.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:attribute>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="entrarPrimeraSalirTarde" type="TipoDeIncompatibilidadType" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Que entre a primera hora y tenga clase por la tarde.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="MateriaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define una materia y sus características. El nombre es obligatorio y es lo que la identifica.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="nombre" type="NombreType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica el nombre identificativo de la materia, debería ser único. Se mostrará en el horario.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="abreviatura" minOccurs="0" type="AbreviaturaType">
+				<xsd:annotation>
+					<!-- A lo mejor esta es la que se tendría que mostrar en los horarios, o que sea el usuario el que elija. -->
+					<xsd:documentation xml:lang="es">Es una acortación del nombre para identificarla más fácilmente</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="nombreCompleto" minOccurs="0" type="NombreCompletoType"></xsd:element>
+			<xsd:element name="departamento" minOccurs="0" type="NombreType"/>
+			<xsd:element name="claveDeExportacion" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="esTutoria" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="esDePractica" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Indica si es una materia perteneciente a un ciclo de formación profesional o no.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="plantilla" type="PlantillaSinFType" minOccurs="0"></xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:simpleType name="NombreType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Indica el nombre identificativo en el programa, debe ser único (dentro de su conjunto). 30 caracteres máximo.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="30"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AbreviaturaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define las abreviaturas. 20 caracteres máximo</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NombreCompletoType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define el nombre completo. 50 caracteres máximo.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="GrupoType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Declara los datos que pueden tener los grupos. Los tramos de la plantilla serán del submarco indicado por el atributo subMarco.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="nombre" type="NombreType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica el nombre identificativo del grupo, debería ser único</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="abreviatura" minOccurs="0" type="AbreviaturaType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Es una acortación del nombre para identificarlo más fácilmente</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="nombreCompleto" minOccurs="0" type="NombreCompletoType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Nombre completo del grupo, por si tiene un nombre tan largo que no cabe en el nombre.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="cursoPerteneciente" type="NombreType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica a que curso pertenece este grupo.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="profesorTutor" type="NombreType" minOccurs="0"/>
+			<xsd:element name="aula" type="NombreType" minOccurs="0"/>
+			<xsd:element name="claveDeExportacion" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="numeroAlumnos" minOccurs="0" maxOccurs="1" type="xsd:unsignedInt" default="0"/>
+			<xsd:element name="tardesLibres" minOccurs="0" maxOccurs="1" default="0">
+				<xsd:annotation>
+					<xsd:documentation>Número de tardes libres a lo largo de la semana.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedByte">
+						<xsd:minInclusive value="0"/>
+						<xsd:maxInclusive value="4"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="noAdmiteHuecos" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="huecosEnNoPreferentes" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="eliminarHuecos" default="true" type="xsd:boolean" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si se quiere procurar eliminar los huecos del grupo.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="plantilla" type="PlantillaSinFType" minOccurs="0"></xsd:element>
+			<xsd:element name="email" type="Email" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica la dirección de correo electrónico del grupo, por si se quiere exportar después su calendario o realizar notificaciones al grupo.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="gruposIncluidos" type="GruposIncluidosType" minOccurs="0" maxOccurs="1"></xsd:element>
+		</xsd:all>
+		<xsd:attribute name="submarco" type="xsd:NCName"/>
+	</xsd:complexType>
+	<xsd:simpleType name="DiaLectivoType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Especifica los días de la semana que son lectivos. El rango es de 0 (lunes) a 35 (sabado) ambos inclusives. Este rango responde la limitacion de un máximo permitido de 6 semanas, de 6 días lectivos (de lunes a sábado).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedByte">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="35"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="AulaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define una aula, que es identificada por el nombre, y sus opciones.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="nombre" type="NombreType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica el nombre identificativo del aula, debería ser único</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="abreviatura" minOccurs="0" type="AbreviaturaType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Es una acortación del nombre para identificarla más fácilmente.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="descripcion" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Permite indicar una descripción más extensa sobre el aula, para poder definir sus peculiaridades.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="dedicada" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="numeroAlumnos" minOccurs="0" maxOccurs="1" type="xsd:unsignedInt" default="0"/>
+			<xsd:element name="claveDeExportacion" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="plantilla" minOccurs="0" type="PlantillaPDType"></xsd:element>
+			<xsd:element name="email" type="Email" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica la dirección de correo electrónico del aula, para poder utilizarla en la reserva de recursos en distintos gestores.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="ConjuntosDeAulaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define los conjuntos de aulas (agrupaciones de las mismas). Se identifican por el atributo nombre. Siempre debe existir el conjunto general en el normalmente se incluyen las aulas no declaradas.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="general" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="aula" type="NombreType" maxOccurs="unbounded" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="es">Debe estar declarada en la lista de aulas.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+					<xsd:attribute name="nombre" type="NombreType" fixed="general"/>
+					<xsd:attribute name="sinDeclarar" default="0" type="xsd:unsignedInt"/>
+				</xsd:complexType>
+				<xsd:key name="aulaGeneral">
+					<xsd:selector xpath="./aula"/>
+					<xsd:field xpath="."/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="otroConjunto" maxOccurs="unbounded" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="aula" type="NombreType" maxOccurs="unbounded" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="es">Debe estar declarada en la lista de aulas.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+					<xsd:attribute name="nombre" type="NombreType" use="required"/>
+					<xsd:attribute name="sinDeclarar" default="0" type="xsd:unsignedInt"/>
+				</xsd:complexType>
+				<xsd:key name="aulaOtroConjunto">
+					<xsd:selector xpath="./aula"/>
+					<xsd:field xpath="."/>
+				</xsd:key>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CursoType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Este tipo define los datos de los cursos.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="nombre" type="NombreType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica el nombre identificativo del curso, debería ser único</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="nombreCompleto" minOccurs="0" type="NombreCompletoType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Nombre completo del curso, por si tiene un nombre tan largo que no cabe en el nombre.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="claveDeExportacion" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="materiasDelCurso" minOccurs="0" type="materiasDelCursoType"></xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="TareasType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define los tipos de tareas. Es identificado por el nombre.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="nombre" type="NombreType" minOccurs="0"/>
+			<xsd:element name="nombreCompleto" type="NombreCompletoType" minOccurs="0"/>
+			<xsd:element name="claveDeExportacion" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="plantilla" type="PlantillaSinFType" minOccurs="0" maxOccurs="1"></xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="ReunionesType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define los datos de las reuniones.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="nombre" type="NombreType" minOccurs="0"/>
+			<xsd:element name="numeroDeReuniones" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">La cantidad de reuniones a la semana que deberán tener los profesores asignados.
+            El número máximo será una reunión por día para cada servicio de reuniones, y como el número máximo de días en un marco es 6,
+            se define ese como el límite de reuniones semanales por servicio. Pero realmente el límite debe ser el número de días
+            del marco al que pertenece el servicio de reuniones.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedByte">
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="6"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="dobleDuracion" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si la reunión ocupará uno (false) o dos (true) tramos.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="tipoDeTarea" type="NombreType" minOccurs="0"/>
+			<xsd:element name="lectiva" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si se tendrá en cuenta para la preferencia sobre intervalos de duración diaria del profesor (true) o no (false).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="plantilla" minOccurs="0" type="PlantillaPDFType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica los tramos en los que está permitido colocar la reunión. Todos los tramos deben pertenecer al submarco asociado a la reunión.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="integrantes" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Es una lista de las personas que asistirán a la reunión.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="integrante" maxOccurs="unbounded" minOccurs="0" type="NombreType">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="es">El nombre del profesor que debe asistir.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="nombreIntegranteReunionKey">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="es">Indica que los nombres de los integrantes no se deben repetir.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath=".//integrante"/>
+					<xsd:field xpath="."/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="distribucionPeriodica" type="DistribucionPeriodicaType" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Indica cómo es la distribución que se debe colocar en cada periodo que corresponda para esta reunión.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="mismaPosicionDistintosPeriodos" type="PreferenciaMismaPosicionDistintosPeriodos" default="ignorar" minOccurs="0"/>
+		</xsd:all>
+		<xsd:attribute name="subMarco" type="xsd:NCName" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="GuardiaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define las guardias. Son identificadas por el nombre.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="nombre" type="NombreType" minOccurs="0"/>
+			<xsd:element name="tipoDeTarea" type="NombreType" minOccurs="0"/>
+			<xsd:element name="enRecreos" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Indica si será una guardia de un recreo (true) o de horas lectivas (false, por defecto).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="lectiva" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Indica si se tendrá en cuenta para la preferencia sobre intervalos de duración diaria del profesor (true) o no (false).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="profesoresACadaHora" minOccurs="0">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="cantidad" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="es">El número de profesores que habrá por tramos, los tramos que no se definan (o si no se define porTramos) se les dará este valor.</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:unsignedByte">
+									<xsd:minInclusive value="1"/>
+									<xsd:maxInclusive value="8"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="porTramo" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="es">Una lista con la cantidad de profesores que tendrá que haber en cada tramo. Todos los tramos deben ser del tipo correspondiente con la opción de recreos. Los tramos que no estén definidos se les tomará como el valor de cantidad profesores.</xsd:documentation>
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="cantidadTramo" maxOccurs="unbounded" minOccurs="0">
+										<xsd:annotation>
+											<xsd:documentation xml:lang="es">Define un tramo en el que se indica una cantidad. El rango de valores es de 0 a 8. El submarco debe estar definido en algún elemento padre.</xsd:documentation>
+										</xsd:annotation>
+										<xsd:complexType>
+											<xsd:simpleContent>
+												<xsd:extension base="unsignedByte0a8">
+													<xsd:attribute name="dia" type="DiaLectivoType" use="required"/>
+													<xsd:attribute name="indice" type="xsd:int" use="required"/>
+												</xsd:extension>
+											</xsd:simpleContent>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+							<xsd:key name="guardiaTramoKey">
+								<xsd:selector xpath="./cantidadTramo"/>
+								<xsd:field xpath="@dia"/>
+								<xsd:field xpath="@indice"/>
+							</xsd:key>
+						</xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="integrantes" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="integrante" maxOccurs="unbounded" minOccurs="0">
+							<xsd:complexType>
+								<xsd:all>
+									<xsd:element name="nombre" type="NombreType" minOccurs="0"/>
+									<xsd:element name="numeroDeGuardias" default="1" minOccurs="0">
+										<xsd:annotation>
+											<xsd:documentation xml:lang="es">Indica cuantas guardias semanales debe cumplir el profesor. De 1 a 20.</xsd:documentation>
+										</xsd:annotation>
+										<xsd:simpleType>
+											<xsd:restriction base="xsd:unsignedByte">
+												<xsd:minInclusive value="1"/>
+												<xsd:maxInclusive value="20"/>
+											</xsd:restriction>
+										</xsd:simpleType>
+									</xsd:element>
+									<xsd:element name="plantilla" type="PlantillaPDFType" minOccurs="0">
+										<xsd:annotation>
+											<xsd:documentation xml:lang="es">Si no se especifica la plantilla, se supone que son todas permitidas.</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:all>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="nombreIntegranteGuardiaKey">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="es">Indica que no se puede repetir a un profesor en una misma guardia.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:selector xpath=".//integrante"/>
+					<xsd:field xpath="nombre"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="plantilla" type="PlantillaPDType" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Es una plantilla que indica si la guardia se puede poner en ese tramo o no.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="enPeriodos" type="EnPeriodosType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Indica los periodos en que se tiene que impartir el servicio de guardias. Para cada periodo será independiente el servicio,
+            es decir, si se da en los dos primeros periodos, se tendrá en cuenta un servicio para el primero y otro servicio para el segundo.
+            Es equivalente definir aquí dos periodos, que definir dos servicios de guardias, cada uno con un periodo.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="mismaPosicionDistintosPeriodos" type="PreferenciaMismaPosicionDistintosPeriodos" default="ignorar" minOccurs="0"/>
+		</xsd:all>
+		<xsd:attribute name="subMarco" type="xsd:NCName" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="ComplementariasType">
+		<xsd:annotation>
+			<xsd:documentation>Define las sesiones complementarias y sus opciones.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="identificador" minOccurs="0" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Identifica la sesión complementaria. Debe ser único (respecto a las otras sesiones complementarias).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="tarea" type="NombreType" minOccurs="0"/>
+			<xsd:element name="profesor" type="NombreType" minOccurs="0"/>
+			<xsd:element name="intervalosSemanales" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Deprecated. Indica la cantidad de intervalos a la semana que tendrá esta sesión complementaria.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedByte">
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="30"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="maxIntervalosDiarios" minOccurs="0" default="5">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Deprecated. Número máximo de intervalos al día.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedByte">
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="6"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="noConsecutivos" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Deprecated. Indica si se permite que los intervalos diarios no tengan que ser consecutivos.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="lectiva" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Indica si se tendrá en cuenta para la preferencia sobre intervalos de duración diaria del profesor (true) o no (false).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="plantilla" type="PlantillaPDFType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si está prohibido, permitido o fijado colocar las sesiones de esta complementaria. Si no aparece se supone que todos los tramos están permitidos.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="distribucionPeriodica" type="DistribucionPeriodicaType" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Indica cómo es la distribución que se debe colocar en cada periodo que corresponda para esta complementaria.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="mismaPosicionDistintosPeriodos" type="PreferenciaMismaPosicionDistintosPeriodos" default="ignorar" minOccurs="0"/>
+		</xsd:all>
+		<xsd:attribute name="subMarco" type="xsd:NCName" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="CriteriosType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Guarda la información de los pesos que tendrán las distintas opciones.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="huecosEnHorario" minOccurs="0" type="PesoHuecosEnHorarios"></xsd:element>
+			<xsd:element name="posicionesNoPreferentes" minOccurs="0" type="PesoPosicionesNoPreferentes"></xsd:element>
+			<xsd:element name="colocarSesionesLectivas" maxOccurs="1" minOccurs="0" type="PesoColocarSesionesLectivas"></xsd:element>
+			<xsd:element name="horarioDeProfesores" minOccurs="0" type="PesoHorarioDeProfesores"></xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="PesoHuecosEnHorarios">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Agrupa las opciones relacionadas con los pesos de los huecos.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="huecosEnGrupos" type="xsd:unsignedByte" default="5" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica el peso que se asigna al hecho de dejar huecos en los horarios de los grupos.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="huecosEnProfesores" type="xsd:unsignedByte" default="2" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica el peso que se asigna a dejar huecos en los horarios de los profesores.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="PesoPosicionesNoPreferentes">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Agrupa las opciones relacionadas con con los pesos de la colocación en tramos no preferentes.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="enGrupos" type="xsd:unsignedByte" default="4" minOccurs="0"/>
+			<xsd:element name="enProfesores" type="xsd:unsignedByte" default="3" minOccurs="0"/>
+			<xsd:element name="enMateriasYTareas" type="xsd:unsignedByte" default="1" minOccurs="0"/>
+			<xsd:element name="enSesionesLectivas" type="xsd:unsignedByte" default="2" minOccurs="0"/>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="PesoColocarSesionesLectivas">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Agrupa las opciones relacionadas con los pesos de colocar las sesiones lectivas en tramos extremos.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="enDiasConsecutivos" type="xsd:unsignedByte" default="1" minOccurs="0"/>
+			<xsd:element name="enAulaNoPreferente" type="xsd:unsignedByte" default="3" minOccurs="0"/>
+			<xsd:element name="enHorasExtremas" type="xsd:unsignedByte" default="2" minOccurs="0"/>
+			<xsd:element name="coincidanPorLaTarde" type="xsd:unsignedByte" default="1" minOccurs="0"/>
+			<xsd:element name="coincidanALaMismaHora" type="xsd:unsignedByte" default="0" minOccurs="0"/>
+			<xsd:element name="conCambiosDeAula" type="xsd:unsignedByte" default="1" minOccurs="0"/>
+			<xsd:element name="optativaSolapada" type="xsd:unsignedByte" default="1" minOccurs="0"/>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="PesoHorarioDeProfesores">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Agrupa las opciones de los pesos de los horarios de los profesores.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="horasExcluyentes" type="xsd:unsignedByte" default="3" minOccurs="0"/>
+			<xsd:element name="masClasesEnUnDiaQueEnOtro" type="xsd:unsignedByte" default="3" minOccurs="0"/>
+			<xsd:element name="horasDeClaseSeguidas" type="xsd:unsignedByte" default="2" minOccurs="0"/>
+			<xsd:element name="masPermanencia" type="xsd:unsignedByte" default="2" minOccurs="0"/>
+			<xsd:element name="seguidoConElMismoGrupo" type="xsd:unsignedByte" default="1" minOccurs="0"/>
+			<xsd:element name="guardiasEnExtremos" type="xsd:unsignedByte" default="1" minOccurs="0"/>
+			<xsd:element name="ordenProfesores" default="1" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedShort">
+						<xsd:minInclusive value="1"/>
+						<xsd:maxInclusive value="1000"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="SesionLectivaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define una sesión, en la que se puede declarar simultáneas e incompatibilidades mediante el identificador a la lista correspondiente.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="materia" type="NombreType" minOccurs="0"/>
+			<xsd:element name="grupo" minOccurs="0">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="NombreType">
+							<xsd:attribute name="numeroAlumnos" type="xsd:unsignedInt" use="optional" default="0">
+								<xsd:annotation>
+									<xsd:documentation>Indica el número de alumnos de este grupo que reciben esta sesión.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:attribute>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="profesor" type="NombreType" minOccurs="0" nillable="true"/>
+			<xsd:element name="duracionSemanal" minOccurs="0" type="xsd:float">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica la duración semanal (en horas) que tendrá la sesión.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="distribucionSemanal" type="DistribucionSemanalType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Deprecated. Puesto que ahora se trabaja con periodos, utilizar el elemento distribucionPeriodica.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="distribucionPeriodica" type="DistribucionPeriodicaType" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Indica cómo es la distribución que se debe colocar en cada periodo que corresponda para esta sesión.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="listaDeAulas" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Una lista con las aulas en las que se quiere asignar esta sesión. El orden es significativo, se intentará colocarla en la primera, sino en la segunda, etc. Si no se pone ninguna, indica que puede ser cualquiera.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="aula" type="NombreType" minOccurs="0" maxOccurs="unbounded">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="es">Indica el aula donde se debe impartir esta sesión. Si no aparece quiere decir que es cualquier aula.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="listaDeAlternativas" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Una lista con los conjuntos de aulas en las que se quiere asignar esta sesión, si no se especifica ninguna, indica que no se quieren grupos alternativos (si aparece algún aula en la lista de aulas) o que es cualquiera (si no aparecen aulas en la lista de aulas). El orden es significativo, se intentará colocarla en la primera, sino en la segunda, etc. Si no se pone ninguna, indica que puede ser cualquiera.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="conjuntoAlternativo" type="NombreType" minOccurs="0" maxOccurs="unbounded">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="es">Indica el conjunto de aulas que se usará si el aula seleccionada no esta disponible. Sí no aparece quiere decir que obligatoriamente se debe usar el aula indicada antes.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="tarea" type="NombreType" minOccurs="0"/>
+			<xsd:element name="grupoMateria" minOccurs="0">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="xsd:string">
+							<xsd:attribute name="modificado" type="xsd:boolean" use="optional" default="false">
+								<xsd:annotation>
+									<xsd:documentation>Indica si el identificador de grupo-materia ha sido modificado por el usuario (true) o es el generado automáticamente (false).</xsd:documentation>
+								</xsd:annotation>
+							</xsd:attribute>
+							<xsd:attribute name="tipo" type="xsd:string" use="optional">
+								<xsd:annotation>
+									<xsd:documentation>Indica el tipo del grupo-materia. Usado por algunos programas externos.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:attribute>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="departamento" minOccurs="0" type="NombreType">
+				<xsd:annotation>
+					<xsd:documentation>Indica el departamento al que pertenece la sesión, que puede ser distinto al que pertenece la materia o el profesor.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="notas" minOccurs="0" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Declara un texto que aclara información sobre las preferencias de la sesión.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="profesoresIntercambiables" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Declara una lista de sesiones con las cuales se puede intercambiar los profesores.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="sesion" minOccurs="0" maxOccurs="unbounded" type="xsd:nonNegativeInteger"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="opciones" type="OpcionesDeSesionType" minOccurs="0"/>
+			<xsd:element name="plantilla" type="PlantillaType" minOccurs="0"/>
+			<xsd:element name="otrasMateriasGrupos" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica las otras materias y grupos que se incluirán en el aula en el orden definido en el planificador. Es redundante y preferible a los elementos otrosGrupos y otrasMaterias.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="materiaGrupo" maxOccurs="unbounded" minOccurs="0">
+							<xsd:complexType>
+								<xsd:annotation>
+									<xsd:documentation>Contiene el id de la materia y del grupo que se agregarán al aula de la sesión.</xsd:documentation>
+								</xsd:annotation>
+								<xsd:all>
+									<xsd:element name="materia" type="NombreType" maxOccurs="1" minOccurs="0">
+										<xsd:annotation>
+											<xsd:documentation>El nombre de la materia del par materia-grupo que se agregará adicionalmente al aula de la sesión.</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="grupo" minOccurs="0" maxOccurs="1">
+										<xsd:annotation>
+											<xsd:documentation>El nombre del grupo del par materia-grupo que se agregará adicionalmente al aula de la sesión.</xsd:documentation>
+										</xsd:annotation>
+										<xsd:complexType>
+											<xsd:simpleContent>
+												<xsd:extension base="NombreType">
+													<xsd:attribute name="numeroAlumnos" type="xsd:unsignedInt" use="optional" default="0">
+														<xsd:annotation>
+															<xsd:documentation>El número de alumnos de ese grupo que reciben esta materia en esta sesión.</xsd:documentation>
+														</xsd:annotation>
+													</xsd:attribute>
+													<xsd:attribute name="autogenerado" type="xsd:boolean" default="false">
+														<xsd:annotation>
+															<xsd:documentation>
+																Indica si el grupo es un grupo añadido automaticamente por ser grupo incluido dentro del grupo principal.
+															</xsd:documentation>
+														</xsd:annotation>
+													</xsd:attribute>
+												</xsd:extension>
+											</xsd:simpleContent>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:all>
+								<xsd:attribute name="tarea" type="NombreType" use="optional">
+									<xsd:annotation>
+										<xsd:documentation>Indica la tarea asociada al grupo-materia en caso de ser diferente a la de la sesión.</xsd:documentation>
+									</xsd:annotation>
+								</xsd:attribute>
+								<xsd:attribute name="claveX" type="xsd:string" use="optional">
+									<xsd:annotation>
+										<xsd:documentation>Es un valor extra que sirve para asociar
+                      datos con otras aplicaciones en caso de ser necesario.
+										</xsd:documentation>
+									</xsd:annotation>
+								</xsd:attribute>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="otrasMateriasProfesores"
+				minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica las otras materias impartidas por otros profesores en el aula,que se incluirán el orden definido en el
+					planificador. Si los otros profesores en el aula imparten la misma materia que el profesor principal se debe usar otrosProfesores
+				</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="otraMateriaProfesor"
+							maxOccurs="unbounded" minOccurs="0">
+							<xsd:complexType>
+								<xsd:annotation>
+									<xsd:documentation>Contiene el id de la materia y del profesor que se agregará al aula de la sesión.</xsd:documentation>
+								</xsd:annotation>
+								<xsd:all>
+									<xsd:element name="profesor" type="NombreType" minOccurs="1" maxOccurs="1">
+										<xsd:annotation>
+											<xsd:documentation>El nombre del profesor del par materia-profesor que se agregará adicionalmente al aula de la sesión.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+									<xsd:element name="materia" type="NombreType" maxOccurs="1" minOccurs="1">
+										<xsd:annotation>
+											<xsd:documentation>El nombre
+											de la materia del par
+											materia-profesor que se
+											agregará adicionalmente
+											al aula de la sesión.
+											</xsd:documentation>
+										</xsd:annotation>
+									</xsd:element>
+								</xsd:all>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="otrosGrupos" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica otros grupos que se incluirán en el aula. Este elemento es redundante con el de otrasMateriasGrupos y es preferible no usarle.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="grupo" maxOccurs="unbounded" minOccurs="0">
+							<xsd:complexType>
+								<xsd:simpleContent>
+									<xsd:extension base="NombreType">
+										<xsd:attribute name="tarea" type="NombreType"
+                              use="optional">
+											<xsd:annotation>
+												<xsd:documentation>
+                                      Indica la tarea asociada al grupo
+                                      en caso de ser diferente a la de
+                                      la sesión.
+												</xsd:documentation>
+											</xsd:annotation>
+										</xsd:attribute>
+										<xsd:attribute name="numeroAlumnos"
+                              type="xsd:unsignedInt" use="optional"
+                              default="0">
+											<xsd:annotation>
+												<xsd:documentation>
+                                      Indica el número de alumnos de
+                                      este grupo que reciben esta
+                                      sesión.
+												</xsd:documentation>
+											</xsd:annotation>
+										</xsd:attribute>
+										<xsd:attribute name="claveX" type="xsd:string"
+                              use="optional">
+											<xsd:annotation>
+												<xsd:documentation>Es un valor extra que sirve para asociar
+                                      datos con otras aplicaciones en caso de ser necesario.
+												</xsd:documentation>
+											</xsd:annotation>
+										</xsd:attribute>
+										<xsd:attribute name="autogenerado" type="xsd:boolean" default="false">
+											<xsd:annotation>
+												<xsd:documentation>
+													Indica si el grupo es un grupo añadido automaticamente por ser grupo incluido dentro del grupo principal.
+												</xsd:documentation>
+											</xsd:annotation>
+										</xsd:attribute>
+									</xsd:extension>
+								</xsd:simpleContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="otrosProfesores" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica otros profesores que se deben incluir en el aula de esta sesión.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="profesor" maxOccurs="unbounded" minOccurs="0">
+							<xsd:complexType>
+								<xsd:simpleContent>
+									<xsd:extension base="NombreType">
+										<xsd:attribute name="tarea" type="NombreType" use="optional">
+											<xsd:annotation>
+												<xsd:documentation>Indica la tarea asociada al profesor en caso de ser diferente a la de la sesión.</xsd:documentation>
+											</xsd:annotation>
+										</xsd:attribute>
+										<xsd:attribute name="claveX" type="xsd:string" use="optional">
+											<xsd:annotation>
+												<xsd:documentation>Es un valor extra que sirve para asociar
+                          datos con otras aplicaciones en caso de ser necesario.
+												</xsd:documentation>
+											</xsd:annotation>
+										</xsd:attribute>
+									</xsd:extension>
+								</xsd:simpleContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="otrasMaterias" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica otras materias que se impartirán en el aula de la sesión. Este elemento es redundante con el de otrasMateriasGrupos y es preferible no usarle.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="materia" maxOccurs="unbounded" minOccurs="0">
+							<xsd:complexType>
+								<xsd:simpleContent>
+									<xsd:extension base="NombreType">
+										<xsd:attribute name="tarea" type="NombreType" use="optional">
+											<xsd:annotation>
+												<xsd:documentation>Indica la tarea asociada a la materia en caso de ser diferente a la de la sesión.</xsd:documentation>
+											</xsd:annotation>
+										</xsd:attribute>
+										<xsd:attribute name="claveX" type="xsd:string" use="optional">
+											<xsd:annotation>
+												<xsd:documentation>Es un valor extra que sirve para asociar
+                          datos con otras aplicaciones en caso de ser necesario.
+												</xsd:documentation>
+											</xsd:annotation>
+										</xsd:attribute>
+									</xsd:extension>
+								</xsd:simpleContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="otrasAulas" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Especifica otras aulas (o grupos de aulas) que se pueden asignar a la sesión.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence minOccurs="1" maxOccurs="1">
+						<xsd:element name="otraAula" maxOccurs="unbounded" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="aula" minOccurs="0" type="NombreType"/>
+									<xsd:element name="grupo" minOccurs="0" type="NombreType"/>
+								</xsd:sequence>
+								<xsd:attribute name="tarea" type="NombreType" use="optional">
+									<xsd:annotation>
+										<xsd:documentation>Indica la tarea asociada al aula en caso de ser diferente a la de la sesión.</xsd:documentation>
+									</xsd:annotation>
+								</xsd:attribute>
+								<xsd:attribute name="origenAula" type="NombreType" use="optional">
+									<xsd:annotation>
+										<xsd:documentation>Identificador para saber con qué otroAula se idenficia después la asignación, y que se puedan proyectar correctamente los resultados.
+                        Se corresponderá después con refAula del elemento sesion, dentro de de la solución contenida en horario.
+                        Se deja el identificador de origenAula="0" para el aula principal de la sesión.</xsd:documentation>
+									</xsd:annotation>
+								</xsd:attribute>
+								<xsd:attribute name="claveX" type="xsd:string" use="optional">
+									<xsd:annotation>
+										<xsd:documentation>Es un valor extra que sirve para asociar
+                      datos con otras aplicaciones en caso de ser necesario.
+										</xsd:documentation>
+									</xsd:annotation>
+								</xsd:attribute>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="sesionesSimultaneas" type="xsd:nonNegativeInteger" minOccurs="0"/>
+			<xsd:element name="enDistintoDia" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Declara una lista de sesiones que deben impartirse en un día distinto al de la sesión actual.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="sesiones" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="sesion" type="xsd:nonNegativeInteger" maxOccurs="unbounded" minOccurs="0"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="enDiasSeguidos" default="preferentemente" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation xml:lang="es">Si suman 2 o 3 sesiones, indica como actuar frente a poner las sesiones en días consecutivos. Si no hay 2 o 3 sesiones y aparece este campo, se ignorará. Si hay 2 o 3 sesiones y no aparece este campo, se supondrá preferentemente.</xsd:documentation>
+							</xsd:annotation>
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="obligado"/>
+									<xsd:enumeration value="preferentemente"/>
+									<xsd:enumeration value="indistinto"/>
+									<xsd:enumeration value="prohibido"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="consecutivas" minOccurs="0" type="xsd:nonNegativeInteger"/>
+			<xsd:element name="noConsecutivas" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Declara una lista de sesiones que no deben ser consecutivas a la sesión actual.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="sesion" type="xsd:nonNegativeInteger" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="noCoincidentes" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Declara una lista de sesiones que no deben ser coincidentes a la sesión actual, es decir, que no se coloquen en el mismo tramo.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="sesion" type="xsd:nonNegativeInteger" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="previoA" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Declara una lista de sesiones a las que la sesión actual debe ser previa, es decir, que los días en que se coloquen las entidades de estas sesiones sean posteriores a los días en que se coloquen las entidades de esta sesión.
+            Si una sesión tiene marcada una relación de previoA con otra sesión, esa debe tener una relación de posteriorA con esta sesión.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="sesion" type="xsd:nonNegativeInteger" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="posteriorA" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Declara una lista de sesiones a las que la sesión actual debe ser posterior, es decir, que los días en que se coloquen las entidades de estas sesiones sean previos a los días en que se coloquen las entidades de esta sesión.
+            Si una sesión tiene marcada una relación de posteriorA con otra sesión, esa debe tener una relación de previoA con esta sesión.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="sesion" type="xsd:nonNegativeInteger" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="separadosNDiasOMas" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Indica una relación de separación igual o mayor de días que debe guardar esta sesión lectiva con otras sesiones. Una sesión puede definir varias relaciones de este tipo, 
+            indicando para cada una de la sesión con la que guarda el número de días. Que una separación indique 0 días o más, indica que las entiades se imparten en días distintos.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="separacion" type="SeparacionSesionesType" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="separadosNDiasOMenos" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Indica una relación de separación igual o menor de días que debe guardar esta sesión lectiva con otras sesiones. Una sesión puede definir varias relaciones de este tipo, 
+            indicando para cada una de la sesión con la que guarda el número de días. Que una separación indique 0 días o menos, indica que las entiades se imparten en el mismo día o en días seguidos.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="separacion" type="SeparacionSesionesType" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="esNuevo" minOccurs="0" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si la sesión ha sido creado nuevo en el módulo de capta desideratas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:nonNegativeInteger" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="DistribucionSemanalReducidaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define la distribución fija y variable, pero no la personalizada, que pueden tener las sesiones a lo largo de la semana.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="distribucionFija" type="DistribucionType" minOccurs="0"></xsd:element>
+			<xsd:element name="distribucionVariable" type="DistribucionVariableType" minOccurs="0"></xsd:element>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="DistribucionSemanalType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define las distintas posibilidades de declarar que distribución tendrán las sesiones a lo largo de la semana.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="distribucionFija" type="DistribucionType" minOccurs="0"></xsd:element>
+			<xsd:element name="distribucionVariable" type="DistribucionVariableType" minOccurs="0"></xsd:element>
+			<xsd:element name="distribucionPersonalizada" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="distribucion" type="DistribucionType" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="DistribucionType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define una distribución concreta de sesiones. Limitada a 5 intervalos diarios</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="numSesiones" maxOccurs="6" minOccurs="0" type="DuracionesDistFijaType"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DistribucionInicialType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define una distribución inicial para las distribuciones variables.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="numSesiones" maxOccurs="6" minOccurs="0" type="DuracionesType"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DistribucionVariableType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define una distribución variable para las sesiones.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="numSesiones" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Será equivalente al valor de la duración semanal de la sesion.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:decimal">
+						<xsd:maxInclusive value="35"/>
+						<xsd:minInclusive value="0.5"/>
+						<xsd:pattern value="([0-9])+((\.250*)|(\.50*)|(\.750*)|(\.0*))?"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="numMaximoDeSesiones" minOccurs="0">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="es">Indica la duracion máxima continua en tramos que puede tener la sesion en un dia.</xsd:documentation>
+			</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="DuracionesType">
+						<xsd:enumeration value="M"/>
+						<xsd:enumeration value="T"/>
+						<xsd:enumeration value="1"/>
+						<xsd:enumeration value="S"/>
+						<xsd:enumeration value="2"/>
+						<xsd:enumeration value="3"/>
+						<xsd:enumeration value="4"/>
+						<xsd:enumeration value="5"/>
+						<xsd:enumeration value="6"/>
+						<xsd:enumeration value="7"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="numMinimoDeSesiones" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica la duracion minima en tramos que debe asignar la sesion en un día.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="DuracionesType">
+						<xsd:enumeration value="M"/>
+						<xsd:enumeration value="T"/>
+						<xsd:enumeration value="1"/>
+						<xsd:enumeration value="S"/>
+						<xsd:enumeration value="2"/>
+						<xsd:enumeration value="3"/>
+						<xsd:enumeration value="4"/>
+						<xsd:enumeration value="5"/>
+						<xsd:enumeration value="6"/>
+						<xsd:enumeration value="7"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="penalizarSesionesSueltas" default="permitido" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Deprecated. Permitia indicar que se permitan, eviten o prohiban las sesiones de duración minima segun el marco.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="permitido"/>
+						<xsd:enumeration value="penalizado"/>
+						<xsd:enumeration value="prohibido"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="penalizarBloquesMaximos" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="penalizarBloquesMinimos" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="admitirBloquesDiscontinuos" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="distribucionInicial" type="DistribucionInicialType" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Indica la distribución inicial que se mostrará en la lista de sesiones del planificador cuando se use una distribución variable.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="DistribucionPeriodicaType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define las distintas posibilidades de declarar que distribución tendrán las sesiones a lo largo del horario, entre los distintos preiodos.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="distribucionPeriodicaFija" type="DistribucionPeriodicaFijaType"/>
+			<xsd:element name="distribucionPeriodicaVariable" type="DistribucionPeriodicaVariableType"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="DistribucionPeriodicaFijaType">
+		<xsd:sequence>
+			<xsd:element name="distribucionSemanal" type="DistribucionSemanalType">
+				<xsd:annotation>
+					<xsd:documentation>Distribución SEMANAL de la sesión, que se REPETIRÁ EN CADA UNO de los periodos correspondientes.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="enPeriodos" type="EnPeriodosType">
+				<!-- Para asegurarse que el identificador de cada periodo es único. -->
+				<xsd:unique name="PeriodosUnicosEnSesionFija">
+					<xsd:selector xpath="refPeriodo"/>
+					<xsd:field xpath="."/>
+				</xsd:unique>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DistribucionPeriodicaVariableType">
+		<xsd:sequence>
+			<xsd:element name="distribucionTotal" type="DistribucionSemanalReducidaType">
+				<xsd:annotation>
+					<xsd:documentation>Distribución TOTAL de la sesión, que se REPARTIRÁ ENTRE TODOS los periodos correspondientes.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="enPeriodos" type="EnPeriodosType">
+				<!-- Para asegurarse que el identificador de cada periodo es único. -->
+				<xsd:unique name="PeriodosUnicosEnSesionVariable">
+					<xsd:selector xpath="refPeriodo"/>
+					<xsd:field xpath="."/>
+				</xsd:unique>
+			</xsd:element>
+			<xsd:element name="numMaximoDeSesionesEnPeriodo" type="xsd:nonNegativeInteger" minOccurs="0"/>
+			<xsd:element name="numMinimoDeSesionesEnPeriodo" type="xsd:nonNegativeInteger" minOccurs="0" default="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EnPeriodosType">
+		<xsd:sequence>
+			<xsd:element name="refPeriodo" type="NombreType" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<!-- TODO Indicar aquí que esto es una referencia a un identificador de un periodo. -->
+	</xsd:complexType>
+	<xsd:complexType name="OpcionesDeSesionType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define las opciones que tiene una sesión.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="penaSesionesAPrimera" type="xsd:boolean" default="true" minOccurs="0"/>
+			<xsd:element name="penaSesionesAUltima" type="xsd:boolean" default="true" minOccurs="0"/>
+			<xsd:element name="penaSalirUltimaEntrarPrimera" type="xsd:boolean" default="true" minOccurs="0"/>
+			<xsd:element name="penaSesionMismaHora" minOccurs="0" default="distinta">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="distinta"/>
+						<xsd:enumeration value="indiferente"/>
+						<xsd:enumeration value="misma"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="penaCoincidanPorLaTarde" type="xsd:boolean" default="true" minOccurs="0"/>
+			<xsd:element name="penaCoincidanDespuesDelRecreo" minOccurs="0" type="xsd:boolean" default="true"/>
+			<xsd:element name="noPermitirRecreosEntreSesiones" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="recreosSeparanSesionesContinuas" type="xsd:boolean" default="false" minOccurs="0"/>
+			<xsd:element name="permitirImpartanEnDiasSeguidos" default="preferiblemente" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica como se debe tratar el que se coloquen las sesiones en días consecutivos. Advertencia: Tenga en cuenta que el nombre usado para este elemento no corresponde correctamente con lo que representa y puede ser confuso su uso, su significado es realmente "permitir que se impartan en dias alternos".</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="obligatoriamente"/>
+						<xsd:enumeration value="preferiblemente"/>
+						<xsd:enumeration value="indiferente"/>
+						<xsd:enumeration value="prohibido"/>
+						<xsd:enumeration value="penalizaNoSeguidas"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="considerarLunesViernesSeguidos" type="xsd:boolean" default="false" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Considerar que los Lunes son seguidos a los Viernes.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="mismaPosicionDistintosPeriodos" type="PreferenciaMismaPosicionDistintosPeriodos" default="ignorar" minOccurs="0"/>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="ListasDeRelacionesType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Declara las listas en las que se definen las incompatibilidades, simultáneas y sus opciones.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="simultaneas" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica los bloques de sesiones que tienen que colocarse en el mismo tramo.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence minOccurs="1" maxOccurs="1">
+						<xsd:element name="bloqueDeSesiones" maxOccurs="unbounded" minOccurs="0">
+							<xsd:complexType>
+								<xsd:all>
+									<xsd:element name="sesiones" minOccurs="0">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="sesion" type="xsd:nonNegativeInteger" maxOccurs="unbounded" minOccurs="0"/>
+											</xsd:sequence>
+										</xsd:complexType>
+										<xsd:key name="sinRepSesionKey">
+											<xsd:selector xpath="./sesion"/>
+											<xsd:field xpath="."/>
+										</xsd:key>
+									</xsd:element>
+									<xsd:element name="plantilla" type="PlantillaType" minOccurs="0"></xsd:element>
+								</xsd:all>
+								<xsd:attribute name="id" type="xsd:nonNegativeInteger" use="required"/>
+								<xsd:attribute name="submarco" type="xsd:NCName" use="required"/>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="idSimultaneasKey">
+					<xsd:selector xpath="./bloqueDeSesiones"/>
+					<xsd:field xpath="@id"/>
+				</xsd:key>
+			</xsd:element>
+			<xsd:element name="consecutivas" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica los grupos de sesiones que se deben dar de forma consecutiva. Las sesiones de un mismo bloque deben tener el mismo número de días con sesiones y las distribuciones deben ser fijas.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="bloqueDeSesiones" minOccurs="0" maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:all>
+									<xsd:element name="sesiones" minOccurs="0">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="sesion" type="xsd:nonNegativeInteger" maxOccurs="unbounded" minOccurs="0"/>
+											</xsd:sequence>
+										</xsd:complexType>
+										<xsd:key name="sinRepConsecutivasKey">
+											<xsd:selector xpath="./sesion"/>
+											<xsd:field xpath="."/>
+										</xsd:key>
+									</xsd:element>
+									<xsd:element name="conOrden" default="desordenadas" minOccurs="0">
+										<xsd:annotation>
+											<xsd:documentation xml:lang="es">Indica si las sesiones deben ir en el orden en el que fueron especificados (seguidas), da igual el orden (desordenadas) o pueden ir separadas en el mismo día (speradas).</xsd:documentation>
+										</xsd:annotation>
+										<xsd:simpleType>
+											<xsd:restriction base="xsd:string">
+												<xsd:enumeration value="desordenadas"/>
+												<xsd:enumeration value="seguidas"/>
+												<xsd:enumeration value="separadas"/>
+											</xsd:restriction>
+										</xsd:simpleType>
+									</xsd:element>
+								</xsd:all>
+								<xsd:attribute name="id" type="xsd:nonNegativeInteger" use="required"/>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:key name="idConsecutivasKey">
+					<xsd:selector xpath="./bloqueDeSesiones"/>
+					<xsd:field xpath="@id"/>
+				</xsd:key>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="SeparacionSesionesType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Declara una separación de días entre dos sesiones. Indica la sesión con la que guarda la relación,
+        y el número de días de la relación que debe haber entre los días de las sesiones.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="sesion" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="dias" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="unsignedByte0a8">
+		<xsd:restriction base="xsd:unsignedByte">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="8"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="PlantillaType">
+		<xsd:annotation>
+			<xsd:documentation>Declara una plantilla que permite todos los valores en los tramos.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="tramo" type="TramoType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="PreferenciaType">
+		<xsd:annotation>
+			<xsd:documentation>Define los valores de preferencia, que pueden ser: prohibido, preferentementeNo1, preferentementeNo2, disponible y fijado.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="prohibido"/>
+			<xsd:enumeration value="preferentementeNo1"/>
+			<xsd:enumeration value="preferentementeNo2"/>
+			<xsd:enumeration value="disponible"/>
+			<xsd:enumeration value="fijado"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="TramoType">
+		<xsd:annotation>
+			<xsd:documentation>Define un tramo que puede tener los valores prohibido, preferentementeNo1, preferentementeNo2, disponible y fijado. El tramo referenciado viene determinado por los atributos.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="PreferenciaType">
+				<xsd:attribute name="marco" type="xsd:NCName" use="required"/>
+				<xsd:attribute name="dia" type="DiaLectivoType" use="required"/>
+				<xsd:attribute name="indice" type="xsd:int" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="PlantillaSinFType">
+		<xsd:annotation>
+			<xsd:documentation>Declara una plantilla en la que los tramos no tienen el valor fijado.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="tramo" type="TramoSinFType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="PreferenciaSinFType">
+		<xsd:annotation>
+			<xsd:documentation>Define los valores de preferencia pero sin el fijado, es decir: prohibido, preferentementeNo1, preferentementeNo2 y disponible.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="PreferenciaType">
+			<xsd:enumeration value="prohibido"/>
+			<xsd:enumeration value="preferentementeNo1"/>
+			<xsd:enumeration value="preferentementeNo2"/>
+			<xsd:enumeration value="disponible"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="TramoSinFType">
+		<xsd:annotation>
+			<xsd:documentation>Define un tramo que puede tener los valores prohibido, preferentementeNo1, preferentementeNo2 y disponible. El tramo referenciado viene determinado por los atributos.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="PreferenciaSinFType">
+				<xsd:attribute name="marco" type="xsd:NCName" use="required"/>
+				<xsd:attribute name="dia" type="DiaLectivoType" use="required"/>
+				<xsd:attribute name="indice" type="xsd:int" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="PlantillaPDFType">
+		<xsd:annotation>
+			<xsd:documentation>Declara una plantilla cuyos tramos solo pueden tener los valores prohibido, disponible y fijado.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="tramo" minOccurs="0" maxOccurs="unbounded" type="TramoPDFType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="PreferenciaPDFType">
+		<xsd:annotation>
+			<xsd:documentation>Define los valores de preferencia pero restringido a los valores: prohibido, disponible y fijado.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="PreferenciaType">
+			<xsd:enumeration value="prohibido"/>
+			<xsd:enumeration value="disponible"/>
+			<xsd:enumeration value="fijado"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="TramoPDFType">
+		<xsd:annotation>
+			<xsd:documentation>Define un tramo que puede tener los valores prohibido, disponible y fijado. El tramo referenciado viene determinado por los atributos.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="PreferenciaPDFType">
+				<xsd:attribute name="marco" type="xsd:NCName" use="required"/>
+				<xsd:attribute name="dia" type="DiaLectivoType" use="required"/>
+				<xsd:attribute name="indice" type="xsd:int" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="PlantillaPDType">
+		<xsd:annotation>
+			<xsd:documentation>Define una plantilla en el que los tramos solo pueden tener los valores prohibido y disponible.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="tramo" minOccurs="0" maxOccurs="unbounded" type="TramoPDType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="PreferenciaPDType">
+		<xsd:annotation>
+			<xsd:documentation>Define los valores de preferencia pero restringido a los valores: prohibido y disponible.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="PreferenciaType">
+			<xsd:enumeration value="prohibido"/>
+			<xsd:enumeration value="disponible"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="TramoPDType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Define un tramo que puede tener los valores prohibido y disponible. El tramo al que referencia viene determinado por los atributos.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="PreferenciaPDType">
+				<xsd:attribute name="marco" type="xsd:NCName" use="required"/>
+				<xsd:attribute name="dia" type="DiaLectivoType" use="required"/>
+				<xsd:attribute name="indice" type="xsd:int" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="MensajesIntercambio">
+		<xsd:sequence>
+			<xsd:element name="haciaDesideratas" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Indica el mensaje y posiblemente opciones alternativas.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="texto" type="xsd:string" minOccurs="0" maxOccurs="1">
+							<xsd:annotation>
+								<xsd:documentation>Define el texto que se mostrará en la captación de desideratas.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="materiasDelCursoType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Indica las relaciones de las materias y los cursos, así como la cantidad de intervalos que estas tendrán.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="materia" maxOccurs="unbounded" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Debe aparecer en la lista de materias.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="NombreType">
+							<xsd:attribute name="numSesiones" type="DuracionFraccionadaType">
+								<xsd:annotation>
+									<xsd:documentation xml:lang="es">Es la cantidad de intervalos semanales que tendrán las sesiones de la materia indicada en curso correspondiente. La parte decimal debe ser multiplo de 0.25 (un cuarto de hora) y un mínimo de 0.5 (media hora), ya que GHC solo admite tramos fraccionados de 2/4, 3/4, 1 y 6/4.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:attribute>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RestriccionesCDType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Contiene las opciones de restricción del modulo de captación de desideratas.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="permitirAgregarProfesor" minOccurs="0" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>Indica si está permitido que se puedan agregar nuevos profesores en el módulo de captación de desideratas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="permitirAgregarDepartamento" minOccurs="0" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>Indica si está permitido que se agregen nuevos departamentos en el módulo de captación de desideratas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="permitirAgregarAsignatura" minOccurs="0" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>Indica si esta permitido agregar nuevas asignaturas (sesiones) en el módulo de captación de desideratas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="permitirCamDepProfesor" minOccurs="0" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>Indica si está permitido cambiar de departamento a los profesores en el módulo de captación de desideratas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="permitirCamDepAsignatura" minOccurs="0" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>Indica si está permitido cambiar el departamento de las asignaturas en el módulo de captación de desideratas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="permitirCamDuracion" type="xsd:boolean" minOccurs="0" default="false">
+				<xsd:annotation>
+					<xsd:documentation>Indica si se permite cambiar la duración semanal de las sesiones en el módulo de captación de desideratas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="permitirCamHorasReduccion" minOccurs="0" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>Indica si se permite cambiar la cantidad de reducción de horas por cargo del profesor en el módulo de captación de desideratas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DepartamentoType">
+		<xsd:annotation>
+			<xsd:documentation>Declara un departamento. El único elemento obligatorio es el nombre que será su identificador y que debe ser único.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:all>
+			<xsd:element name="nombre" minOccurs="0" type="NombreType">
+				<xsd:annotation>
+					<xsd:documentation>El identificador del departamento.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="nombreCompleto" minOccurs="0" type="NombreCompletoType">
+				<xsd:annotation>
+					<xsd:documentation>Un nombre más largo y descriptivo para identificar el departamento.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="mensajeAlDepartamento" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Indica un texto de información para el módulo de captación de desideratas que verán en el departamento.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="esNuevo" minOccurs="0" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica si el departamento ha sido creado nuevo en el módulo de capta desideratas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="claveDeExportacion" minOccurs="0" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Este elemento suele guardar información para que se pueda identificar al departamento por otros programas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="email" minOccurs="0" type="Email">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Este elemento suele guardar información para que se pueda identificar al departamento por otros programas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="GruposIncluidosType">
+		<xsd:annotation>
+			<xsd:documentation>Lista de grupos oficiales que conforman el grupo ficticio creado para agrupar otros grupos dentro de materias.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="grupoIncluido" type="NombreType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GruposAlejadosType">
+		<xsd:all>
+			<xsd:element name="opciones" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Declara las opciones de los grupos alejados.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="actualizarAlGenerar" type="xsd:boolean" minOccurs="0" default="false">
+							<xsd:annotation>
+								<xsd:documentation>Indica si se actualizarán las relaciones cada vez que se vaya a generar un horario, haciendo que aunque se cambien las relaciones estas estén actualizadas al generar el horario.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="evitarDobleDesp" minOccurs="0" default="false">
+							<xsd:annotation>
+								<xsd:documentation>Indica si se intentará evitar que un profesor tenga que desplazarse varias veces en un mismo día.</xsd:documentation>
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:simpleContent>
+									<xsd:extension base="xsd:boolean">
+										<xsd:attribute name="tipo">
+											<xsd:simpleType>
+												<xsd:restriction base="xsd:string">
+													<xsd:enumeration value="evitar"/>
+													<xsd:enumeration value="prohibir"/>
+												</xsd:restriction>
+											</xsd:simpleType>
+										</xsd:attribute>
+									</xsd:extension>
+								</xsd:simpleContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="listaDeGrupos" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Declara la lista de los grupos alejados.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="grupo" type="NombreType" minOccurs="0" maxOccurs="unbounded">
+							<xsd:annotation>
+								<xsd:documentation>Indica el nombre de uno de los grupos alejados.</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:simpleType name="DuracionesType">
+		<xsd:annotation>
+			<xsd:documentation>Contiene los valores permitidos como duraciones. La "M" indica medio tramo, la "T" indica tres cuartos de tramo, y la "S" indica seis cuartos de tramo.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="M"/>
+			<xsd:enumeration value="T"/>
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="S"/>
+			<xsd:enumeration value="2"/>
+			<xsd:enumeration value="3"/>
+			<xsd:enumeration value="4"/>
+			<xsd:enumeration value="5"/>
+			<xsd:enumeration value="6"/>
+			<xsd:enumeration value="7"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DuracionesDistFijaType">
+		<xsd:annotation>
+			<xsd:documentation>Contiene los valores permitidos como duraciones en las distribuciones de tipo fijo o NO variable. Limita 5 los intervalos diarios.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="DuracionesType">
+			<xsd:enumeration value="M"/>
+			<xsd:enumeration value="T"/>
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="S"/>
+			<xsd:enumeration value="2"/>
+			<xsd:enumeration value="3"/>
+			<xsd:enumeration value="4"/>
+			<xsd:enumeration value="5"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DuracionesTramoType">
+		<xsd:annotation>
+			<xsd:documentation>Contiene los valores de la duración de los tramos de los marcos.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="DuracionesType">
+			<xsd:enumeration value="M"/>
+			<xsd:enumeration value="T"/>
+			<xsd:enumeration value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DuracionFraccionadaType">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:minInclusive value="0.5"/>
+			<xsd:pattern value="([0-9])+((\.250*)|(\.50*)|(\.750*)|(\.0*))?"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="OptativaType">
+		<xsd:all>
+			<xsd:element name="nombre" type="NombreType" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Es el nombre del conjunto de optativas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="grupo" type="NombreType" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Es el nombre del grupo al que pertenece el conjunto de optativas.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="maxSolapadas" type="xsd:nonNegativeInteger" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>Es la cantidad máxima de asignaturas que se pueden solapar en el mismo momento.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="asignaturasOptativas">
+				<xsd:annotation>
+					<xsd:documentation>Una lista con las sesiones lectivas que son del conjunto de optativas.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="asignaturaOptativa" maxOccurs="unbounded" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Es el identificaticador de la asignatura que pertenece al conjunto.</xsd:documentation>
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:simpleContent>
+									<xsd:extension base="xsd:nonNegativeInteger">
+										<xsd:attribute name="solapable" type="xsd:boolean" default="true">
+											<xsd:annotation>
+												<xsd:documentation>Este atributo indica si la asignatura es solapable dentro del conjunto de optativas.</xsd:documentation>
+											</xsd:annotation>
+										</xsd:attribute>
+									</xsd:extension>
+								</xsd:simpleContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:complexType name="TipoDeIncompatibilidadType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:boolean">
+				<xsd:attribute name="tipo" use="optional">
+					<xsd:annotation>
+						<xsd:documentation>Indica si la incompatibilidad especificada debe considerarse como estricta o simplemente como a evitar. Si el atributo no se especifica, se usará por defecto el valor del elmento "tipoDeIncompatibilidad"</xsd:documentation>
+					</xsd:annotation>
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="prohibición"/>
+							<xsd:enumeration value="evitar"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="TipoDeIncompatibilidadIntervaladaType">
+		<xsd:simpleContent>
+			<xsd:extension base="TipoDeIncompatibilidadType">
+				<xsd:attribute name="nIntervalos" type="Horas" default="1">
+					<xsd:annotation>
+						<xsd:documentation>Indica la cantidad de intervalos durante los que no se debe incumplir la incompatibilidad. Por defecto vale 1.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="DeCeroANoventaynueve">
+		<xsd:restriction base="xsd:unsignedByte">
+			<xsd:minInclusive value="0"/>
+			<!-- Mirar si tiene sentido un valor tan alto -->
+			<xsd:maxInclusive value="99"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DeCeroATrescientos">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="0"/>
+			<!-- Mirar si tiene sentido un valor tan alto -->
+			<xsd:maxInclusive value="300"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Horas">
+		<xsd:restriction base="xsd:unsignedByte">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="23"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Minutos">
+		<xsd:restriction base="xsd:unsignedByte">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="59"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Email">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="es">Este tipo define una dirección de email válida.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<!-- Comprueba que el patrón sea:  cualquier texto, una @, cualquier text, un punto, y cualquierTexto -->
+			<!-- XXXXXXXX@XXXXXXXX.XXXXXX, siendo X cualquier elemento -->
+			<xsd:pattern value="[^@]+@[^\.]+\..+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PreferenciasIgnorarPreferenteObligadoEvitarProhibidoType">
+		<xsd:annotation>
+			<xsd:documentation>Define los valores de las preferencias que se pueden definir para ignorarse, cumplir de forma preferente o cumplir de forma obligatoria. 
+        Su valor puede ser: ignorar, preferente, obligatorio.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ignorar"/>
+			<xsd:enumeration value="preferente"/>
+			<xsd:enumeration value="obligatorio"/>
+			<xsd:enumeration value="procuraEvitar"/>
+			<xsd:enumeration value="prohibido"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PreferenciaMismaPosicionDistintosPeriodos">
+		<xsd:annotation>
+			<xsd:documentation>Define los valores de las preferencias que se pueden definir sobre si se debe, quiere o da igual colocar las entidades de esta sesión
+        que pertenecen a distintos periodos en las mismas posiciones (posiciones espejos) o no. Su valor puede ser: ignorar, preferente, obligatorio.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="PreferenciasIgnorarPreferenteObligadoEvitarProhibidoType"></xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

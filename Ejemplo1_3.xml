@@ -1,0 +1,1133 @@
+<datosGHC xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./GHCFile.xsd">
+	<!--Element version is optional -->
+	<version>20230206</version>
+	<!-- Lista de semanas o periodos del horario si el horario varia a lo largo del curso. Puede omitirse si es único -->
+	<periodos>
+		<!-- Definicion de periodo -->
+		<periodo>
+			<!-- Nombre identificativo del periodo -->
+			<nombre>1</nombre>
+			<!-- Ultimo dia en el marco del periodo. Teniendo en cuenta que los dias se empiezan a contabilidar por 0. -->
+			<diaFin>4</diaFin>
+		</periodo>
+		<periodo>
+			<nombre>2</nombre>
+			<diaFin>9</diaFin>
+		</periodo>
+	</periodos>
+	<!--El elemento marcosDeHorario es necesario para la generación de horarios -->
+	<marcosDeHorario>
+		<!-- Debe haber al menos un marco y aunque en un futuro habrá posibilidad para un número indeterminado, ahora solo se puede un máximo de 2. -->
+		<marcoHorario id="A" nombre="Marco normal" claveX="#horESO#125381#">
+			<!-- El atributo nombre no es necesario (aunque aconsejable) pero el id es obligatorio. Además el atributo claveX sirve para guardar datos adicionales para la exportación y también es opcional. -->
+			<!-- Los tramos que definen el marco, debería haber al menos 1 tramo. todos sus elementos (excepto el clavX) son obligatorios -->
+			<tramo>
+				<!-- Se debe poner el id del marco, aunque sea redundante -->
+				<submarco>A</submarco>
+				<!-- El día de la semana al que corresponde, comenzando con el lunes=0, hasta el viernes=4. El Lunes (0). -->
+				<dia>0</dia>
+				<!-- El índice del tramo. Tiene que ser único dentro del mismo día, aunque no tiene porque ser ordenado. -->
+				<indice>0</indice>
+				<!-- La hora de entrada del tramo. -->
+				<horaEntrada>09:00:00</horaEntrada>
+				<!-- La hora de salida, debería ser posterior a la de entrada. -->
+				<horaSalida>09:50:00</horaSalida>
+				<!-- El tipo de tramo, puede ser "lectivo", "recreo", "mediodia". -->
+				<Tipo>lectivo</Tipo>
+				<!-- Este elemento es opcional, es la clave que usan algunos programas externos. -->
+				<clavX>0A0</clavX>
+				<!-- Este elemento indica la duracción fraccionada del tramo. -->
+				<duracion>T</duracion>
+				<!-- Este elemento opcional, indica si está permitido agregar ocupaciones en él. -->
+				<permitido>true</permitido>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>0</dia>
+				<indice>1</indice>
+				<horaEntrada>10:00:00</horaEntrada>
+				<horaSalida>10:50:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>0A1</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>0</dia>
+				<indice>2</indice>
+				<horaEntrada>10:50:00</horaEntrada>
+				<horaSalida>11:20:00</horaSalida>
+				<Tipo>recreo</Tipo>
+				<clavX>0A2R</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>0</dia>
+				<indice>3</indice>
+				<horaEntrada>11:20:00</horaEntrada>
+				<horaSalida>12:10:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>0A3</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<!-- El martes (1) -->
+				<dia>1</dia>
+				<indice>0</indice>
+				<horaEntrada>09:00:00</horaEntrada>
+				<horaSalida>09:50:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>1A0</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>1</dia>
+				<indice>1</indice>
+				<horaEntrada>10:00:00</horaEntrada>
+				<horaSalida>10:50:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>1A1</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>1</dia>
+				<indice>2</indice>
+				<horaEntrada>10:50:00</horaEntrada>
+				<horaSalida>11:20:00</horaSalida>
+				<Tipo>recreo</Tipo>
+				<clavX>1A2R</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>1</dia>
+				<indice>3</indice>
+				<horaEntrada>11:20:00</horaEntrada>
+				<horaSalida>12:10:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>1A3</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<!-- El miércoles (2). -->
+				<dia>2</dia>
+				<indice>0</indice>
+				<horaEntrada>09:00:00</horaEntrada>
+				<horaSalida>09:50:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>2A0</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>2</dia>
+				<indice>1</indice>
+				<horaEntrada>10:00:00</horaEntrada>
+				<horaSalida>10:50:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>2A1</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>2</dia>
+				<indice>2</indice>
+				<horaEntrada>10:50:00</horaEntrada>
+				<horaSalida>11:20:00</horaSalida>
+				<Tipo>recreo</Tipo>
+				<clavX>2A2R</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>2</dia>
+				<indice>3</indice>
+				<horaEntrada>11:20:00</horaEntrada>
+				<horaSalida>12:10:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>2A3</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<!-- El Jueves (3) -->
+				<dia>3</dia>
+				<indice>0</indice>
+				<horaEntrada>09:00:00</horaEntrada>
+				<horaSalida>09:50:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>3A0</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>3</dia>
+				<indice>1</indice>
+				<horaEntrada>10:00:00</horaEntrada>
+				<horaSalida>10:50:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>3A1</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>3</dia>
+				<indice>2</indice>
+				<horaEntrada>10:50:00</horaEntrada>
+				<horaSalida>11:20:00</horaSalida>
+				<Tipo>recreo</Tipo>
+				<clavX>3A2R</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>3</dia>
+				<indice>3</indice>
+				<horaEntrada>11:20:00</horaEntrada>
+				<horaSalida>12:10:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>3A3</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<!-- El Viernes (4) -->
+				<dia>4</dia>
+				<indice>0</indice>
+				<horaEntrada>09:00:00</horaEntrada>
+				<horaSalida>09:50:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>4A0</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>4</dia>
+				<indice>1</indice>
+				<horaEntrada>10:00:00</horaEntrada>
+				<horaSalida>10:50:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>4A1</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>4</dia>
+				<indice>2</indice>
+				<horaEntrada>10:50:00</horaEntrada>
+				<horaSalida>11:20:00</horaSalida>
+				<Tipo>recreo</Tipo>
+				<clavX>4A2R</clavX>
+			</tramo>
+			<tramo>
+				<submarco>A</submarco>
+				<dia>4</dia>
+				<indice>3</indice>
+				<horaEntrada>11:20:00</horaEntrada>
+				<horaSalida>12:10:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<clavX>4A3</clavX>
+			</tramo>
+		</marcoHorario>
+		<marcoHorario id="B" nombre="Marco raro">
+			<!--Attribute nombre is optional -->
+			<!--Element tramo is optional, maxOccurs=unbounded -->
+			<tramo>
+				<submarco>B</submarco>
+				<dia>0</dia>
+				<indice>0</indice>
+				<horaEntrada>11:00:00</horaEntrada>
+				<horaSalida>12:10:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+			</tramo>
+			<tramo>
+				<submarco>B</submarco>
+				<dia>1</dia>
+				<indice>1</indice>
+				<horaEntrada>13:20:00</horaEntrada>
+				<horaSalida>14:50:00</horaSalida>
+				<Tipo>recreo</Tipo>
+			</tramo>
+			<tramo>
+				<submarco>B</submarco>
+				<dia>2</dia>
+				<indice>0</indice>
+				<horaEntrada>13:25:00</horaEntrada>
+				<horaSalida>14:00:00</horaSalida>
+				<Tipo>lectivo</Tipo>
+				<!-- Tiene una duración que es la mitad de las normales. -->
+				<duracion>M</duracion>
+			</tramo>
+		</marcoHorario>
+	</marcosDeHorario>
+	<!-- Es la lista de las aulas disponibles en el centro. -->
+	<aulas>
+		<!-- Define una aula. -->
+		<aula>
+			<!-- El nombre del aula, que identifica el aula. -->
+			<nombre>Aula1</nombre>
+			<!-- La abreviatura es una forma corta para representar el aula de forma más compacta. Es opcional. -->
+			<abreviatura>A1</abreviatura>
+			<!-- Indica si el aula es un aula dedicada, de uso no general. Si es general, debería aparecer también en el conjunto de aulas general. -->
+			<dedicada>true</dedicada>
+			<!-- Indica el número de alumnos que caben en el aula. Es opcional. -->
+			<numeroAlumnos>23</numeroAlumnos>
+			<!-- Indica una clave de exportación que usan algunos programas para identificar el aula. Este elemento es opcional a no ser que use uno de esos programas. -->
+			<claveDeExportacion>A001</claveDeExportacion>
+			<!-- La plantilla de horaria de la aula, indica los tramos en los que el aula se puede usar o no. Es opcional, si se omite o se omite alguno de los tramos se tomará lo que falte como "permitido". -->
+			<plantilla>
+				<!-- Indica si está permitido un tramo o no. Todos sus atributos son obligatorios. La unión de sus atributos debe formar la identificación de un tramo concreto en el marco adecuado. No puede haber duplicados de la unión en la misma plantilla. -->
+				<tramo dia="0" indice="0" marco="A">prohibido</tramo>
+			</plantilla>
+			<!-- Email para poder compartir el calendario o reservar el aula en distintos gestores.-->
+			<email>aula1@colegioejemplo.com</email>
+		</aula>
+		<aula>
+			<nombre>Aula2</nombre>
+		</aula>
+	</aulas>
+	<!-- Es la lista de conjuntos de aulas. -->
+	<conjuntoDeAulas>
+		<!-- Es el conjunto especial llamado "general". Este elemento es obligatorio. En el se definen las aulas de uso general, es decir, que se pueden usar para cualquier materia. El atributo nombre y el atributo sin declarar son opcionales. Si aparece el atributo nombre, este debe tener el valor "general". Si aparece el atributo "sinDeclarar" indica la cantidad de aulas anónima del conjunto general, si no aparece se toma como 0. -->
+		<general nombre="general" sinDeclarar="0">
+			<!-- El nombre del aula que pertenezca al conjunto general. El nombre debe ser un nombre de aula de la lista de aulas. -->
+			<aula>Aula1</aula>
+			<aula>Aula2</aula>
+		</general>
+		<!-- Es un conjunto de aulas ya sean generales o no. Sirve para agrupar aulas en las que se pueda impartir materias del mismo tipo o compatibles. Se pueden declarar varios conjuntos, siempre que tengan distintos nombres. El atributo nombre es obligatorio y es el identificador del conjunto. El atributo "sinDeclarar" indica las aulas anónimas que pertenecen a este conjunto. Si se omite el atributo "sinDeclarar" se tomará como 0. -->
+		<otroConjunto nombre="ConjuntoA1" sinDeclarar="0">
+			<!-- El nombre del aula que pertenezca al conjunto. El nombre debe ser un nombre de aula de la lista de aulas. -->
+			<aula>Aula1</aula>
+		</otroConjunto>
+	</conjuntoDeAulas>
+	<!-- Es la lista de las tipos de tareas disponibles. -->
+	<tareas>
+		<!-- Define una tarea. -->
+		<tarea>
+			<!-- El nombre de la tarea. Es el identificador de la tarea. Es obligatorio. -->
+			<nombre>LEC</nombre>
+			<!-- El elemento "nombreCompleto" es una forma más larga de que el usuario pueda saber de que trata la tarea. Es opcional. -->
+			<nombreCompleto>Docencia directa con el grupo de alumnos.</nombreCompleto>
+			<!-- Es la clave de exportación que usan algunos programas para identificar el tipo de tarea. Es obligatorio solo si usa uno de esos programas. -->
+			<claveDeExportacion>LEC</claveDeExportacion>
+			<!-- Indica la plantilla de preferencias horarias del tipo de tarea. Si se omite o se omite algún tramo, se tomará como "preferente" lo que falte. -->
+			<plantilla>
+				<!-- Define la preferencia de un tramo concreto. Todos los atributos son obligatorios. La unión de los atributos define un tramo, que debe existir en el marco correspondiente. No se puede repetir varias veces el mismo identificador en la plantilla. Los posibles valores (de menor preferencia a mayor) son: "prohibido", "preferentementeNo", "indiferente" y "preferente". -->
+				<tramo dia="0" indice="0" marco="A">preferentementeNo1</tramo>
+				<tramo dia="0" indice="0" marco="B">disponible</tramo>
+			</plantilla>
+		</tarea>
+		<tarea>
+			<nombre>G</nombre>
+		</tarea>
+		<tarea>
+			<nombre>RDP</nombre>
+			<nombreCompleto>Reunión de departamento</nombreCompleto>
+		</tarea>
+	</tareas>
+	<!-- El elemento departamentos contiene una lista con los departamentos existentes. -->
+	<departamentos>
+		<departamento>
+			<nombre>Matemáticas</nombre>
+			<nombreCompleto>Matemáticas y cálculo</nombreCompleto>
+			<mensajeAlDepartamento>Deberá intentarse colocar los profesores de matemáticas solo con las sesiones de matemáticas.</mensajeAlDepartamento>
+			<!-- Indica si se ha creado en el captadesideratas y se tiene que agregar en el planificador. -->
+			<esNuevo>false</esNuevo>
+			<!-- Este elemento suele guardar información para que se pueda identificar al departamento por otros programas. -->
+			<claveDeExportacion>DEPMAT001</claveDeExportacion>
+			<!-- Email para comunicarse con el responsable del departamento.-->
+			<email>departamento@dominio.com</email>
+		</departamento>
+		<departamento>
+			<nombre>Inglés</nombre>
+		</departamento>
+	</departamentos>
+	<!--El elemento profesores es necesario para la generación de horarios -->
+	<profesores>
+		<!-- Debería haber como mínimo 1 profesor para poder generar un horario -->
+		<profesor>
+			<!-- El nombre del profesor, es su identificador. Es obligatorio. -->
+			<nombre>Juanjo</nombre>
+			<!-- La abreviatura es una forma corta para identificar al profesor (no es necesario). -->
+			<abreviatura>JGM</abreviatura>
+			<!-- El nombre completo, forma larga del nombre. No es obligatorio. -->
+			<nombreCompleto>Juanjo García Mentor</nombreCompleto>
+			<!-- El departamento al que pertenece el profesor. No es necesario, pero es muy conveniente ponerlo. -->
+			<departamento>Matemáticas</departamento>
+			<!-- Es la clave usada por algunos programas para identificar al profesor. No es necesaria si no se usan estos programas. -->
+			<claveDeExportacion>JGM00M</claveDeExportacion>
+			<!-- Es la toma de posesión del profesor. Es usado por algunos programas. No es necesario a no ser que se use uno de esos programas. -->
+			<tomaDePosesion>21081998</tomaDePosesion>
+			<!-- La plantilla de preferencias del profesor, si no aparece la plantilla o algún tramo, se toma como preferente. -->
+			<plantilla>
+				<!-- La unión de los atributos de los tramos tienen que ser una referencia válida a un tramo de un marco. Además, cada tramo, debe aparecer una sola vez por profesor. Los posibles valores (de menor preferencia a mayor) son: "prohibido", "preferentementeNo", "indiferente" y "preferente". -->
+				<tramo dia="0" indice="0" marco="A">prohibido</tramo>
+				<tramo dia="0" indice="1" marco="A">preferentementeNo1</tramo>
+				<tramo dia="0" indice="0" marco="B">disponible</tramo>
+			</plantilla>
+			<!-- Las opciones concretas del profesor, si no aparece se toman los valores por defecto. -->
+			<opciones>
+				<!-- Indica el número máximo de intervalos de permanencia semanales. Por defecto 30. -->
+				<intervalosDePermanenciaSemanales estricto="true">30</intervalosDePermanenciaSemanales>
+				<!-- Indica el número máximo de intervalos de permanencia diaria. Por defecto 5. -->
+				<intervalosDePermanenciaDiarios estricto="false">5</intervalosDePermanenciaDiarios>
+				<!-- Indica si al generar el horario se intentará quitar los huecos entre horas de los profesores. Por defecto true (activado). -->
+				<eliminarHuecos>true</eliminarHuecos>
+				<!-- Indica si se quiere penaliar la existencia de sesiones a ambos lados de una guardia de recreo del profesor. Por defecto vale false.-->
+				<penalizarAlrededorGuardiaRecreo>true</penalizarAlrededorGuardiaRecreo>
+				<!-- Indica los periodos libres que debe tener el profesor. Si no aparece se tomará como ningún periodo libre. -->
+				<periodosLibres>
+					<!-- La cantidad de días en los que tendrá periodos libres. Por defecto 0 (ninguno). -->
+					<cantidadDeDias>1</cantidadDeDias>
+					<!-- Indica como serán esos periodos libres. Si no se pone se toma como por defecto la opción diasCompletos. Solo debe aparecer una de las tres opciones o ninguna (como si pones diasCompletos). -->
+					<tipoDePeriodo>
+						<!-- Indica que se tomará todo el día libre. -->
+						<diasCompletos></diasCompletos>
+						<!-- Indica que se tomará como libre los N primeros intervalos. <losPrimerosIntervalos>20</losPrimerosIntervalos> -->
+						<!-- Indica que se tomará como libre los N últimos intervalos. <losUltimosIntervalos>20</losUltimosIntervalos> -->
+						<!-- Indica que se tomará como libre N intervalos seguidos. <intervalosSeguidos>5</intervalosSeguidos> -->
+					</tipoDePeriodo>
+				</periodosLibres>
+				<!-- Este elemento configura las mañanas o tardes libres. Solo puede aparecer si hay jornada partida. Si no se pone este elemento, se tomará como ninguna tarde o mañana libre. -->
+				<periodoLibreJornadaPartida>
+					<!-- La cantidad de tardes o mañanas que como mínimo debe tener libre el profesor. -->
+					<cantidad>0</cantidad>
+					<!-- Indica que de ser posible se quiere tener libres 2 tardes o mañanas. -->
+					<preferentes>2</preferentes>
+					<!-- Indica si se tomarán como libres la mañanas ("mañanas"), las tardes ("tardes") o cualquiera de las dos ("indistintamente"). -->
+					<tipoDePeriodoLibre>indistintamente</tipoDePeriodoLibre>
+				</periodoLibreJornadaPartida>
+				<!-- Este elemento permite configurar otras relaciones de periodoLibreJornadaPartida. Solo puede aparecer si hay jornada partida. Se tienen en cuenta los periodos definidos en este elemento, además del definod en periodoLibreJornadaPartida -->
+				<otrosPeriodosLibresJornadaPartida>
+				  <periodoLibreJornadaPartida>
+  					<cantidad>2</cantidad>
+					  <preferentes>2</preferentes>
+					  <tipoDePeriodoLibre>mañanas</tipoDePeriodoLibre>
+				  </periodoLibreJornadaPartida>
+				  <periodoLibreJornadaPartida>
+				  	<cantidad>1</cantidad>
+				  	<preferentes>3</preferentes>
+				  	<tipoDePeriodoLibre>tardes</tipoDePeriodoLibre>
+				  </periodoLibreJornadaPartida>
+				</otrosPeriodosLibresJornadaPartida>
+				<!-- Indica las opciones de incompatibilidad entre sesiones del profesor. Si no se especifica este elemento o alguno de los elementos hijos se tomarán los valores por defecto (normalmente "false" o "evitar"). -->
+				<incompatibilidadEntreSesiones>
+					<!-- Indica que se evite/prohiba que entre la última hora de clase del profesor, y la primera hora del profesor del día siguiente se guarden al menos el número de tramos nIntervalos (1 por defecto). -->
+					<salirUltimaEntrarPrimera tipo="prohibición" nIntervalos="1">true</salirUltimaEntrarPrimera>
+					<!-- Indica que se evite/prohiba que entre la última hora de clase del profesor, y la primera hora del profesor, entre viernes y lunes, se coloque sin guardar al menos el número de tramos nIntervalos (1 por defecto). -->
+					<salirUltimaEntrarPrimeraLunes tipo="prohibición" nIntervalos="1">true</salirUltimaEntrarPrimeraLunes>
+					<!-- Indica que se evite/prohiba que entre la primera hora de clase del profesor y la última hora del profesor se guarden al menos el número de tramos nIntervalos (1 por defecto). -->
+					<entrarPrimeraSalirUltima tipo="evitar" nIntervalos="2">false</entrarPrimeraSalirUltima>
+					<!-- Indica que se evite/prohiba que entre a primera de la tarde y salga a última de la tarde. -->
+					<entrarPrimeraSalirUltimaTarde>false</entrarPrimeraSalirUltimaTarde>
+					<!-- Indica que se evite/prohiba que entre a primera de la mañana y salga a última de la mañana. -->
+					<entrarPrimeraSalirUltimaManana>false</entrarPrimeraSalirUltimaManana>
+					<!-- Indica que se evite/prohiba que salga a última de la mañana y entre a primera de la tarde. -->
+					<salirUltimaMananaEntrarPrimeraTarde>false</salirUltimaMananaEntrarPrimeraTarde>
+					<!-- Indica que se evite/prohiba que salga a última de la mañana y tenga la tarde completa. -->
+					<salirUltimaMananaTardeCompleta>false</salirUltimaMananaTardeCompleta>
+					<!-- Que tenga menos de dos intervalos libres alrededor del mediodía. -->
+					<menosDeDosIntervalosLibres>false</menosDeDosIntervalosLibres>
+					<!-- Indica que se evite/prohiba que entre a primera y tenga clase por la tarde. -->
+					<entrarPrimeraSalirTarde>false</entrarPrimeraSalirTarde>
+				</incompatibilidadEntreSesiones>
+				<!-- Indica como se gestiona el máximo de sesiones diarias de cada profesor: estableciendo un máximo que se calcula automáticamente ("limitado"), estableciendo un máximo pero ampliandolo en una sesión más ("ampliado") o sin establecer ningún límite superior ("sinlimite"). -->
+				<maximoSesionesDiarias>limitado</maximoSesionesDiarias>
+				<!-- Indica como se gestiona el mínimo de sesiones diarias de cada profesor: establecer un mínimo autocalculado pero no estricto ("limitado"), no penalizar que no se cumpla el límite mínimo aunque intente cumplirlo ("nopenalizar"), intentar concentrar las sesiones en el menor número de días posible ("concentrar"). -->
+				<minimoSesionesDiarias>limitado</minimoSesionesDiarias>
+				<!-- Indica si se quiere intentar minimizar los días con clase del docente buscando días libres en la optimización (true), o no (false). -->
+				<minimizarDiasOcupados>true</minimizarDiasOcupados>
+				<!-- Indica cómo ha de considerarse el número máximo de horas de Sesiones Lectivas diarias del profesor. Por defecto, estricto. Puede ser: estricto, optimizacionPreferente, ponderable, nada. -->
+				<considerarMaximasHorasDiariasSolamenteLectivas>estricto</considerarMaximasHorasDiariasSolamenteLectivas>
+				<!-- Indica cómo se calcula el número máximo de horas diarias de Sesiones Lectivas del profesor. Por defecto, automatico. Puede ser: unaHoraMas, automatico, unaHoraMenos.-->
+				<valorMaximasHorasCalculadoSolamenteLectivas>unaHoraMas</valorMaximasHorasCalculadoSolamenteLectivas>
+				<!-- Indica cómo ha de considerarse el número mínimo de horas diarias de Sesiones Lectivas del profesor. Por defecto, estricto. Puede ser: estricto, optimizacionPreferente, ponderable, nada. -->
+				<considerarMinimasHorasDiariasSolamenteLectivas>optimizacionPreferente</considerarMinimasHorasDiariasSolamenteLectivas>
+				<!-- Indica cómo se calcula el número mínimo de horas diarias de Sesiones Lectivas del profesor. Por defecto, automatico. Puede ser: unaHoraMas, automatico, unaHoraMenos, minimizarDiasOcupados.-->
+				<valorMinimasHorasCalculadoSolamenteLectivas>automatico</valorMinimasHorasCalculadoSolamenteLectivas>
+				<!-- Indica cómo ha de considerarse el número máximo de horas de ocupación (Lectivas + No Lectivas indicadas) diarias del profesor. Por defecto, estricto. Puede ser: estricto, optimizacionPreferente, ponderable, nada. -->
+				<considerarMaximasHorasDiarias>estricto</considerarMaximasHorasDiarias>
+				<!-- Indica cómo se calcula el número máximo de horas diarias de ocupación del profesor. Por defecto, automatico. Puede ser: unaHoraMas, automatico, unaHoraMenos.-->
+				<valorMaximasHorasCalculado>unaHoraMas</valorMaximasHorasCalculado>
+				<!-- Indica cómo ha de considerarse el número mínimo de horas diarias de ocupación del profesor. Por defecto, estricto. Puede ser: estricto, optimizacionPreferente, ponderable, nada. -->
+				<considerarMinimasHorasDiarias>optimizacionPreferente</considerarMinimasHorasDiarias>
+				<!-- Indica cómo se calcula el número mínimo de horas diarias de ocupación del profesor. Por defecto, automatico. Puede ser: unaHoraMas, automatico, unaHoraMenos, minimizarDiasOcupados.-->
+				<valorMinimasHorasCalculado>automatico</valorMinimasHorasCalculado>
+			</opciones>
+			<daPracticas>true</daPracticas>
+			<reduccionCargaLectiva>1</reduccionCargaLectiva>
+			<mensaje>No puedo asistir los Lunes por la mañana.</mensaje>
+			<prioridad>100</prioridad>
+			<!-- Email para poder publicar el horario en su calendario de distintos gestores, o realizar alguna notificación.-->
+			<email>jgarciamentor@colegioejemplo.com</email>
+			<horarioAsoc>Nuria</horarioAsoc>
+		</profesor>
+		<profesor>
+			<nombre>Raúl</nombre>
+			<departamento>Inglés</departamento>
+		</profesor>
+		<profesor>
+			<nombre>Nuria</nombre>
+		</profesor>
+	</profesores>
+	<!-- Este elemento contiene la lista de las materias existentes, es necesaria para la creación de un horario. -->
+	<materias>
+		<!-- Define la materia y sus opciones. Debe haber al menos una materia para poder hacer los horarios. -->
+		<materia>
+			<!-- El nombre de la materia, también se usa coma identificador de la misma y debe ser único con respecto a las otras materias. Es un elemento obligatorio de la materia. -->
+			<nombre>Inglés1ESO</nombre>
+			<!-- La abreviatura es una forma corta para identificar la materia (no es necesario). -->
+			<abreviatura>Ingl01</abreviatura>
+			<!-- El nombre completo de la materia, por si no entra en nombre, forma larga del nombre. No es obligatorio. -->
+			<nombreCompleto>Inglés de 1º de la ESO</nombreCompleto>
+			<departamento>Inglés</departamento>
+			<!-- Es la clave usada por algunos programas para identificar la materia. No es necesaria si no se usan estos programas. -->
+			<claveDeExportacion>ING001</claveDeExportacion>
+			<!-- Indica si la materia es en realidad una tutoría. Por defecto "false". No es obligatorio ponerlo. -->
+			<esTutoria>false</esTutoria>
+			<esDePractica>false</esDePractica>
+			<!-- Es la plantilla de las preferencias horarias de la materia, por si debe impartirse en determinados rangos preferentemente. Si se omite se asumirá preferente, para los tramos no indicados. -->
+			<plantilla>
+				<!-- Indica la preferencia del tramo que corresponda con la unión de los atributos. Todos los atributos son obligatorios. Los posibles valores (de menor preferencia a mayor) son: "prohibido", "preferentementeNo", "indiferente" y "preferente". -->
+				<tramo dia="0" indice="0" marco="A">preferentementeNo1</tramo>
+			</plantilla>
+		</materia>
+		<materia>
+			<nombre>Lengua1ESO</nombre>
+		</materia>
+		<materia>
+			<nombre>Inglés2ESO</nombre>
+			<abreviatura>Ingl02</abreviatura>
+			<nombreCompleto>Inglés de 2º de la ESO</nombreCompleto>
+			<departamento>Inglés</departamento>
+			<claveDeExportacion>ING002</claveDeExportacion>
+		</materia>
+		<materia>
+			<nombre>Matemáticas</nombre>
+			<abreviatura>Mat</abreviatura>
+			<departamento>Matemáticas</departamento>
+			<esTutoria>false</esTutoria>
+			<esDePractica>false</esDePractica>
+		</materia>
+	</materias>
+	<!-- Es la lista con los cursos disponibles. Es opcional, pero es recomendable rellenar la. -->
+	<cursos>
+		<!-- Define un curso. -->
+		<curso>
+			<!-- El nombre del curso. Es el identificador del curso. Es obligatorio. -->
+			<nombre>1ºESO</nombre>
+			<!-- El nombre completo del curso. Es útil por si el nombre no es suficientemente aclaratorio. Se permite una longitud mayor que el del nombre. Es opcional. -->
+			<nombreCompleto>1º de la ESO</nombreCompleto>
+			<!-- La clave de exportación. Es usada para identificar el curso por programas externos. Es obligatoria si se usa esos programas. -->
+			<claveDeExportacion>string</claveDeExportacion>
+			<!-- La lista de materias que pertenecen a este curso. -->
+			<materiasDelCurso>
+				<!-- Una de las materias de este curso. La cual se imparte en 5 tramos a la semana. -->
+				<materia numSesiones="5.0">Lengua1ESO</materia>
+				<materia numSesiones="3.75">Inglés1ESO</materia>
+			</materiasDelCurso>
+		</curso>
+		<curso>
+			<nombre>2ºESO</nombre>
+			<materiasDelCurso>
+				<materia numSesiones="0.5">Inglés2ESO</materia>
+			</materiasDelCurso>
+		</curso>
+	</cursos>
+	<!-- Es una lista de los grupos disponibles. Es obligatoria para hacer un horario. -->
+	<grupos>
+		<!-- Define un grupo. El atributo submarco debe ser un id de marco existente, es un atributo obligatorio que indica el marco al que se asocia el grupo. Debe haber al menos 1 para que se pueda generar un horario. -->
+		<grupo submarco="A">
+			<!-- El nombre del grupo. Es mediante lo que se identifica el grupo. Es obligatorio. -->
+			<nombre>1ºESOA</nombre>
+			<!-- La abreviatura es una forma corta para identificar el grupo (no es necesario). -->
+			<abreviatura>ESO1A</abreviatura>
+			<!-- El nombre completo del grupo. Es opcional. -->
+			<nombreCompleto>1º Educación Secundaria Obligatoria, Grupo A</nombreCompleto>
+			<!-- El curso al que pertenece, debe ser un curso de la lista de cursos. Es un elemento opcional aunque es conveniente que se ponga. -->
+			<cursoPerteneciente>1ºESO</cursoPerteneciente>
+			<!-- El tutor del grupo. Debe ser un nombre de un profesor de la lista de profesores. Es opcional. -->
+			<profesorTutor>Raúl</profesorTutor>
+			<!-- El aula por defecto del grupo. Debe ser un aula de la lista de aulas. Es opcional. -->
+			<aula>Aula1</aula>
+			<!-- Es la clave usada por algunos programas para identificar el grupo. No es necesaria si no se usan estos programas. -->
+			<claveDeExportacion>GESO1A</claveDeExportacion>
+			<!-- Indica el número de alumnos que forman el grupo. Es opcional. -->
+			<numeroAlumnos>16</numeroAlumnos>
+			<!-- Indica las la cantidad de tardes libres que debe tener el grupo, como máximo es 4, por defecto es 0. Solo se puede poner si hay una parada al mediodía. -->
+			<tardesLibres>4</tardesLibres>
+			<!-- Defina la preferencia horaria del grupo. Si se omite, o se omite algún elemento se tomará como preferente el tramo que falte. -->
+			<plantilla>
+				<!-- Indica la preferencia del tramo que corresponda con la unión de los atributos más el marco del grupo, que es común para todos los tramos. Todos los atributos son obligatorios. La preferencia, los posibles valores son (de menor a mayor aceptación): "prohibido", "referentementeNo" y "preferente". -->
+				<tramo dia="0" indice="0" marco="A">preferentementeNo1</tramo>
+			</plantilla>
+			<!-- Email para poder compartir el calendario del grupo en distintos gestores.-->
+			<email>primero_eso_a@colegioejemplo.com</email>
+		</grupo>
+		<grupo submarco="A">
+			<nombre>1ºESOB</nombre>
+		</grupo>
+		<grupo submarco="B">
+			<nombre>2ºESO</nombre>
+		</grupo>
+	</grupos>
+	<!-- Es una lista de las sesiones lectivas. -->
+	<sesionesLectivas>
+		<!-- Es el elemento que define una sesión. El atributo id, es su identificador, debe ser numérico, no negativo, único y debe aparecer obligatoriamente. -->
+		<sesion id="0">
+			<!-- El nombre de la materia que se impartirá en la sesión. Debe existir en la lista de las materias. Es obligatorio. -->
+			<materia>Inglés1ESO</materia>
+			<!-- El nombre del grupo que al que se impartirá la sesión. Debe existir en la lista de los grupos. Es obligatorio. Puede indicar, de manera optativa, el número de alumnos de este grupo que participan en esta sesión. -->
+			<grupo numeroAlumnos="12">1ºESOA</grupo>
+			<!-- El nombre del profesor que impartirá la sesión. Debe existir en la lista de los profesores. Es obligatorio. -->
+			<profesor>Raúl</profesor>
+			<!-- La duración total en horas a la semana que será impartida la sesión. -->
+			<duracionSemanal>4</duracionSemanal>
+			<!-- Indica como se reparte la duracion semanal de la sesion a través de los periodos -->
+			<distribucionPeriodica>
+				<!-- Indica que todos los periodos/semanas se imparte la misma cantidad de sesiones de la sesion. -->
+				<distribucionPeriodicaFija>
+					<!-- Define la distribución semanal de la sesión. Es obligatorio. Debe tener uno de los tipos de distribución, "distribucionFija", "distribucionVariable" o "distribucionPersonalizada". -->
+					<distribucionSemanal>
+						<!-- Tipo de distribución fija. Indica que se deben distribuir tal como se indica. -->
+						<distribucionFija>
+							<!-- Debe haber al menos un elemento de numSesiones y un máximo de 7 (los días lectivos). Su valor indica el número de sesiones en un mismo día (min 0, max 7). Cuando el valor es 0 se puede omitir. -->
+							<numSesiones>2</numSesiones>
+							<numSesiones>1</numSesiones>
+							<numSesiones>1</numSesiones>
+						</distribucionFija>
+					</distribucionSemanal>
+					<!--  Indicamos en que semanas/periodos del horario se asigna la sesion-->
+					<enPeriodos>
+						<refPeriodo>1</refPeriodo>
+						<refPeriodo>2</refPeriodo>
+					</enPeriodos>
+				</distribucionPeriodicaFija>
+			</distribucionPeriodica>	
+			<!-- Es una lista de aulas en las que se debe impartir la sesión (cualquiera de ellas). Si no aparece la lista o no tiene elementos, se puede poner en cualquier aula. El orden es significativo, los que están primeros tendrán preferencia sobre los últimos. -->
+			<listaDeAulas>
+				<!-- El nombre de una aula. Debe estar definido en la lista de aulas. -->
+				<aula>Aula1</aula>
+			</listaDeAulas>
+			<!-- Indica una lista con conjuntos de aulas en los que se puede impartir también esta sesión. Si no aparece o no tiene elementos, se tendrá en cuenta solo la lista de aulas. El orden es significativo, los que están primeros tendrán preferencia sobre los últimos. -->
+			<listaDeAlternativas>
+				<!-- El nombre de un conjunto de aulas. Debe existir en la lista de los conjuntos de aulas o ser el conjunto especial llamado "general". -->
+				<conjuntoAlternativo>general</conjuntoAlternativo>
+			</listaDeAlternativas>
+			<!-- Indica el tipo de tarea de la sesión. Debe existir en la lista de tareas. Es obligatorio. -->
+			<tarea>LEC</tarea>
+			<!-- Indica la clave de la cadena grupo-materia y además indica que ha sido especificada por el usuario y que su tipo es CurGru-Mat (definido por los gestores). -->
+			<grupoMateria modificado="true" tipo="CurGru-Mat" >1ºESOA-Inglés1ESO</grupoMateria>
+			<!-- Indica el departamento al que pertenece la sesión. No es obligatorio pero es muy recomendado. -->
+			<departamento>Inglés</departamento>
+			<notas>Esta sesión se ha asignado a Raúl, a pesar de su oposición.</notas>
+			<!-- Proporciona las opciones de la sesión. Si se omite, se tendrán todas las opciones como su valor por defecto. De faltar alguna, se tomará como con su valor por defecto. -->
+			<opciones>
+				<!-- Indica que se penalizará que aparezca más de un 50% de las veces a primera hora. Por defecto "true". -->
+				<penaSesionesAPrimera>true</penaSesionesAPrimera>
+				<!-- Indica que se penalizará que aparezca más de un 50% de las veces a última hora. Por defecto "true". -->
+				<penaSesionesAUltima>true</penaSesionesAUltima>
+				<!-- Indica que se penalizará si coincide a última hora y a primera hora del día siguiente. Por defecto "true". -->
+				<penaSalirUltimaEntrarPrimera>true</penaSalirUltimaEntrarPrimera>
+				<!-- Indica que coincida más de una sesión a la misma hora. Por defecto "misma". -->
+				<penaSesionMismaHora>misma</penaSesionMismaHora>
+				<!-- Indica si se penalizará si hay dos o más sesiones por la tarde. Por defecto "true". -->
+				<penaCoincidanPorLaTarde>true</penaCoincidanPorLaTarde>
+				<!-- Indica si se penalizará que haya recreo entre dos sesiones seguidas. Por defecto "false". -->
+				<noPermitirRecreosEntreSesiones>false</noPermitirRecreosEntreSesiones>
+				<!-- Indica si se penalizará que las sesiones configuradas como consecutivas serán separadas mediante recreos. Por defecto es "false". -->
+				<recreosSeparanSesionesContinuas>false</recreosSeparanSesionesContinuas>
+				<!-- Indica en que magnitud se quiere permitir que la sesión (de tener 2 o 3 días) se de en días consecutivos. Puede tener los valores (de mayor preferencia a menor): "obligatoriamente", "preferiblemente", "indiferente", "prohibido", "penalizaNoSeguidas". El valor "penalizaNoSeguidas" indica justo lo contrario, que se desea impartir en días seguidos. Por defecto se tomará como "preferiblemente". Si no se da en 2 o 3 días, se ignorará esta opción. -->
+				<permitirImpartanEnDiasSeguidos>preferiblemente</permitirImpartanEnDiasSeguidos>
+				<!-- Indica si para la opción anterior (permitirImpartanEnDiasSeguidos), se considera a los Lunes como consecutivos de los viernes. Esta opción solo es válida cuando lo es la opción anterior. Por defecto es "false". -->
+				<considerarLunesViernesSeguidos>false</considerarLunesViernesSeguidos>
+			</opciones>
+			<!-- Define la plantilla de preferencia horaria de la sesión. Si se omite, o se omite algún tramo se tomará el que falte como preferente. -->
+			<plantilla>
+				<!-- Indica la preferencia de un tramo en concreto. La unión de los atributos debe ser única para esta plantilla. Además la unión de los atributos más el marco del grupo de la sesión, debe ser el identificador de un tramo válido. Los posibles valores son: "prohibido", "referentementeNo", "preferente", "fijado". -->
+				<tramo dia="0" indice="0" marco="A">prohibido</tramo>
+				<tramo dia="0" indice="1" marco="A">preferentementeNo1</tramo>
+				<tramo dia="1" indice="0" marco="A">preferentementeNo2</tramo>
+			</plantilla>
+			<!-- Es una lista con pares de materias y grupos que serán impartidos en el mismo aula junto con los principales. Es opcional y redundante con las listas otrosGrupos y otrasMaterias. -->
+			<otrasMateriasGrupos>
+				<materiaGrupo claveX="Len1ESO-ESOB">
+					<materia>Lengua1ESO</materia>
+					<grupo numeroAlumnos="8">1ºESOB</grupo>
+				</materiaGrupo>
+				<materiaGrupo>
+					<materia>Inglés2ESO</materia>
+					<grupo>2ºESO</grupo>
+				</materiaGrupo>
+			</otrasMateriasGrupos>
+			<!-- Es una lista con otros grupos que darán clase en esta sesión junto con el principal en el mismo aula (Otro grupo en el aula). Este elemento es opcional. Puede contener cualquier número de elementos "grupo", incluso ninguno. -->
+			<otrosGrupos>
+				<!-- El nombre del grupo al que también se impartirá esta sesión. Debe existir en la lista de grupos. Puede indicar, de manera optativa, el número de alumnos de este grupo que participan en esta sesión. -->
+				<grupo numeroAlumnos="6" claveX="Len1ESO-ESOB">1ºESOB</grupo>
+				<grupo>2ºESO</grupo>
+			</otrosGrupos>
+			<!-- Es una lista con otros profesores que impartirán la clase en esta sesión (y en el mismo aula) junto con el principal (Otro profesor en el aula). Este elemento es opcional. Puede contener cualquier número de elementos "profesor", incluso ninguno. -->
+			<otrosProfesores>
+				<!-- Es el nombre del profesor que también estará en el aula. Debe existir en la lista de profesores. -->
+				<profesor claveX="Len1ESO-Jua">Juanjo</profesor>
+				<profesor>Nuria</profesor>
+			</otrosProfesores>
+			<!-- Indica otras materias que se impartirán en la misma sesión y aula (Otra materia en el aula). Este elemento es opcional. Puede contener cualquier cantidad de elementos "materia", incluso ninguno. -->
+			<otrasMaterias>
+				<!-- Es el nombre de la materia que se impartirá en el mismo aula que la principal. Debe existir en la lista de materias. -->
+				<materia claveX="Len1ESO-IngESO2">Lengua1ESO</materia>
+				<materia>Inglés2ESO</materia>
+			</otrasMaterias>
+			<!-- Es una lista de otras aulas (o grupos de aulas) que se quiera añadir a la sesión de forma simultánea con la principal (Otra aula al profesor). Este elemento es opcional. Puede contener cualquier cantidad de elementos "otroAula", incluso ninguno. -->
+			<otrasAulas>
+				<!-- Indica la aula y/o conjunto de aulas que se le quiere agregar. Puede contener un elemento "aula" o un elemento "grupo" (de aula), ambos o ninguno. Si no contiene elementos es mejor no ponerlo.
+				Y con "origenAula" indica el identificador de esta aula definida para la sesión, para identificarla luego, y que sea posible la proyección. Se deja el identificador de origenAula="0" para el aula principal de la sesión.-->
+				<otraAula origenAula="1" claveX="Len1ESO-A1">
+					<!-- Es es el nombre de otra aula que se quiera agregar a la sesión. Debe existir en la lista de aulas. Es opcional. -->
+					<aula>Aula1</aula>
+					<!-- Es otro conjunto de aulas alternativas por si no está disponible la indicada antes (o en caso de no estar definida), que se debe agregar al profesor. -->
+					<grupo>ConjuntoA1</grupo>
+				</otraAula>
+				<otraAula>
+					<aula>Aula2</aula>
+				</otraAula>
+			</otrasAulas>
+			<!-- Indica el identificador del grupo de simultáneas al que pertenece la sesión. Es opcional. El valor debe ser un índice de grupo de simultáneo que aparezca en la lista de grupos de simultáneos. -->
+			<sesionesSimultaneas>0</sesionesSimultaneas>
+			<!-- Indica el identificador del grupo de "en distinto día" al que pertenece la sesión. Es opcional. El valor debe ser un índice de grupo de en distinto día que aparezca en la lista de grupos de en el mismo día. -->
+			<enDistintoDia>
+				<sesiones>
+					<sesion>1</sesion>
+					<sesion>2</sesion>
+				</sesiones>
+				<enDiasSeguidos>prohibido</enDiasSeguidos>
+			</enDistintoDia>
+			<!-- Indica el identificador del grupo de consecutiva al que pertenece la sesión. Es opcional. El valor debe ser un índice de grupo de consecutivas que aparezca en la lista de grupos de consecutivas. -->
+			<consecutivas>0</consecutivas>
+			<!-- Indica el identificador del grupo de no consecutiva al que pertenece la sesión. Es opcional. El valor debe ser un índice de grupo de no consecutivas que aparezca en la lista de grupos de no consecutivas. -->
+			<noConsecutivas>
+				<sesion>0</sesion>
+				<sesion>1</sesion>
+			</noConsecutivas>
+		</sesion>
+		<sesion id="1">
+			<materia>Lengua1ESO</materia>
+			<grupo>1ºESOB</grupo>
+			<profesor>Nuria</profesor>
+			<duracionSemanal>4.5</duracionSemanal>
+			<distribucionPeriodica>
+				<distribucionPeriodicaFija>
+					<!-- Indica la distribucion dentro de una única semana. -->
+					<distribucionSemanal>
+					<!-- Indica una distribución variable. En la que hay cierta holgura en la cantidad de sesiones por día. -->
+						<distribucionVariable>
+							<numSesiones>4.5</numSesiones>
+							<!-- Indica el número máximo de sesiones en un mismo día. Mínimo 1, máximo 6. -->
+							<numMaximoDeSesiones>5</numMaximoDeSesiones>
+							<!-- Indica el número minimo de sesiones en un mismo día. Mínimo M, máximo 4. -->
+							<numMinimoDeSesiones>1</numMinimoDeSesiones>
+							<!-- Indica si se penalizará la existencia de bloques del mayo tamaño. -->
+							<penalizarBloquesMaximos>false</penalizarBloquesMaximos>
+							<!-- Indica si se penalizará la existencia de bloques del menor tamaño. -->
+							<penalizarBloquesMinimos>true</penalizarBloquesMinimos>
+							<!-- Indica si se admiten bloques discontinuos, es decir que tengan otras sesiones entre medias. -->
+							<admitirBloquesDiscontinuos>false</admitirBloquesDiscontinuos>
+							<!-- Indica la distribución inicial que se mostrará en el planificador -->
+							<distribucionInicial>
+								<numSesiones>3</numSesiones>
+								<numSesiones>S</numSesiones>
+							</distribucionInicial>
+						</distribucionVariable>
+					</distribucionSemanal>
+					<enPeriodos>
+						<refPeriodo>1</refPeriodo>
+					</enPeriodos>
+				</distribucionPeriodicaFija>
+			</distribucionPeriodica>
+			<grupoMateria>1ºESOB-Lengua1ESO</grupoMateria>
+		</sesion>
+		<sesion id="2">
+			<materia>Inglés2ESO</materia>
+			<grupo>2ºESO</grupo>
+			<profesor>Nuria</profesor>
+			<duracionSemanal>5</duracionSemanal>
+			<distribucionPeriodica>
+				<distribucionPeriodicaFija>
+					<distribucionSemanal>
+						<!-- Indica una distribución personalizada, es decir un conjunto de distribuciones fijas. -->
+						<distribucionPersonalizada>
+							<!-- Es una de las distribuciones. Se define igual que una distribución fija. -->
+							<distribucion>
+								<!-- Debe haber al menos un elemento de numSesiones y un máximo de 5 (los días lectivos). Su valor indica el número de sesiones en un mismo día (min 0, max 5). Cuando el valor es 0 se puede omitir. -->
+								<numSesiones>1</numSesiones>
+								<numSesiones>2</numSesiones>
+								<numSesiones>2</numSesiones>
+							</distribucion>
+							<distribucion>
+								<numSesiones>1</numSesiones>
+								<numSesiones>1</numSesiones>
+								<numSesiones>1</numSesiones>
+								<numSesiones>2</numSesiones>
+							</distribucion>
+							<distribucion>
+								<numSesiones>3</numSesiones>
+								<numSesiones>1</numSesiones>
+								<numSesiones>1</numSesiones>
+							</distribucion>
+						</distribucionPersonalizada>
+					</distribucionSemanal>
+					<enPeriodos>
+						<refPeriodo>1</refPeriodo>
+					</enPeriodos>
+				</distribucionPeriodicaFija>
+			</distribucionPeriodica>
+			<grupoMateria>2ºESO-Inglés2ESO</grupoMateria>
+		</sesion>
+		<sesion id="3">
+			<materia>Inglés1ESO</materia>
+			<grupo>1ºESOB</grupo>
+			<duracionSemanal>4</duracionSemanal>
+			<tarea>LEC</tarea>
+			<grupoMateria>1ºESOB-Inglés1ESO</grupoMateria>
+			<departamento>Inglés</departamento>
+		</sesion>
+	</sesionesLectivas>
+	<!-- Contiene las listas de relaciones entre sesiones (simultáneas, en distinto día, consecutivas, no consecutivas). Es opcional si no hay necesidad de usarla. -->
+	<listasDeRelacion>
+		<!-- Contiene los grupos de simultáneas. Es opcional si no se usa. -->
+		<simultaneas>
+			<!-- Define un grupo de sesiones que deben impartirse a la misma hora. Todos los atributos son obligatorios. El id es el identificador del bloque (debe ser un entero no negativo), y el submarco es el marco al que pertenecerán las sesiones. -->
+			<bloqueDeSesiones id="0" submarco="A">
+				<!-- Es una lista con las sesiones que deben impartirse a la misma hora. -->
+				<sesiones>
+					<!-- El valor de la sesión debe ser un identificador de un sesión existente en la lista de sesiones. -->
+					<sesion>0</sesion>
+					<sesion>1</sesion>
+				</sesiones>
+				<!-- La plantilla del grupo de sesiones simultáneas. Esta plantilla será usada en vez de la de la definida en las sesiones. Si se omite algún tramo o la propia plantilla, se tomará lo que falte como preferente. -->
+				<plantilla>
+					<!-- Define la preferencia de un tramo. Todos los atributos son obligatorios. La unión de los atributos debe ser única en la plantilla. La unión de los atributos y el marco del bloque, deben definir un tramo de la lista de tramos del marco indicado. Los posible valores de menor preferencia a mayor son: "prohibido", "referentementeNo", "preferente", "fijado". -->
+					<tramo dia="0" indice="0" marco="A">preferentementeNo1</tramo>
+					<tramo dia="1" indice="0" marco="A">preferentementeNo1</tramo>
+				</plantilla>
+			</bloqueDeSesiones>
+		</simultaneas>
+		<!-- Contiene los grupos de sesiones que deben impartirse de forma seguida. -->
+		<consecutivas>
+			<!-- Define un grupo de sesiones que deben impartirse de forma consecutiva. El atributo id es el identificador del conjunto, debe ser un entero no negativo. -->
+			<bloqueDeSesiones id="0">
+				<!-- La lista de sesiones que se dan seguidas. Dependiendo de la opción "conOrden", el orden en el que estén declaradas es significativo o no. -->
+				<sesiones>
+					<!-- El identificador de una sesión. Debe ser un identificador de sesión existente. -->
+					<sesion>1</sesion>
+					<sesion>2</sesion>
+				</sesiones>
+				<!-- Indica si el orden en que se declaran las sesiones es en el que se debe impartir. -->
+				<conOrden>seguidas</conOrden>
+			</bloqueDeSesiones>
+		</consecutivas>
+	</listasDeRelacion>
+	<!-- Es la lista de conjuntos de optativas -->
+	<optativas>
+		<optativa>
+			<!-- El nombre del conjunto de optativa -->
+			<nombre>1ºESOB-1</nombre>
+			<!-- El nombre del grupo al que pertenece el conjunto -->
+			<grupo>1ºESOB</grupo>
+			<!-- Cuantas se pueden solapar como máximo -->
+			<maxSolapadas>2</maxSolapadas>
+			<asignaturasOptativas>
+				<!-- La referencia a la sesión lectiva que está en el conjunto y esta no es solapable -->
+				<asignaturaOptativa solapable="false">1</asignaturaOptativa>
+				<asignaturaOptativa>3</asignaturaOptativa>
+			</asignaturasOptativas>
+		</optativa>
+	</optativas>
+	<!-- Es la lista de reuniones. -->
+	<reuniones>
+		<!-- Define una reunión. El atributo es obligatorio y debe corresponder con el nombre de un submarco de la lista de marcos. -->
+		<reunion subMarco="A">
+			<!-- El nombre de la reunión. Identifica la reunión. -->
+			<nombre>ReunionA</nombre>
+			<!-- Indica el número de veces a la semana que se debe dar la reunión. El rango de valores va desde 1 hasta 5 ambos inclusives. Si no se pone se tomará como 1. -->
+			<numeroDeReuniones>5</numeroDeReuniones>
+			<!-- Indica si la reunión tendrá una duración que ocupará varios tramos o solo uno. Si no se pone se tomará como "false". -->
+			<dobleDuracion>false</dobleDuracion>
+			<!-- Indica el tipo de tarea que se llevará a cabo en la reunión. Es obligatorio y debe ser el nombre de un tipo de tarea de la lista de tareas. -->
+			<tipoDeTarea>RDP</tipoDeTarea>
+			<!-- Indica que esta reunión contará en el computo de la preferencia sobre intervalos de duración diaria del profesor (true). Por defecto es false. -->
+			<lectiva>true</lectiva>
+			<!-- Es una plantilla que especifica si está permitido, o no, hacer la reunión en determinados tramos horarios. -->
+			<plantilla>
+				<!-- Indica si un tramo está permitido o no. Todos los atributos son obligatorios. La unión de los atributos y el atributo "subMarco" de la reunión, deben definir un tramo del submarco indicado. No se puede definir varias veces el mismo tramo. Puede tener los valores "prohibido", "permitido" y "fijado". -->
+				<tramo dia="0" indice="0" marco="A">prohibido</tramo>
+			</plantilla>
+			<!-- Define la lista de los profesores que deben asistir a la reunión. -->
+			<integrantes>
+				<!-- Indica un profesor que debe asistir a la reunión. El contenido es el nombre del profesor que debe asistir a la reunión. Debe corresponder con el nombre de un profesor de la lista de profesores. -->
+				<integrante>Raúl</integrante>
+				<integrante>Nuria</integrante>
+			</integrantes>
+		</reunion>
+		<reunion subMarco="B">
+			<nombre>ReunionB</nombre>
+			<tipoDeTarea>RDP</tipoDeTarea>
+			<integrantes>
+				<integrante>Juanjo</integrante>
+			</integrantes>
+		</reunion>
+	</reuniones>
+	<!-- Define la lista de las guardias que existen. -->
+	<guardias>
+		<!-- Define una guardia. El atributo "subMarco" es obligatorio e indica el marco al que irá asociada la guardia. -->
+		<guardia subMarco="A">
+			<!-- El nombre es el identificativo de la guardia. Es obligatorio. -->
+			<nombre>Guardia A</nombre>
+			<!-- Indica el tipo de tarea que se lleva a cabo durante la guardia. Es obligatorio. -->
+			<tipoDeTarea>G</tipoDeTarea>
+			<!-- Indica si será una guardia de un recreo (true) o de horas lectivas (false, por defecto). -->
+			<enRecreos>false</enRecreos>
+			<!-- Indica si esta guardia contará en el computo de la preferencia sobre intervalos de duración diaria del profesor (true). Por defecto es false. -->
+			<lectiva>true</lectiva>
+			<!-- Establece los profesores que habrán en cada momento. -->
+			<profesoresACadaHora>
+				<!-- El número de profesores que habrá por tramos, los tramos que no se definan (o si no se define porTramos) se les dará este valor. Es obligatorio. -->
+				<cantidad>1</cantidad>
+				<!-- Indica, de forma más concreta, la cantidad de profesores que tendrá que haber en cada tramo. Si no se especifica este elemento o alguno de los tramos, se tomará el valor del elemento "cantidad". Dependiendo del elemento "enRecreos", los tramos que se definan tienen que ser de recreos (si está a "true") o lectivos (si está a "false"). -->
+				<porTramo>
+					<!-- Define la cantidad de profesores que tiene que haber en un tramo. Todos los atributos son obligatorios. La unión de los atributos y del "subMarco" de la guardia, tiene que ser un tramo existente en la lista del marco indicado. No se deben repetir tramos. -->
+					<cantidadTramo dia="0" indice="0">0</cantidadTramo>
+					<cantidadTramo dia="0" indice="1">2</cantidadTramo>
+				</porTramo>
+			</profesoresACadaHora>
+			<!-- Indica los profesores que tienen que cubrir la guardia. Es obligatorio. -->
+			<integrantes>
+				<!-- Define un profesor que cubrirá la guardia. -->
+				<integrante>
+					<!-- El nombre del profesor que tiene que cubrir la guardia. Debe ser un nombre de un profesor de la lista de profesores. -->
+					<nombre>Nuria</nombre>
+					<!-- Indica el número de guardias semanales que va a cubrir el profesor. Mínimo 1, máximo 20. Si no se pone se tomará como 1. -->
+					<numeroDeGuardias>1</numeroDeGuardias>
+					<!-- Indica la preferencia del profesor sobre que tramos puede cubrir y cuales no. Si no aparece o falta algún tramo, se tomará lo que falte como permitido. -->
+					<plantilla>
+						<!-- Indica si se puede o no cubrir un tramo. Los atributos son obligatorios y su unión con el "subMarco" de la guardia debe ser un tramo del marco adecuado. No pueden haber tramos duplicados. Si se definen tramos que no correspondan con el tipo de guardia (lectivos para recreo o recreos para tipo lectivo), simplemente serán ignorados. Puede tener los valores "prohibido", "permitido" y "fijado". -->
+						<tramo dia="0" indice="0" marco="A">prohibido</tramo>
+					</plantilla>
+				</integrante>
+			</integrantes>
+			<!-- La plantilla de horario de la guardia, indica los tramos en los que la guardia se puede colocar o no. Es opcional, si se omite o se omite alguno de los tramos se tomará lo que falte como "permitido". -->
+			<plantilla>
+				<!-- Indica si está permitido un tramo o no. Todos sus atributos son obligatorios. La unión de sus atributos debe formar la identificación de un tramo concreto en el marco adecuado. No puede haber duplicados de la unión en la misma plantilla. -->
+				<tramo dia="0" indice="0" marco="A">prohibido</tramo>
+			</plantilla>
+		</guardia>
+		<guardia subMarco="B">
+			<nombre>Guardia B</nombre>
+			<tipoDeTarea>G</tipoDeTarea>
+			<enRecreos>true</enRecreos>
+			<profesoresACadaHora>
+				<cantidad>1</cantidad>
+			</profesoresACadaHora>
+			<integrantes>
+				<integrante>
+					<nombre>Juanjo</nombre>
+					<numeroDeGuardias>10</numeroDeGuardias>
+					<plantilla>
+						<tramo dia="1" indice="1" marco="B">disponible</tramo>
+					</plantilla>
+				</integrante>
+			</integrantes>
+		</guardia>
+	</guardias>
+	<!-- Define una lista de sesiones complementarias. -->
+	<complementarias>
+		<!-- Define una sesión complementaria. El atributo es obligatorio y debe ser el identificador de un marco existente en la lista de marcos. -->
+		<complementaria subMarco="A">
+			<!-- Indica el tipo de tarea que se llevará a cabo en la sesión. Debe ser un nombre de la lista de tareas. Es obligatorio. -->
+			<tarea>LEC</tarea>
+			<!-- Indica el profesor que impartirá la sesión. Debe ser un nombre de profesor perteneciente a la lista de profesores. Es obligatorio. -->
+			<profesor>Raúl</profesor>
+			<!-- Indica la distribucion de la duración de la complementaria a través de los periodos. -->
+			<distribucionPeriodica>
+				<!-- Indica que todos los periodos/semanas se imparte la misma cantidad de sesiones de la complementaria. -->
+				<distribucionPeriodicaFija>
+					<!-- Indica la distribucion dentro de una única semana. -->
+					<distribucionSemanal>
+						<!-- Indica que la distribucion de la semana se puede asigna de manera flexible. -->
+						<distribucionVariable>
+							<!-- Indica el numero total de sesiones semanales -->
+							<numSesiones>7</numSesiones>
+							<!-- Indica el máximo diaio de sesiones de complementaria que se pueden impartir. -->
+							<numMaximoDeSesiones>3</numMaximoDeSesiones>
+							<!-- Opcional. Indica el numero minimo dirario de duracion -->
+							<numMinimoDeSesiones>1</numMinimoDeSesiones>
+						</distribucionVariable>
+					</distribucionSemanal>
+					<enPeriodos>
+						<refPeriodo>1</refPeriodo>
+					</enPeriodos>
+				</distribucionPeriodicaFija>
+			</distribucionPeriodica>
+			<!-- Indica que esta reunión contará en el computo de la preferencia sobre intervalos de duración diaria del profesor (true). Por defecto es false. -->
+			<lectiva>true</lectiva>
+			<!-- Indica los tramos en la que se puede colocar la sesión. -->
+			<plantilla>
+				<!-- Indica si en un tramo está permitido dar la sesión o no. Los posibles valores son "prohibido", "permitido" y "fijado". -->
+				<tramo dia="0" indice="0" marco="A">prohibido</tramo>
+			</plantilla>
+		</complementaria>
+	</complementarias>
+	<!-- Establece los valores de los criterios. Los valores son en el rango de 0 a 10 ambos inclusives, a no se que se indique lo contrario. -->
+	<criterios>
+		<!-- Agrupa las opciones relacionadas con los pesos de los huecos. -->
+		<huecosEnHorario>
+			<!-- Indica el peso que se asigna al hecho de dejar huecos en los horarios de los grupos. Tiene un factor de 20x. -->
+			<huecosEnGrupos>5</huecosEnGrupos>
+			<!-- Indica el peso que se asigna a dejar huecos en los horarios de los profesores. -->
+			<huecosEnProfesores>2</huecosEnProfesores>
+		</huecosEnHorario>
+		<!-- Agrupa las opciones relacionadas con con los pesos de la colocación en tramos no preferentes. -->
+		<posicionesNoPreferentes>
+			<!-- Indica el peso que tiene colocar una sesión en una posición no preferente de un grupo. Tiene un factor de 20x. -->
+			<enGrupos>4</enGrupos>
+			<!--Indica el peso que tiene colocar una sesión en una posición no preferente de un profesor. -->
+			<enProfesores>3</enProfesores>
+			<!-- Indica el peso que tiene colocar una sesión en una posición no preferente de una materia o una tarea. -->
+			<enMateriasYTareas>1</enMateriasYTareas>
+			<!-- Indica el peso que tiene colocar una sesión en una posición no preferente de una sesión lectiva. -->
+			<enSesionesLectivas>2</enSesionesLectivas>
+		</posicionesNoPreferentes>
+		<!-- Agrupa las opciones relacionadas con los pesos de colocar las sesiones lectivas en tramos extremos. -->
+		<colocarSesionesLectivas>
+			<!-- Indica el peso de colocar varias sesiones (de la misma materia) en días consecutivos, solo se tiene en cuenta para las que tienen 2 o 3 sesiones. -->
+			<enDiasConsecutivos>1</enDiasConsecutivos>
+			<!-- Indica el peso de colocar la sesión (de la misma materia) en un aula que no sea la preferente (es decir en una alternativa). -->
+			<enAulaNoPreferente>3</enAulaNoPreferente>
+			<!-- Indica el peso de colocar más de un 50% de las horas en los extremos del horario. -->
+			<enHorasExtremas>2</enHorasExtremas>
+			<!-- Indica el peso de colocar dos o más sesiones (de la misma materia) por la tarde en un horario con parada al mediodía. -->
+			<coincidanPorLaTarde>1</coincidanPorLaTarde>
+			<!-- Indica el peso de colocar dos o más sesiones (de la misma materia) en el mismo tramo horario. -->
+			<coincidanALaMismaHora>0</coincidanALaMismaHora>
+			<!-- Indica el peso de que se imparta una materia en distintas aulas cada vez, también evita que un grupo se tenga que cambiar de aulas. -->
+			<conCambiosDeAula>1</conCambiosDeAula>
+			<!-- Indica el peso de que se solapen las optativas de universidad. -->
+			<optativaSolapada>1</optativaSolapada>
+		</colocarSesionesLectivas>
+		<!-- Agrupa las opciones de los pesos de los horarios de los profesores. -->
+		<horarioDeProfesores>
+			<!-- Indica el peso de colocar las sesiones que son excluyentes. -->
+			<horasExcluyentes>3</horasExcluyentes>
+			<!-- Indica el peso de que haya más sesiones en un día que en otro. -->
+			<masClasesEnUnDiaQueEnOtro>3</masClasesEnUnDiaQueEnOtro>
+			<!-- Indica el peso de que se coloquen las sesiones seguidas sin dejar huecos ni sesiones de otro tipo en el horario del profesor y que sobre pase el límite establecido para el mismo. -->
+			<horasDeClaseSeguidas>2</horasDeClaseSeguidas>
+			<!-- Indica el peso de que se coloquen más horas de permanencia semanales que las establecidas como máximas. -->
+			<masPermanencia>2</masPermanencia>
+			<!-- Indica el peso para evitar que un profesor de sesiones seguidas al mismo grupo pero con materias diferentes. -->
+			<seguidoConElMismoGrupo>1</seguidoConElMismoGrupo>
+			<!-- Indica el peso para evitar que se coloquen las guardias de los profesores en los extremos, intentando de ese modo colocarlas en los huecos que dejen las sesiones. -->
+			<guardiasEnExtremos>1</guardiasEnExtremos>
+			<!-- Indica el peso que tendrá el no respetar el orden de los profesores. -->
+			<ordenProfesores>1</ordenProfesores>
+		</horarioDeProfesores>
+	</criterios>
+	<!-- Declara una solución del horario. En este ejemplo la solución es muy probable que no sea correcta ya que está hecha para mostrar el uso del elemento, no como solución real. -->
+	<horario>
+		<tramo dia="0" indice="1" marco="A">
+			<reunion>ReunionA</reunion>
+		</tramo>
+		<!-- Especifica lo que está colocado en un determinado tramo -->
+		<tramo dia="0" indice="3" marco="A">
+			<!-- Declara lo que está colocado en un determinado aula -->
+			<aula id="Aula1">
+				<!-- Indica la sesión que se ha colocado en este aula. Y en "refAula" indica con que aula u otraAula se corresponde definido en la sesión. Se deja el identificador de refAula="0" para el aula principal de la sesión.-->
+				<sesion refAula="1">0</sesion>
+				<!-- Declara los profesores que se han colocado en esta aula para dar la sesión -->
+				<profesor>Raúl</profesor>
+				<profesor>Juanjo</profesor>
+				<profesor>Nuria</profesor>
+			</aula>
+		</tramo>
+		<tramo dia="1" indice="0" marco="A">
+			<guardia>
+				<nombre>Guardia A</nombre>
+				<profesor>Nuria</profesor>
+			</guardia>
+		</tramo>
+		<tramo dia="0" indice="0" marco="B">
+			<!-- Declara lo que está colocado en un determinado aula. En este caso una anónima general (nombrada temporalmente como 0). -->
+			<aula anonima="general" id="0">
+				<sesion>2</sesion>
+				<profesor>Nuria</profesor>
+			</aula>
+		</tramo>
+		<!-- Este tramo es un recreo, con lo que solo tiene las guardias de recreo establecidas en el. -->
+		<tramo dia="1" indice="1" marco="B">
+			<!-- Indica una guardia. -->
+			<guardia>
+				<!-- Indica el nombre de la guardia que se ha cubierto. -->
+				<nombre>Guardia B</nombre>
+				<!-- Indica el nombre del profesor que ha cubierto la guardia. -->
+				<profesor>Juanjo</profesor>
+			</guardia>
+		</tramo>
+	</horario>
+	<otros>
+		<restriccionesCD>
+			<permitirAgregarProfesor>true</permitirAgregarProfesor>
+			<permitirAgregarDepartamento>true</permitirAgregarDepartamento>
+			<permitirAgregarAsignatura>true</permitirAgregarAsignatura>
+			<permitirCamDepProfesor>true</permitirCamDepProfesor>
+			<permitirCamDepAsignatura>true</permitirCamDepAsignatura>
+			<permitirCamDuracion>true</permitirCamDuracion>
+			<permitirCamHorasReduccion>true</permitirCamHorasReduccion>
+		</restriccionesCD>
+		<funcionesAdicionales>
+			<restriccionDePlantilla>
+				<cantidadDeProhibidos>0</cantidadDeProhibidos>
+				<cantidadDePrefNo1>-1</cantidadDePrefNo1>
+				<cantidadDePrefNo2>3</cantidadDePrefNo2>
+			</restriccionDePlantilla>
+			<definirTutor>true</definirTutor>
+			<elegirGrupoTutor>true</elegirGrupoTutor>
+			<hacerGuardias>true</hacerGuardias>
+		</funcionesAdicionales>
+		<mensajesIntercambio>
+			<haciaDesideratas>
+				<texto>Se avisa que los grupos asignados a las sesiones son realmente orientativos, pudiendo cambiarse a posteriori según convenga al centro.</texto>
+			</haciaDesideratas>
+		</mensajesIntercambio>
+		<opciones>
+			<opcionesGenerales>
+				<contarHuecosMediodia>true</contarHuecosMediodia>
+				<desecharGuardias>true</desecharGuardias>
+				<maxHoraPermanencia>true</maxHoraPermanencia>
+			</opcionesGenerales>
+			<valorInicialProfesores>
+				<intervalosDePermanenciaSemanales>30</intervalosDePermanenciaSemanales>
+				<maximasHorasSeguidas>5</maximasHorasSeguidas>
+			</valorInicialProfesores>
+			<valorInicialSesiones>
+				<permitirImpartanEnDiasSeguidos>obligatoriamente</permitirImpartanEnDiasSeguidos>
+			</valorInicialSesiones>
+		</opciones>
+		<notas>El grupo 2ºESOA habrá que revisarlo después de la recogida de desideratas.</notas>
+		<gruposAlejados>
+			<!-- Estas opciones son los valores por defecto con lo que no haría falta ponerlas -->
+			<opciones>
+				<actualizarAlGenerar>false</actualizarAlGenerar>
+				<evitarDobleDesp tipo="evitar" >false</evitarDobleDesp>
+			</opciones>
+			<listaDeGrupos>
+				<grupo>1ºESOA</grupo>
+			</listaDeGrupos>
+		</gruposAlejados>
+		<extensiones>
+			<centro>
+				<nombre>I.E.S. María Moliner</nombre>
+				<codigo>40004A</codigo>
+			</centro>
+			<otraCosa>También se pueden agregar más textos.</otraCosa>
+			<otraCosa>Además pueden estar repetidos.</otraCosa>
+		</extensiones>
+		<perfil>secundaria</perfil>
+		<!-- Declara las claves de exportación correspondientes a los días de la semana. -->
+		<claveXDias>
+			<lunes>L</lunes>
+			<martes>M</martes>
+			<miercoles>X</miercoles>
+			<jueves>J</jueves>
+			<viernes>V</viernes>
+		</claveXDias>
+		<origenDatos>nombregestor</origenDatos>
+	</otros>
+</datosGHC>

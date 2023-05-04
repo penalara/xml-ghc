@@ -1,0 +1,3964 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Elementos del archivo de intercambio de GHC</title>
+
+<style type="text/css">
+body {
+	margin: 0;
+	padding: 0;
+	background: #666666 none repeat scroll 0%;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	font-size: 100%;
+	line-height: normal;
+	font-size-adjust: none;
+	font-stretch: normal;
+	text-align: center;
+	color: #000000;
+}
+
+.twoColElsLt #container {
+	border: 1px solid #000000;
+	margin: 0 auto;
+	background: #ffffff none repeat scroll 0%;
+	width: 100%;
+	text-align: left;
+}
+
+.twoColElsLt #sidebar1 {
+	padding: 15px 0;
+	background: #ebebeb none repeat scroll 0% 50%;
+	float: left;
+	width: 16em;
+}
+
+.twoColElsLt #sidebar1 h3,.twoColElsLt #sidebar1 p {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.twoColElsLt #mainContent {
+	margin: 0 1.5em 0 16em;
+}
+
+.fltrt {
+	float: right;
+	margin-left: 8px;
+}
+
+.fltlft {
+	float: left;
+	margin-right: 8px;
+}
+
+.clearfloat {
+	clear: both;
+	height: 0;
+	font-size: 1px;
+	line-height: 0px;
+}
+
+code {
+
+	background-color: #efefef;
+
+}
+</style>
+<!--[if IE]>
+
+    <style type="text/css"> 
+
+    /* coloque las reparaciones de css para todas las versiones de IE en este comentario condicional */
+
+    .twoColElsLt #sidebar1 { padding-top: 30px; }
+
+    .twoColElsLt #mainContent { zoom: 1; padding-top: 15px; }
+
+    /* la propiedad zoom propia que se indica más arriba proporciona a IE el hasLayout que necesita para evitar diversos errores */
+
+    </style>
+
+    <![endif]-->
+</head>
+<body class="twoColElsLt">
+	<div id="container">
+		<nav id="sidebar1">
+
+			<h3>Índice</h3>
+			<ul>
+				<li><a href="#Inicio">Inicio.</a></li>
+				<li><a href="#%C3%8Dndice">Índice de elementos.</a></li>
+			</ul>
+			<p>Elementos por orden alfabético:</p>
+			<ul>
+				<li><a href="#aula">aula.</a></li>
+				<li><a href="#aulaDeHorario">Aula de horario.</a></li>
+				<li><a href="#aulas">aulas.</a></li>
+				<li><a href="#bloqueConsecutivas">Bloque de sesiones
+						consecutivas</a>.</li>
+				<li><a href="#bloqueSimultaneas">Bloque de sesiones
+						simultaneas</a>.</li>
+				<li><a href="#claveXDias">claveXDias.</a></li>
+				<li><a href="#colocarSesionesLectivas">colocarSesionesLectivas.</a></li>
+
+				<li><a href="#complementaria">complementaria.</a></li>
+				<li><a href="#complementarias">complementarias.</a></li>
+				<li><a href="#conjuntoDeAulas">conjuntoDeAulas.</a></li>
+				<li><a href="#consecutivas">consecutivas.</a></li>
+				<li><a href="#criterios">criterios.</a></li>
+				<li><a href="#curso">curso.</a></li>
+				<li><a href="#cursos">cursos</a>.</li>
+				<li><a href="#datosGHC">datosGHC</a>.</li>
+				<li><a href="#DefinicionDeTramo">Definición de tramo.</a></li>
+				<li><a href="#departamentos">departamentos.</a></li>
+				<li><a href="#departamentoType">DepartamentoType</a>.</li>
+				<li><a href="#distribucionFija">distribucionFija.</a></li>
+				<li><a href="#distribucionPeriodica">distribucionPeriodica.</a></li>
+				<li><a href="#distribucionPeriodicaFija">distribucionPeriodicaFija.</a></li>
+				<li><a href="#distribucionPeriodicaVariable">distribucionPeriodicaVariable.</a></li>
+				<li><a href="#distribucionPersonalizada">distribucionPersonalizada.</a></li>
+				<li><a href="#distribucionSemanal">distribucionSemanal.</a></li>
+				<li><a href="#distribucionSemanalReducida">distribucionSemanalReducida.</a></li>
+				<li><a href="#distribucionVariable">distribucionVariable.</a></li>
+				<li><a href="#duracionesTramoType">DuracionesTramoType</a></li>
+				<li><a href="#duracionesType">DuracionesType</a></li>
+				<li><a href="#enPeriodos">enPeriodos</a></li>
+				<li><a href="#enDistintoDia">enDistintoDia.</a></li>
+				<li><a href="#extensiones">extensiones.</a></li>
+				<li><a href="#funcionesAdicionales">funcionesAdicionales.</a></li>
+				<li><a href="#otroConjunto">general.</a></li>
+				<li><a href="#grupo">grupo.</a></li>
+				<li><a href="#grupos">grupos</a>.</li>
+				<li><a href="#gruposAlejados">gruposAlejados.</a></li>
+				<li><a href="#guardia">guardia.</a></li>
+				<li><a href="#guardiaDeHorario">Guardia de horario.</a></li>
+				<li><a href="#guardias">guardias</a>.</li>
+				<li><a href="#haciaDesideratas">haciaDesideratas.</a></li>
+				<li><a href="#horario">horario</a>.</li>
+				<li><a href="#horarioDeProfesores">horarioDeProfesores.</a></li>
+				<li><a href="#huecosEnHorario">huecosEnHorario.</a></li>
+				<li><a href="#incompatibilidadEntreSesiones">Incompatibilidad
+						entre sesiones.</a></li>
+				<li><a href="#integranteDeGuardia">Integrante de guardia</a>.</li>
+				<li><a href="#integrantesDeGuardia">Integrantes de guardia.</a></li>
+				<li><a href="#integrantesDeReunion">Integrantes de reunión.</a></li>
+				<li><a href="#listasDeRelacion">listasDeRelacion</a>.</li>
+				<li><a href="#listaDeGruposAlejados">Lista de grupos
+						alejados.</a></li>
+				<li><a href="#marcoHorario">marcoHorario</a>.</li>
+				<li><a href="#marcosDeHorario">marcosDeHorario</a>.</li>
+				<li><a href="#materia">materia.</a></li>
+				<li><a href="#parMateriaGrupo">materiaGrupo</a>.</li>
+				<li><a href="#materias">materias</a>.</li>
+				<li><a href="#mensajesIntercambio">mensajesIntercambio.</a></li>
+				<li><a href="#noCoincidentes">noCoincidentes.</a></li>
+				<li><a href="#noConsecutivas">noConsecutivas.</a></li>
+				<li><a href="#opcionesDeGruposAlejados">OpcionesDeGruposAlejados.</a></li>
+				<li><a href="#opcionesDeProfesor">OpcionesDeProfesor.</a></li>
+				<li><a href="#OpcionesDeSesionType">OpcionesDeSesion.</a></li>
+				<li><a href="#optativas">Optativas</a>.</li>
+				<li><a href="#otraAula">otraAula.</a></li>
+				<li><a href="#otrasAulas">otrasAulas</a>.</li>
+				<li><a href="#otrasMaterias">otrasMaterias</a>.</li>
+				<li><a href="#otrasMateriasGrupos">otrasMateriasGrupos</a>.</li>
+				<li><a href="#otrasMateriasProfesores">otrasMateriasProfesores</a>.</li>
+				<li><a href="#otrasOpciones">Otras opciones.</a></li>
+				<li><a href="#otroConjunto">otroConjunto.</a></li>
+				<li><a href="#otros">otros</a>.</li>
+				<li><a href="#otrosGrupos">otrosGrupos</a>.</li>
+				<li><a href="#otrosPeriodosLibresJornadaPartida">otrosPeriodosLibresJornadaPartida.</a></li>
+				<li><a href="#otrosProfesores">otrosProfesores.</a></li>
+				<li><a href="#perfil">perfil.</a></li>
+				<li><a href="#periodo">periodo.</a></li>
+				<li><a href="#periodos">periodos.</a></li>
+				<li><a href="#periodosLibres">periodosLibres.</a></li>
+				<li><a href="#periodoLibreJornadaPartida">PeriodoLibreJornadaPartida</a>.</li>
+				<li><a href="#PlantillaType">Plantilla.</a></li>
+				<li><a href="#PlantillaPDType">PlantillaPDType.</a></li>
+				<li><a href="#plantillaPDFType">PlantillaPDFType.</a></li>
+				<li><a href="#plantillaSinFType">PlantillaSinFType.</a></li>
+				<li><a href="#porTramo">porTramo.</a></li>
+				<li><a href="#posicionesNoPreferentes">posicionesNoPreferentes.</a></li>
+				<li><a href="#previoA">previoA.</a></li>
+				<li><a href="#posteriorA">posteriorA.</a></li>
+				<li><a href="#profesor">profesor.</a></li>
+				<li><a href="#profesores">profesores</a>.</li>
+				<li><a href="#profesoresACadaHora">profesoresACadaHora.</a></li>
+				<li><a href="#profesoresIntercambiables">Profesores
+						Intercambiables.</a></li>
+				<li><a href="#restriccionDePlantilla">restriccionDePlantilla.</a></li>
+				<li><a href="#restriccionesCD">restriccionesCD.</a></li>
+				<li><a href="#reunion">reunion.</a></li>
+				<li><a href="#reuniones">reuniones.</a></li>
+				<li><a href="#sesion">sesion.</a></li>
+				<li><a href="#sesionesDeLosBloques">Sesiones de los
+						bloques.</a></li>
+				<li><a href="#sesionesDistintoDia">Sesiones en distinto
+						día.</a></li>
+				<li><a href="#sesionesLectivas">sesionesLectivas</a>.</li>
+				<li><a href="#SeparacionSesionesType">SeparacionSesionesType</a>.</li>
+				<li><a href="#separadosNDiasOMas">separadosNDiasOMas</a>.</li>
+				<li><a href="#separadosNDiasOMenos">separadosNDiasOMenos</a>.</li>
+				<li><a href="#simultaneas">simultaneas.</a></li>
+				<li><a href="#tarea">tarea.</a></li>
+				<li><a href="#tareas">tareas.</a></li>
+				<li><a href="#tramoDeHorario">Tramo de horario.</a></li>
+				<li><a href="#tramoPDType">TramoPDType.</a></li>
+				<li><a href="#tramoPDFType">TramoPDFType.</a></li>
+				<li><a href="#tramoSinFType">TramoSinFType.</a></li>
+				<li><a href="#tramoType">TramoType.</a></li>
+				<li><a href="#version">version.</a></li>
+			</ul>
+			<!-- end #sidebar1 -->
+		</nav>
+		<div id="mainContent">
+
+			<h1 id="Inicio">Elementos del XML GHC</h1>
+			<p>
+				Esta página muestra el conjunto de elementos que se usa en la
+				definición del xml de intercambio de la aplicación <abbr
+					title="Generador de Horarios para Centros">GHC</abbr> (Generador de
+				Horarios para Centros).
+			</p>
+			<p>
+				Puede ver el manual abriendo el archivo <a href="index.html">index.html</a>.
+			</p>
+
+			<h2 id="notas">Notas</h2>
+			<p>En los elementos que aparezcan tipificados como obligatorios,
+				indica que deben aparecer 1 vez y no se pueden omitir.</p>
+			<p>En los elementos que aparezcan tipificados como opcionales,
+				indican que puede aparecer 1 vez o que se puede omitir.</p>
+			<p>
+				Si puede aparecer un rango distinto de veces, aparecerá su rango
+				como valores entre <abbr title="mínimo">mín</abbr>. y <abbr
+					title="máximo">máx.</abbr> ambos valores inclusive en el rango
+				válido.
+			</p>
+			<p>
+				El tipo del valor de los elementos hojas (que no contienen
+				subelementos) será de tipo <a href="index.html#string">String</a> a
+				no ser que se indique lo contrario. Además a no ser que se indique
+				lo contrario, en los nombres e identificadores deben tener como
+				mínimo un carácter y un máximo de doce, en los demás elementos es
+				aconsejable que también tengan almenos un carácter (para que no haya
+				confusión de si está vacío o no).
+			</p>
+
+			<nav>
+
+				<h2 id="Índice">Índice de elementos</h2>
+				<p>
+					El siguiente índice muestra los elementos que se pueden usar o
+					están definidos en el esquema del archivo de definición del archivo
+					de intercambio xml de <abbr
+						title="Generador de Horarios para Centros">GHC</abbr>. Para saber
+					más sobre uno de los elementos haga click sobre él, o desplacese la
+					página hasta encontrarlo.
+				</p>
+
+				<h3>Por A:</h3>
+				<ul>
+					<li><a href="#aula">aula</a>.</li>
+					<li><a href="#aulaDeHorario">Aula de horario</a>.</li>
+					<li><a href="#aulas">aulas</a>.</li>
+				</ul>
+
+				<h3>Por B:</h3>
+				<ul>
+					<li><a href="#bloqueConsecutivas">Bloque de sesiones
+							consecutivas</a>.</li>
+					<li><a href="#bloqueSimultaneas">Bloque de sesiones
+							simultaneas</a>.</li>
+				</ul>
+
+				<h3>Por C:</h3>
+				<ul>
+					<li><a href="#claveXDias">claveXDias</a>.</li>
+					<li><a href="#colocarSesionesLectivas">colocarSesionesLectivas</a>.</li>
+
+					<li><a href="#complementaria">complementaria</a>.</li>
+					<li><a href="#complementarias">complementarias</a>.</li>
+					<li><a href="#conjuntoDeAulas">conjuntoDeAulas</a>.</li>
+					<li><a href="#consecutivas">consecutivas</a>.</li>
+					<li><a href="#criterios">criterios</a>.</li>
+					<li><a href="#curso">curso</a>.</li>
+					<li><a href="#cursos">cursos</a>.</li>
+				</ul>
+
+				<h3>Por D:</h3>
+				<ul>
+					<li><a href="#datosGHC">datosGHC</a>. El elemento raíz del
+						archivo.</li>
+					<li><a href="#DefinicionDeTramo">Definición de tramo</a>.</li>
+					<li><a href="#departamentos">departamentos</a>.</li>
+					<li><a href="#departamentoType">DepartamentoType</a>.</li>
+					<li><a href="#distribucionFija">distribucionFija</a>.</li>
+					<li><a href="#distribucionPeriodica">distribucionPeriodica</a>.</li>
+					<li><a href="#distribucionPeriodicaFija">distribucionPeriodicaFija</a>.</li>
+					<li><a href="#distribucionPeriodicaVariable">distribucionPeriodicaVariable</a>.</li>
+					<li><a href="#distribucionPersonalizada">distribucionPersonalizada</a>.</li>
+					<li><a href="#distribucionSemanal">distribucionSemanal</a>.</li>
+					<li><a href="#distribucionSemanalReducida">distribucionSemanalReducida</a>.</li>
+					<li><a href="#distribucionVariable">distribucionVariable</a>.</li>
+					<li><a href="#duracionesTramoType">DuracionesTramoType</a></li>
+					<li><a href="#duracionesType">DuracionesType</a></li>
+				</ul>
+
+				<h3>Por E:</h3>
+				<ul>
+					<li><a href="#enPeriodos">enPeriodos</a>.</li>
+					<li><a href="#enDistintoDia">enDistintoDia</a>.</li>
+					<li><a href="#extensiones">extensiones</a>.</li>
+				</ul>
+
+				<h3>Por F:</h3>
+				<ul>
+					<li><a href="#funcionesAdicionales">funcionesAdicionales</a>.</li>
+				</ul>
+
+				<h3>Por G:</h3>
+				<ul>
+					<li><a href="#general">general</a>.</li>
+					<li><a href="#grupo">grupo</a>.</li>
+					<li><a href="#grupos">grupos</a>.</li>
+					<li><a href="#gruposAlejados">gruposAlejados</a>.</li>
+					<li><a href="#guardia">guardia</a>.</li>
+					<li><a href="#guardiaDeHorario">Guardia de horario</a>.</li>
+					<li><a href="#guardias">guardias</a>.</li>
+				</ul>
+
+				<h3>Por H:</h3>
+				<ul>
+					<li><a href="#haciaDesideratas">haciaDesideratas</a>.</li>
+					<li><a href="#horario">horario</a>.</li>
+					<li><a href="#horarioDeProfesores">horarioDeProfesores</a>.</li>
+					<li><a href="#huecosEnHorario">huecosEnHorario</a>.</li>
+				</ul>
+
+				<h3>Por I:</h3>
+				<ul>
+					<li><a href="#incompatibilidadEntreSesiones">incompatibilidadEntreSesiones</a>.</li>
+					<li><a href="#integranteDeGuardia">Integrante de guardia</a>.</li>
+					<li><a href="#integrantesDeGuardia">Integrantes de guardia</a>.</li>
+					<li><a href="integrantesDeReunion">Integrantes de reunión</a>.</li>
+				</ul>
+
+				<h3>Por L:</h3>
+				<ul>
+					<li><a href="#listasDeRelacion">listasDeRelacion</a>.</li>
+					<li><a href="#listaDeGruposAlejados">Lista de grupos
+							alejados</a>.</li>
+				</ul>
+
+				<h3>Por M:</h3>
+				<ul>
+					<li><a href="#marcoHorario">marcoHorario.</a></li>
+					<li><a href="#marcosDeHorario">marcosDeHorario</a>.</li>
+					<li><a href="#materia">materia</a>.</li>
+					<li><a href="#parMateriaGrupo">materiaGrupo</a>.</li>
+					<li><a href="#materias">materias</a>.</li>
+					<li><a href="#mensajesIntercambio">mensajesIntercambio</a>.</li>
+				</ul>
+
+				<h3>Por N:</h3>
+				<ul>
+					<li><a href="#noCoincidentes">noCoincidentes</a>.</li>
+					<li><a href="#noConsecutivas">noConsecutivas</a>.</li>
+				</ul>
+
+				<h3>Por O:</h3>
+				<ul>
+					<li><a href="#opcionesDeGruposAlejados">Opciones de grupos
+							alejados</a>.</li>
+					<li><a href="#opcionesDeProfesor">Opciones de profesor</a>.</li>
+					<li><a href="#OpcionesDeSesionType">Opciones de sesión</a>.</li>
+					<li><a href="#optativas">Optativas</a>.</li>
+					<li><a href="#otraAula">otraAula</a>.</li>
+					<li><a href="#otrasAulas">otrasAulas</a>.</li>
+					<li><a href="#otrasMaterias">otrasMaterias</a>.</li>
+					<li><a href="#otrasMateriasGrupos">otrasMateriasGrupos</a>.</li>
+					<li><a href="#otrasMateriasProfesores">otrasMateriasProfesores</a>.</li>
+					<li><a href="#otrasOpciones">Otras opciones</a>.</li>
+					<li><a href="#otroConjunto">otroConjunto</a>.</li>
+					<li><a href="#otros">otros</a>.</li>
+					<li><a href="#otrosGrupos">otrosGrupos</a>.</li>
+					<li><a href="#otrosPeriodosLibresJornadaPartida">otrosPeriodosLibresJornadaPartida.</a></li>
+					<li><a href="#otrosProfesores">otrosProfesores.</a></li>
+				</ul>
+
+				<h3>Por P:</h3>
+				<ul>
+					<li><a href="#perfil">perfil</a>.</li>
+					<li><a href="#periodo">periodo</a>.</li>
+					<li><a href="#periodos">periodos</a>.</li>
+					<li><a href="#periodosLibres">periodosLibres</a>.</li>
+					<li><a href="#periodoLibreJornadaPartida">periodoLibreJornadaPartida</a>.</li>
+					<li><a href="#PlantillaType">Plantilla</a>.</li>
+					<li><a href="#PlantillaPDType">PlantillaPDType</a>.</li>
+					<li><a href="#plantillaPDFType">PlantillaPDFType</a>.</li>
+					<li><a href="#plantillaSinFType">PlantillaSinFType</a>.</li>
+					<li><a href="#porTramo">porTramo</a>.</li>
+					<li><a href="#posicionesNoPreferentes">posicionesNoPreferentes</a>.</li>
+					<li><a href="#previoA">previoA</a>.</li>
+					<li><a href="#posteriorA">posteriorA</a>.</li>
+					<li><a href="#profesor">profesor</a>.</li>
+					<li><a href="#profesores">profesores</a>.</li>
+					<li><a href="#profesoresACadaHora">profesoresACadaHora</a>.</li>
+					<li><a href="#profesoresIntercambiables">profesoresIntercambiables</a>.</li>
+				</ul>
+
+				<h3>Por R:</h3>
+				<ul>
+					<li><a href="#restriccionDePlantilla">restriccionDePlantilla</a>.</li>
+					<li><a href="#restriccionesCD">restriccionesCD</a>.</li>
+					<li><a href="#reunion">reunion</a>.</li>
+					<li><a href="#reuniones">reuniones</a>.</li>
+				</ul>
+
+				<h3>Por S:</h3>
+				<ul>
+					<li><a href="#sesion">sesion</a>.</li>
+					<li><a href="#sesionesDeLosBloques">Sesiones de los
+							bloques</a>.</li>
+					<li><a href="#sesionesDistintoDia">Sesiones en distinto
+							día</a>.</li>
+					<li><a href="#sesionesLectivas">sesionesLectivas</a>.</li>
+					<li><a href="#SeparacionSesionesType">SeparacionSesionesType</a>.</li>
+					<li><a href="#separadosNDiasOMas">separadosNDiasOMas</a>.</li>
+					<li><a href="#separadosNDiasOMenos">separadosNDiasOMenos</a>.</li>
+					<li><a href="#simultaneas">simultaneas</a>.</li>
+				</ul>
+
+				<h3>Por T:</h3>
+				<ul>
+					<li><a href="#tarea">tarea</a>.</li>
+					<li><a href="#tareas">tareas</a>.</li>
+					<li><a href="#tramoDeHorario">Tramo de horario</a>.</li>
+					<li><a href="#tramoPDType">TramoPDType</a>.</li>
+					<li><a href="#tramoPDFType">TramoPDFType</a>.</li>
+					<li><a href="#tramoSinFType">TramoSinFType</a>.</li>
+					<li><a href="#tramoType">TramoType</a>.</li>
+				</ul>
+
+				<h3>Por V:</h3>
+				<ul>
+					<li><a href="#version">version</a>.</li>
+				</ul>
+
+			</nav>
+
+			<h2 id="datosGHC">datosGHCC</h2>
+			<p>Es el elemento raíz del archivo de intercambio y debe ir justo
+				después de la colocación de la declaración del tipo de archivo xml.</p>
+			<p>Tiene dos atributos:</p>
+			<ul>
+				<li><code>xmlns:xsi</code> que define el espacio xsi, que está
+					definido en la dirección de su valor. Su valor debe ser siempre <code>"http://www.w3.org/2001/XMLSchema-instance"</code>
+					que indica la ruta de los elementos estandares de los xml. Es
+					obligatorio.</li>
+				<li><code>xsi:noNamespaceSchemaLocation</code> que define los
+					elementos sin un espacio declarado. Todos los elementos propios al
+					formato de GHC, no tienen un nombre declarado. Su valor será la
+					ruta al esquema, por ejemplo <code>"./GHCFile.xsd"</code> que
+					indica que el esquema que valida los elementos sin un nombre de
+					espacio está en el mismo directorio que el xml y el archivo se
+					llama GHCFile.xsd. No es necesario poner este elemento, sobre todo
+					si no se va a validar el xml.</li>
+			</ul>
+			<p>Puede contener los siguientes elementos (en orden):</p>
+			<ul>
+				<li><a href="#version"><code>&lt;version&gt;</code></a>.
+					Obligatorio.</li>
+				<li><a href="#periodos"><code>&lt;periodos&gt;</code></a>. Opcional, 
+					indica los periodos en que se agrupan los días del horario. Si no se define
+					el elemento, se considera que todos los días pertenecen al mismo periodo.</li>
+				<li><a href="#marcosDeHorario"><code>&lt;marcosDeHorario&gt;</code></a>.
+					Obligatorio (para generar un horario).</li>
+				<li><a href="#aulas"><code>&lt;aulas&gt;</code></a>. Opcional,
+					se debe declarar algún aula para generar un horario (se pueden
+					declarar en el conjunto de aulas de forma anónima).</li>
+				<li><a href="#conjuntoDeAulas"><code>&lt;conjuntoDeAulas&gt;</code></a>.
+					Opcional, se debe declarar algún aula para generar un horario.</li>
+				<li><a href="#tareas"><code>&lt;tareas&gt;</code></a>.
+					Obligatorio (para crear sesiones, guardias, etc).</li>
+				<li><a href="#departamentos"><code>&lt;departamentos&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#profesores"><code>&lt;profesores&gt;</code></a>.
+					Obligatorio (para crear sesiones, guardias, etc).</li>
+				<li><a href="#materias"><code>&lt;materias&gt;</code></a>.
+					Obligatorio (para crear sesiones).</li>
+				<li><a href="#grupos"><code>&lt;grupos&gt;</code></a>.
+					Obligatorio (para crear sesiones).</li>
+				<li><a href="#cursos"><code>&lt;cursos&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#sesionesLectivas"><code>&lt;sesionesLectivas&gt;</code></a>.
+					Obligatorio para generar un horario.</li>
+				<li><a href="#listasDeRelacion"><code>&lt;listasDeRelacion&gt;</code></a>.
+					Opcional (necesario si las sesiones tienen relaciones).</li>
+				<li><a href="#reuniones"><code>&lt;reuniones&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#guardias"><code>&lt;guardias&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#complementarias"><code>&lt;complementarias&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#criterios"><code>&lt;criterios&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#horario"><code>&lt;horario&gt;</code></a>.
+					Opcional. Es el resultado del horario y por lo tanto aparecerá si
+					ya se ha generado un horario.</li>
+				<li><a href="#otros"><code>&lt;otros&gt;</code></a>. Opcional.</li>
+			</ul>
+
+			<h2 id="version">version</h2>
+			<p>
+				Este elemento (perteneciente al elemento <a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>)
+				identifica la versión del archivo de intercambio. La versión actual
+				tiene el valor <code>20160705</code> . Aunque solo pueda tener un
+				valor este elemento es obligatorio, ya que permite identificar la
+				versión del formato del xml.
+			</p>
+			<p>Hay que tener en cuenta que los programas que lean el archivo
+				pueden dar como válido un rango de versiones compatibles, no es
+				necesario que se atengan a una sola versión.</p>
+			<p>
+				Al ser constante siempre será de la forma <code>&lt;version&gt;20160705&lt;/version&gt;</code>
+				.
+			</p>
+			<p>Puede (y debe, para esta versión concreta) contener el valor:</p>
+			<p>
+				<code>20160705</code>
+			</p>
+			<p>No puede contener ni subelementos ni atributos.</p>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="marcosDeHorario">marcosDeHorario</h2>
+			<p>
+				El elemento &lt;marcosDeHorario&gt; (perteneciente al elemento <a
+					href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>) contiene la
+				lista de marcos que definen los tramos horarios disponibles.
+			</p>
+			<p>Contiene los elementos:</p>
+			<ul>
+				<li><a href="#marcoHorario"><code>&lt;marcoHorario&gt;</code></a>.
+					De 1 a 4. <em>En futuras implementaciones se podrá poner más.</em></li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2>
+				<a id="marcoHorario">marcoHorario</a>
+			</h2>
+			<p>Define un marco horario general, indicado los tramos que lo
+				forman así como su tipo.</p>
+			<p>Contiene los atributos:</p>
+			<ul>
+				<li><code>id</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Es el identificador del marco.
+					Sirve para referenciarlo (e identificarlo) en el xml. Debe ser
+					único en la lista de marcos. Actualmente debe ser <code>A</code>,
+					<code>B</code>, <code>C</code> o <code>D</code>.</li>
+				<li><code>nombre</code>. Opcional. Tipo <a
+					href="index.html#string">string</a>. Es un nombre descriptivo del
+					marco para facilitar al usuario su identificación.</li>
+				<li><code>claveX</code>. Opcional. Tipo <a
+					href="index.html#string">string</a>. Sirve para guardar información
+					adicional usada en la exportación de los resultados pero que no se
+					use en GHC directamente.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#DefinicionDeTramo">&lt;tramo&gt;</a>
+				</code>. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>. Es de tipo <a
+					href="#DefinicionDeTramo">Definición de tramo</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#marcosDeHorario">&lt;marcosDeHorario&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="DefinicionDeTramo">Definición de tramo</h2>
+			<p>
+				El elemento <code>&lt;tramo&gt;</code> define un tramo.
+			</p>
+			<p>
+				La duración del tramo será <em>horaSalida - horaEntrada</em>. La
+				hora de entrada no puede ser mayor o igual que la hora de salida.
+			</p>
+			<p>
+				El trío de elementos: <code>&lt;submarco&gt;</code> , <code>&lt;dia&gt;</code>
+				e <code>&lt;indice&gt;</code> , son el identificador del tramo.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;submarco&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Es el identificador del marco
+					al que pertenece. Se pone por seguridad y por facilitar su
+					identificación. Debe ser igual al identificador del marco en el que
+					está incluido.</li>
+				<li><code>&lt;dia&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> pero restringido a un
+					valor mínimo de 0 (no se define valor máximo para permitir periodos
+					de cualquier número de días). Indica el día al que pertenece el
+					tramo (0 es Lunes, 1 es Martes, 2 es Miércoles, 3 es Jueves y 4 es
+					Viernes, ...).</li>
+				<li><code>&lt;indice&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#unsignedInt">unsignedInt</a>. Define el índice del
+					tramo. Debería respetarse el orden de la hora de entrada y el de
+					los tramos, que la primera hora tenga el indice 0, la segunda el 1,
+					etc.</li>
+				<li><code>&lt;horaEntrada&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#time">time</a>. Indica la hora de inicio del
+					tramo.</li>
+				<li><code>&lt;horaSalida&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#time">time</a>. Indica la hora de finalización del
+					tramo.</li>
+				<li><code>&lt;tipo&gt;</code>. Obligatorio. Puede tener los
+					valores:
+					<ul>
+						<li><code>lectivo</code>. Indica que el tramo es de tipo
+							lectivo, en él se colocarán sesiones, etc.</li>
+						<li><code>recreo</code>. Indica que el tramo es un recreo, en
+							él se podrán colocar guardias de recreo.</li>
+						<li><code>mediodia</code>. Indica una parada de mediodía,
+							señalando la división de turnos de mañana y de tarde.</li>
+					</ul></li>
+				<li><code>&lt;clavX&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#string">string</a>. Indica una clave que es usado
+					por algunos programas externos para identificar el tramo.</li>
+				<li><code>&lt;duracion&gt;</code>. Opcional. Es de tipo <a
+					href="#duracionesTramoType">DuracionesTramoType</a>. Indica la
+					duración (en proporción a los demás tramos) que tendrá este tramo.
+					Por defecto vale <code>1</code>.</li>
+				<li><code>&lt;permitido&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Indica si el tramo está
+					permitido usarlo (<code>true</code>) o prohibido (<code>false</code>).
+					Si se omite este elemento se supone que el tramo será permitido.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#marcoHorario"><code>&lt;marcoHorario&gt;</code></a>.</li>
+			</ul>
+			
+			<h2 id="periodos">periodos</h2>
+			
+			<p>
+				El elemento <code>&lt;periodos&gt;</code> (perteneciente al elemento 
+				<a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>) contiene la
+				lista de periodos que agrupan a los días del horario. Si no se define 
+				el elemento, o ningún <a href="#periodo"><code>&lt;periodo&gt;</code></a>
+				dentro de él, se considera que todos los días pertenecen al (único) mismo periodo.
+			</p>
+			<p>Contiene los elementos:</p>
+			<ul>
+				<li><a href="#periodo"><code>&lt;periodo&gt;</code></a>.
+					Permite definir los días que pertenecen a cada periodo.
+					Todo día pertenece a un y solo un periodo.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul> 
+			
+			<h2 id="periodo">periodo</h2>
+			
+			<p>
+				El elemento <code>&lt;periodo&gt;</code> (perteneciente al elemento 
+				<code><a href="#periodos">&lt;periodos&gt;</a></code>) 
+				declara una agrupación de días que pertenece a un mismo periodo.
+			</p>
+			<p>Contiene los elementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio (<abbr
+					title="mínimo">mín.</abbr> 1, <abbr title="máximo">máx.</abbr> 1).
+					Es de tipo <a href="index.html#NombreType">NombreType</a>. Es el
+					nombre que tendrá el periodo. Es su identificativo, y debe ser único/li>
+				<li><code>&lt;descripcion&gt;</code>. Opcional (<abbr>mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> 1). Es un texto descriptivo 
+					indicando de qué se trata el periodo (semana, trimestre, cuatrimestre, ...).</li>
+				<li><code>&lt;diaFin&gt;</code>. Obligatorio (<abbr>mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> 1). Indica el día en que acaba el periodo.
+					Este día está incluido en el periodo. Para saber el día de inicio se coge el 
+					siguiente día libre al diaFin menor más cercano a este del resto de periodos 
+					(o el primer día de los marcos si este es el periodo con el diaFin menor).</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#periodos"><code>&lt;periodos&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="aulas">aulas</h2>
+			<p>
+				Este elemento ( <code>&lt;aulas&gt;</code> , perteneciente al
+				elemento <a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>)
+				contiene la lista de las aulas con nombre que están disponibles en
+				el centro. Las aulas con nombre son aquellas aulas que se pueden
+				identificar mediante su nombre.
+			</p>
+			<p>Contiene los elementos:</p>
+			<ul>
+				<li><a href="#aula"><code>&lt;aula&gt;</code></a>. <abbr
+					title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr></li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="aula">aula</h2>
+			<p>
+				El elemento <code>&lt;aula&gt;</code> (perteneciente al elemento <code>
+					<a href="#aulas">&lt;aulas&gt;</a>
+				</code> ) declara un aula con nombre.
+			</p>
+			<p>Contiene los elementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio (<abbr
+					title="mínimo">mín.</abbr> 1, <abbr title="máximo">máx.</abbr> 1).
+					Es de tipo <a href="index.html#NombreType">NombreType</a>. Es el
+					nombre que tendrá el aula.</li>
+				<li><code>&lt;abreviatura&gt;</code>. Opcional (<abbr>mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> 1). Es un texto normalmente
+					corto (aunque puede ser más largo que el nombre) para visualizarlo
+					de forma alternativa al nombre según las preferencias del usuario.</li>
+				<li><code>&lt;descripcion&gt;</code>. Opcional. Es un texto que
+					agrega una descripción del aula para que el usuario pueda saber más
+					sobre el aula.</li>
+				<li><code>&lt;dedicada&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>true</code>.
+					Indica si el aula es dedicada, es decir, que es útil para
+					determinadas actividades, aunque no para uso general.</li>
+				<li><code>&lt;claveDeExportacion&gt;</code>. Opcional. Es usado
+					por programas externos para relacionar las referencias.</li>
+				<li><a href="#PlantillaPDType"><code>&lt;plantilla&gt;</code></a>.
+					Opcional. Es una plantilla del tipo <a href="#PlantillaPDType">PlantillaPDType</a>.</li>
+				<li><code>&lt;email&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#Email">Email</a>. Asocia al aula una dirección de email, 
+					por si se quiere exportar al calendario asociado a ese email.</li>
+				<li><code>&lt;numeroAlumnos&gt;</code>. Opcional. Es de tipo 
+					<a href="index.html#unsignedInt">unsignedInt. Indica el número de alumnos que pueden 
+					recibir clase en esta aula, es decir, su capacidad. Por defecto vale 0.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#aulas"><code>&lt;aulas&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="conjuntoDeAulas">conjuntoDeAulas</h2>
+			<p>
+				El <code>&lt;conjuntoDeAulas&gt;</code> contiene la lista de los
+				conjuntos alternativos de aulas.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><a href="#general"><code>&lt;general&gt;</code></a>.
+					Obligatorio.</li>
+				<li><a href="#otroConjunto"><code>&lt;otroConjunto&gt;</code></a>.
+					<abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="general">general</h2>
+			<p>
+				Es elemento <code>&lt;general&gt;</code> declara el conjunto de
+				aulas de proposito general. En él se incluirán las aulas que puedan
+				ser usadas para cualquier materia.
+			</p>
+			<p>Tiene los atributos:</p>
+			<ul>
+				<li><code>nombre</code>. Opcional. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. El nombre deberá tener
+					siempre el valor "general".</li>
+				<li><code>sinDeclarar</code>. Opcional. Es de tipo <a
+					href="index.html#unsignedInt">unsignedInt</a>. Por defecto vale <code>0</code>.
+					Indica cuantas aulas sin nombre contiene el conjunto general.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;aula&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#NombreType">NombreType</a>. Cada
+					elemento aula, contiene (como valor) el nombre de un aula de la <a
+					href="#aulas">lista de aulas</a>, la cual pertenece al conjunto de
+					aulas general.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#conjuntoDeAulas"><code>&lt;conjuntoDeAulas&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="otroConjunto">otroConjunto</h2>
+			<p>
+				El elemento <code>&lt;otroConjunto&gt;</code> declara un conjunto de
+				aulas alternativas. Sirve para poder agrupar aulas alternativas que
+				puedan cumplir la misma función, como por ejemplo laboratorios de
+				informática o talleres de tecnología.
+			</p>
+			<p>Tiene los atributos:</p>
+			<ul>
+				<li><code>nombre</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. El nombre que
+					identifica al conjunto de aulas.</li>
+				<li><code>sinDeclarar</code>. Opcional. Es de tipo <a
+					href="index.html#unsignedInt">unsignedInt</a>. Por defecto vale <code>0</code>.
+					Indica cuantas aulas sin nombre contiene el conjunto declarado.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;aula&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#NombreType">NombreType</a>. Cada
+					elemento aula, contiene (como valor) el nombre de un aula de la <a
+					href="#aulas">lista de aulas</a>, la cual pertenece al conjunto de
+					aulas declarado.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#conjuntoDeAulas"><code>&lt;conjuntoDeAulas&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="tareas">tareas</h2>
+			<p>
+				El elemento <code>&lt;tareas&gt;</code> declara la lista de tareas
+				disponibles. Como mínimo se debe declarar una tarea, ya que todas
+				las sesiones tienen que tener una tarea asignada (normalmente
+				lectiva).
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><a href="#tarea"><code>&lt;tarea&gt;</code></a>.<abbr
+					title="Mínimo"> Mín.</abbr> 1, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>.</li>
+				<li><code>&lt;lectivaPorDefecto&gt;</code>. Obligatoria. Tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica el nombre de la
+					tarea que se usará por defecto en las sesiones lectivas y de
+					docencia directa con los alumnos. Esta tarea debe estar declarada
+					en la lista de tareas.</li>
+				<li><code>&lt;guardiaPorDefecto&gt;</code>. Obligatoria. Tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica el nombre de la
+					tarea que se usará por defecto en las guardias. Esta tarea debe
+					estar declarada en la lista de tareas.</li>
+				<li><code>&lt;reunionPorDefecto&gt;</code>. Obligatoria. Tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica el nombre de la
+					tarea que se usará por defecto en las reuniones. Esta tarea debe
+					estar declarada en la lista de tareas.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="tarea">tarea</h2>
+			<p>
+				El elemento <code>&lt;tarea&gt;</code> define una tarea.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el identificador de
+					la tarea. Debe ser único en la <a href="#tareas">lista de
+						tareas</a>. Debe tener 1 carácter como mínimo.</li>
+				<li><code>&lt;nombreCompleto&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreCompletoType">NombreCompletoType</a>. Es un texto
+					para que el usuario pueda identificar más fácilmente la tarea y su
+					función.</li>
+				<li><code>&lt;claveDeExportacion&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#string">string</a>. Es una cadena de texto
+					usada por programas externos para tener una referencia de la tarea.</li>
+				<li><a href="#plantillaSinFType"><code>&lt;plantilla&gt;</code></a>.
+					Opcional. Es una plantilla del tipo <a href="#plantillaSinFType">PlantillaSinFType</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#tareas"><code>&lt;tareas&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="departamentos">departamentos</h2>
+			<p>
+				El elemento <code>&lt;departamentos&gt;</code> declara una lista de
+				los departamentos disponibles.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;departamento&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="#departamentoType">DepartamentoType</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="departamentoType">DepartamentoType</h2>
+			<p>
+				El elemento <code>&lt;departamento&gt;</code> , define un
+				departamento y sus opciones.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el identificador
+					del departamento.</li>
+				<li><code>&lt;nombreCompleto&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreCompletoType">NombreCompletoType</a>. Indica un nombre más
+					aclaratorio sobre el departamento que es.</li>
+				<li><code>&lt;mensajeAlDepartamento&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#string">string</a>. Indica un mensaje que
+					será mostrado al departamento en el programa de captación de
+					desideratas.</li>
+				<li><code>&lt;esNuevo&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Indica si el departamento
+					ha sido creado nuevo en el módulo de capta desideratas.</li>
+				<li><code>&lt;claveDeExportacion&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#string">string</a>. Este elemento suele
+					guardar información para que se pueda identificar al departamento
+					por otros programas cuando se exporta una solución.</li>
+				<li><code>email</code>. Opcional. Es de tipo <a
+					href="index.html#Email">Email</a>. Asocia al departamento una dirección de email, 
+					por si se quiere comunicar algo, o exportar al calendario asocaido a ese email.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#departamentos"><code>&lt;departamentos&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="profesores">profesores</h2>
+			<p>
+				El elemento <code>&lt;profesores&gt;</code> declara la lista de los
+				profesores disponibles. Ya que todas las sesiones necesitan de un
+				profesor, como mínimo debe aparecer un profesor.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#profesor">&lt;profesor&gt;</a>
+				</code>.<abbr title="Mínimo"> Mín.</abbr> 1, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="profesor">profesor</h2>
+			<p>
+				El elemento <code>&lt;profesor&gt;</code> declara un profesor.
+			</p>
+			<p>Contiene los elementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio. Tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el identificador
+					del profesor.</li>
+				<li><code>&lt;abreviatura&gt;</code>. Opcional. Tipo <a
+					href="index.html#AbreviaturaType">AbreviaturaType</a>. Es un nombre corto para
+					representar al profesor.</li>
+				<li><code>&lt;nombreCompleto&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreCompletoType">NombreCompletoType</a>. Es una forma larga de
+					describir al profesor para que al usuario le resulte más fácil
+					reconocerlo.</li>
+				<li><code>&lt;departamento&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. El nombre del
+					departamento al que pertenece el profesor. Hay que tener en cuenta
+					que se distinguen mayúsculas y minúsculas, así como letras
+					acentuadas (con lo que son distintas Matemáticas, Matematicas y
+					matemáticas).</li>
+				<li><code>&lt;claveDeExportacion&gt;</code>. Opcional. Es una
+					cadena de texto usada por programas externos para tener una
+					referencia de la tarea.</li>
+				<li><code>&lt;tomaDePosesion&gt;</code>. Opcional. Indica la
+					toma de posesión del profesor (usado por algunos programas
+					externos).</li>
+				<li><a href="#plantillaSinFType"><code>&lt;plantilla&gt;</code></a>.
+					Opcional. Es una plantilla del tipo <a href="#plantillaSinFType">PlantillaSinFType</a>.</li>
+				<li><a href="#opcionesDeProfesor"><code>&lt;opciones&gt;</code></a>.
+					Opcional. Si no aparece se toman los valores por defecto de todas
+					las opciones. Es del tipo de <a href="#opcionesDeProfesor">Opciones
+						de profesor</a>.</li>
+				<li><code>&lt;practicasDeFP&gt;</code>. Opcional. De tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si el profesor imparte prácticas de FP.</li>
+				<li><code>&lt;reduccionCargaLectiva&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#entero">entero</a>. Por defecto vale <em>0</em>.
+					Indica la cantidad de sesiones de reducción de carga lectiva que
+					tiene el profesor.</li>
+				<li><code>&lt;mensaje&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#string">string</a>. Indica el texto de respuesta
+					del profesor con las preferencias recogidas.</li>
+				<li><code>&lt;esNuevo&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <em>false</em>.
+					Indica si el profesor se agregó en el captadesideratas y que lo
+					mismo es necesario revisar si es correcto.</li>
+				<li><code>&lt;prioridad&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#entero">entero</a>. Por defecto vale <em>0</em>.
+					Especifica un valor que indica cuan importante es hacer caso a las
+					preferencias de este profesor con respecto a las de los demás.
+					Cuanto mayor sea el valor, mayor es la prioridad.</li>
+				<li><code>&lt;email&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#string">string</a>. Indica la dirección de correo
+					electrónico del profesor. Es útil cuando se usan funciones de
+					desideratas online, por ejemplo para mandarles la contraseña a esta
+					dirección.</li>
+				<li><code>&lt;horarioAsoc&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Especifica un
+					nombre, y para todos los profesores en los que coincida, el
+					motor intentará igualar las primeras horas y salidas
+					de los horarios para que entren y salgan a la misma hora.
+					Útil para profesores que compartan el coche.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#profesores"><code>&lt;profesores&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="opcionesDeProfesor">Opciones de profesor</h2>
+			<p>
+				Las opciones del profesor son declaradas mediante el elemento <code>&lt;opciones&gt;</code>
+				. Este elemento define opciones asociadas a un profesor (menos la
+				plantilla que tiene su propio elemento).
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;intervalosDePermanenciaSemanales&gt;</code>.
+					Opcional. Es de tipo <a href="index.html#unsignedByte">unsignedByte</a>
+					restringido al rango 0 a 300 (ambos inclusive). Por defecto vale 30.
+					Máximo número de intervalos de permanencia semanales. Tiene
+					el atributo <code>estricto</code> de tipo <a href="index.html#booleano">booleano</a>
+					que indica si esta condición será tenida en cuenta como
+					estricta (valor <code>true</code>) o solo como condición
+					a evitar (valor <code>false</code>), por defecto se
+					considerará como evitar si no se especifica el atributo.</li>
+				<li><code>&lt;intervalosDePermanenciaDiarios&gt;</code>.
+					Opcional. Es de tipo <a href="index.html#unsignedByte">unsignedByte</a>
+					restringido al rango 0 a 99 (ambos inclusive). Por defecto vale 5.
+					Máximo número de intervalos de permanencia diarios. Tiene
+					el atributo <code>estricto</code> de tipo <a href="index.html#booleano">booleano</a>
+					que indica si esta condición será tenida en cuenta como
+					estricta (valor <code>true</code>) o solo como condición
+					a evitar (valor <code>false</code>), por defecto se
+					considerará como evitar si no se especifica el atributo.</li>
+				<li><code>&lt;eliminarHuecos&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>true</code>.
+					Indica si se quieren eliminar los huecos de este profesor.</li>
+				<li><code>&lt;maximasHorasSeguidas&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a> restringido
+					al rango 0 a 14 (ambos inclusive). Por defecto vale 5. Indica el
+					número máximo de sesiones lectivas continuadas que se admiten sin
+					incluir un hueco o una complementaria.</li>
+				<li><code>&lt;penalizarAlrededorGuardiaRecreo&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si se quiere penalizar la existencia de sesiones a ambos lados de una guardia de recreo 
+					que imparta este profesor.</li>
+				<li><a href="#periodosLibres"><code>&lt;periodosLibres&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#periodoLibreJornadaPartida"><code>&lt;periodoLibreJornadaPartida&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#otrosPeriodosLibresJornadaPartida"><code>&lt;otrosPeriodosLibresJornadaPartida&gt;</code></a>
+					Opcional.</li>
+				<li><a href="#incompatibilidadEntreSesiones"><code>&lt;incompatibilidadEntreSesiones&gt;</code></a>.
+					Opcional.</li>
+				<li><code>&lt;maximoSesionesDiarias&gt;</code>.<em><strong>Deprecated.</strong> 
+					Ahora se debe utilizar <code>&lt;considerarMaximasHorasDiarias&gt;</code> y 
+					<code>&lt;valorMaximasHorasCalculado&lg;</code>. No se elimina por compatibilidad.
+					Opcional. Por defecto vale <code>limitado</code>. Indica como se gestiona el
+					máximo de sesiones diarias de cada profesor. Puede tener los
+					valores: <code>limitado</code>, el cual establece un máximo que se
+					calcula automáticamente; <code>ampliado</code> el cual establece un
+					máximo pero ampliandolo en una sesión más; <code>sinlimite</code>,
+					que indica que no se estable ningún límite superior; <code>nopenalizar</code>,
+					que indica que no se penalizará el máximo de sesiones.</em></li>
+				<li><code>&lt;minimoSesionesDiarias&gt;</code>. <em><strong>Deprecated.</strong> 
+					Ahora se debe utilizar <code>&lt;considerarMinimasHorasDiarias&gt;</code> y 
+					<code>&lt;valorMinimasHorasCalculado&gt;</code>. No se elimina por compatibilidad.
+					Opcional. Por defecto vale <code>limitado</code>. Indica como se gestiona el
+					mínimo de sesiones diarias de cada profesor. Puede tener los
+					valores: <code>limitado</code>, el cual establece un mínimo
+					autocalculado pero no estricto; <code>nopenalizar</code> el cual no
+					penaliza el que no se cumpla el límite mínimo aunque sí que intente
+					cumplirlo; <code>concentrar</code>, que intenta concentrar las
+					sesiones en el menor número de días posible; <code>estricto</code>
+					el cual establece un mínimo autocalculado estricto.</em></li>					
+					<li><code>&lt;minimizarDiasOcupados&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si se quiere intentar minimizar los días con clase del docente buscando
+					días libres en la optimización (true), o no (false). Esta opción es compatible
+					con los máximos y mínimos del profesor, que se comprobarían solo en los días
+					que no quedan libres.</li>					
+				<li><code>&lt;considerarMaximasHorasDiariasSolamenteLectivas&gt;</code>: Opcional. 
+					Indica cómo se considera la restricción del máximo número de horas diarias de 
+					Sesiones Lectivas que puede impartir el profesor. Por defecto vale 
+					<code>estricto</code>. Sus posibles valores	son: <code>estricto</code>, 
+					<code>optimizacionPreferente</code>,<code>ponderable</code> o <code>nada</code>.</li>					
+				<li><code>&lt;valorMaximasHorasCalculadoSolamenteLectivas&gt;</code>: Opcional. Indica 
+					cómo se actualiza el valor del máximo número de horas diario para Sesiones Lectivas
+					del profesor, que se calcula automáticamente según el número de sesiones del profesor. 
+					Por defecto vale <code>automatico</code>. Sus posibles valores son:
+					<code>unaHoraMas</code>, <code>automatico</code> o <code>unaHoraMenos</code>.</li>					
+				<li><code>&lt;considerarMinimasHorasDiariasSolamenteLectivas&gt;</code>: Opcional. Indica
+					cómo se considera la restricción del mínimo número de horas diarias de Sesiones Lectivas
+					que puede impartir el profesor. Por defecto vale <code>estricto</code>. Sus posibles
+					valores son: <code>estricto</code>, <code>optimizacionPreferente</code>, 
+					<code>ponderable</code> o <code>nada</code>.</li>					
+				<li><code>&lt;valorMinimasHorasCalculadoSolamenteLectivas&gt;</code>: Opcional. Indica 
+					cómo se actualiza el valor del mínimo número de horas diario para Sesiones Lectivas
+					del profesor, que se calcula automáticamente según el número de sesiones del profesor. 
+					Por defecto vale <code>automatico</code>. Sus posibles valores son:
+					<code>unaHoraMas</code>, <code>automatico</code>, <code>unaHoraMenos</code>.</li>					
+				<li><code>&lt;considerarMaximasHorasDiarias&gt;</code>: Opcional. Indica
+					cómo se considera la restricción del máximo número de horas de ocupación (lectivas
+					y no lectivas indicadas como computables) diarias que puede impartir el profesor. 
+					Por defecto vale <code>estricto</code>. Sus posibles valores son: <code>estricto</code>,
+					<code>optimizacionPreferente</code>, <code>ponderable</code> o <code>nada</code>.</li>					
+				<li><code>&lt;valorMaximasHorasCalculado&gt;</code>: Opcional. Indica 
+					cómo se actualiza el valor del máximo número de horas de ocupación (lectivas y no lectivas
+					indicadas como computables) diarias del profesor, que se calcula automáticamente según el
+					número de sesiones del profesor. Por defecto vale <code>automatico</code>. Sus posibles
+					valores son: <code>unaHoraMas</code>, <code>automatico</code> o <code>unaHoraMenos</code>.
+					</li>					
+				<li><code>&lt;considerarMinimasHorasDiarias&gt;</code>: Opcional. Indica
+					cómo se considera la restricción del mínimo número de horas de ocupación (lectivas y no 
+					lectivas indicadas como computables) diarias que puede impartir el profesor. Por defecto
+					vale <code>estricto</code>. Sus posibles valores son: <code>estricto</code>,
+					<code>optimizacionPreferente</code>, <code>ponderable</code> o <code>nada</code>.</li>					
+				<li><code>&lt;valorMinimasHorasCalculado&gt;</code>: Opcional. Indica 
+					cómo se actualiza el valor del mínimo número de horas de ocupación (lectivas y no lectivas
+					indicadas como computables) diarias del profesor, que se calcula automáticamente según el
+					número de sesiones del profesor. Por defecto vale <code>automatico</code>. Sus posibles 
+					valores son: <code>unaHoraMas</code>, <code>automatico</code>, <code>unaHoraMenos</code>.
+					También <code>minimizarDiasOcupados</code> (<strong>Deprecated:</strong> se mantiene por compatibilidad, ahora se usa elemento
+					<code>&lt;minimizarDiasOcupados&gt;</code>).</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#profesor"><code>&lt;profesor&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="periodosLibres">periodosLibres</h2>
+			<p>
+				El elemento <code>&lt;periodosLibres&gt;</code> indica el número
+				mínimo de periodos libres que tendrá el profesor y de que tipo.
+			</p>
+			<p>Contiene los elementos:</p>
+			<ul>
+				<li><code>&lt;cantidadDeDias&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> restringido al
+					rango 0 a 4 (ambos inclusive). Por defecto vale 0. Indica cuantos
+					días tendrán periodos libres.</li>
+				<li><a href="#tipoDePeriodo"><code>&lt;tipoDePeriodo&gt;</code></a>.
+					Opcional.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#opcionesDeProfesor"><code>&lt;opcionesDeProfesor&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="tipoDePeriodo">tipoDePeriodo</h2>
+			<p>
+				El elemento <code>&lt;tipoDePeriodo&gt;</code> indica como serán los
+				periodos libres de un profesor.
+			</p>
+			<p>Si no se escoge uno de los subelementos, se escogerá por
+				defecto diasCompletos.</p>
+			<p>
+				Se <strong>puede</strong> elegir (uno) de los subelementos:
+			</p>
+			<ul>
+				<li><code>&lt;diasCompletos&gt;</code>. Es un elemento vacío
+					(sin valor ni subelementos). Indica que se toma libre el día
+					entero.</li>
+				<li><code>&lt;losPrimerosIntervalos&gt;</code>. Es de tipo 
+				<a href="index.html#Horas"><code>Horas</code></a> restringido al
+					rango 0 a 20 (ambos inclusive). Sin valor por defecto. Indica que
+					libra los n primeros intervalos.</li>
+				<li><code>&lt;losUltimosIntervalos&gt;</code>. Es de tipo 
+					<a href="index.html#Horas"><code>Horas</code></a> restringido al
+					rango 0 a 20 (ambos inclusive). Sin valor por defecto. Indica que
+					libra los n últimos intervalos.</li>
+				<li><code>&lt;intervalosSeguidos&gt;</code>. Es de tipo 
+					<a href="index.html#Horas"><code>Horas</code></a> restringido al
+					rango 0 a 20 (ambos inclusive). Sin valor por defecto. Indica que
+					libra n intervalos seguidos.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#periodosLibres"><code>&lt;periodosLibres&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="periodoLibreJornadaPartida">periodoLibreJornadaPartida</h2>
+			<p>
+				El elemento <code>&lt;periodoLibreJornadaPartida&gt;</code> indica
+				la cantidad de tardes o mañanas libres que tiene que tener libre
+				como mínimo. Si se omite el elemento entero se toma como que no se
+				quiere poner un mínimo, es decir <code>&lt;cantidad&gt;0&lt;/cantidad&gt;</code>
+				. Si el valor de cantidad es 0, se ignora la opción de tipo de
+				periodo libre.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;cantidad&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> restringido al
+					rango 0 a 5 (ambos inclusive). Por defecto vale 0. Indica la
+					cantidad de tardes o mañanas que debe tener libre como mínimo.</li>
+				<li><code>&lt;preferentes&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> restringido al
+					rango 0 a 5 (ambos inclusive). Por defecto vale 0. Indica la
+					cantidad de tardes o mañanas que, de ser posible, se intentará que
+					tenga libre.</li>
+				<li><code>&lt;tipoDePeriodoLibre&gt;</code>. Opcional. Por
+					defecto vale <code>indistintamente</code>. Indica si tiene que
+					tener libres las tardes, las mañanas o cualquiera de las dos. Puede
+					tener los valores: <code>tardes</code>, <code>mañanas</code> e <code>indistintamente</code>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#opcionesDeProfesor"><code>Opciones de
+							profesor</code></a>.</li>
+			</ul>
+			
+			
+			<h2 id="otrosPeriodosLibresJornadaPartida">otrosPeriodosLibresJornadaPartida</h2>
+			<p>
+				El elemento <code>&lt;otrosPeriodosLibresJornadaPartida&gt;</code> indica otros 
+				periodos libres de jornada partida definidos para el profesor, que también se tendrán en cuenta.
+				El tipoDePeriodoLibre de cada uno de estos elementos debe ser único. No puede haber dos periodos 
+				del mismo tipo en esta lista, y además debe ser distinto del tipo de periodoLibreJornadaPartida
+				definida en las opciones del profesor.
+			</p>
+			
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><p><code>&lt;periodoLibreJornadaPartida&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="#periodoLibreJornadaPartida">PeriodoLibreJornadaPartidaType</a>. Contiene
+					otro de los Periodos libres de jornada partida que se hayan definido para el profesor.
+				</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#opcionesDeProfesor"><code>Opciones de
+							profesor</code></a>.</li>
+			</ul>
+
+			<h2 id="incompatibilidadEntreSesiones">incompatibilidadEntreSesiones</h2>
+			<p>
+				El elemento <code>&lt;incompatibilidadEntreSesiones&gt;</code>
+				define las incompatibilidades de un profesor.
+			</p>
+			<p>
+				Todos los subelementos exceptuando, el elemento
+				<code>&lt;tipoDeIncompatibilidad&gt;</code>, tienen el atributo
+				opcional <code>tipo</code> que tiene la misma funcionalidad y
+				valores (<code>prohibición</code> o <code>evitar</code>) que el
+				elemento <code>&lt;tipoDeIncompatibilidad&gt;</code> pero que solo
+				afecta a esa incompatibilidad en concreto. Si se omite este
+				atributo, se usará el valor especificado por el elemento
+				<code>&lt;tipoDeIncompatibilidad&gt;</code>.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;tipoDeIncompatibilidad&gt;</code>. <strong>Deprecated</strong>.
+					Opcional. Puede tener los valores: <code>prohibición</code> 
+					o <code>evitar</code>. Por defecto vale <code>evitar</code>. Indica si
+					esta opción es una prohibición, nunca se saltará la norma pero complica
+					que se hagan horarios completos, o que se intente evitar en la medida de
+					lo posible.</li>
+				<li><code>&lt;salirUltimaEntrarPrimera&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica la incompatibilidad de que salga a
+					la última hora y entre a primera hora del día siguiente. Tiene el atributo opcional <code>tipo</code>.
+					También tiene el atributo <code>nIntervalos</code> donde se define el número de intervalos que debe 
+					de cumplirse la condición. Si no se define el atributo, por defecto vale 1.</li>
+				<li><code>&lt;salirUltimaEntrarPrimeraLunes&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica la incompatibilidad de que salga a
+					la última hora y entre a primera hora, específicamente, entre el  <u>Viernes y el Lunes</u>.
+					Tiene el atributo opcional <code>tipo</code>. También tiene el atributo <code>nIntervalos</code> donde
+					se define el número de intervalos que debe de cumplirse la condición. Si no se define el atributo,
+					por defecto vale 1.</li>
+				<li><code>&lt;entrarPrimeraSalirUltima&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica la incompatibilidad de que entre a
+					primera hora y salga a última del mismo día. Tiene el atributo opcional <code>tipo</code>.
+					También tiene el atributo <code>nIntervalos</code> donde se define el número de intervalos que debe 
+					de cumplirse la condición. Si no se define el atributo, por defecto vale 1.</li>
+				<li><code>&lt;entrarPrimeraSalirUltimaTarde&gt;</code>.
+					Opcional. Es de tipo <a href="index.html#booleano">booleano</a>.
+					Por defecto vale <code>false</code>. Indica la incompatibilidad de
+					que entre a primera hora y salga a última hora de la tarde cuando
+					hay jornada partida. Tiene el atributo opcional <code>tipo</code>.</li>
+				<li><code>&lt;entrarPrimeraSalirUltimaManana&gt;</code>.
+					Opcional. Es de tipo <a href="index.html#booleano">booleano</a>.
+					Por defecto vale <code>false</code>. Indica la incompatibilidad de
+					que entre a primera hora y salga a última hora de la mañana cuando
+					hay jornada partida. Tiene el atributo opcional <code>tipo</code>.</li>
+				<li><code>&lt;salirUltimaMananaEntrarPrimeraTarde&gt;</code>.
+					Opcional. Es de tipo <a href="index.html#booleano">booleano</a>.
+					Por defecto vale <code>false</code>. Indica la incompatibilidad de
+					que salga a última de la mañana y entre a primera de la tarde. Tiene el atributo opcional <code>tipo</code>.</li>
+				<li><code>&lt;salirUltimaMananaTardeCompleta&gt;</code>.
+					Opcional. Es de tipo <a href="index.html#booleano">booleano</a>.
+					Por defecto vale <code>false</code>. Indica la incompatibilidad de
+					que salga a la última hora de la mañana y tenga la tarde ocupada. Tiene el atributo opcional <code>tipo</code>.</li>
+				<li><code>&lt;menosDeDosIntervalosLibres&gt;</code>. Opcional.
+					Es de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica la incompatibilidad de que tenga
+					un determinado tiempo libre alrededor del mediodía. Tiene el atributo opcional <code>tipo</code>, 
+					y el atributo opcional <code>minutos</code>, que indica el tiempo que se quiere respetar. Por defecto vale 120 (2 horas).</li>
+				<li><code>&lt;entrarPrimeraSalirTarde&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica la incompatibilidad de que entre a
+					primera hora y tenga clase por la tarde, cuando hay jornada
+					partida. Tiene el atributo opcional <code>tipo</code>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#opcionesDeProfesor">Opciones del profesor</a>.</li>
+			</ul>
+
+			<h2 id="materias">materias</h2>
+			<p>
+				El elemento <code>&lt;materias&gt;</code> declara la lista de
+				materias disponibles.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><a href="#materia"><code>&lt;materia&gt;</code></a>.<abbr
+					title="Mínimo"> Mín.</abbr> 1, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="materia">materia</h2>
+			<p>
+				El elemento <code>&lt;materia&gt;</code> define una materia y sus
+				opciones.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el identificador de
+					la materia.</li>
+				<li><code>&lt;abreviatura&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#AbreviaturaType">AbreviaturaType</a>. Es una forma abreviada del
+					nombre para que sea más fácil visualizar la materia.</li>
+				<li><code>&lt;nombreCompleto&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreCompletoType">NombreCompletoType</a>. Es una descripción más larga
+					para facilitar al usuario a identificar la materia.</li>
+				<li><code>&lt;departamento&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el departamento al
+					que pertenece la materia.</li>
+				<li><code>&lt;claveDeExportacion&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#string">string</a>. Es usado como valor de
+					referencia por algunos programas externos.</li>
+				<li><code>&lt;esTutoria&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si la materia es una tutoría.</li>
+				<li><code>&lt;esDeFP&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si es una materia perteneciente a un ciclo de formación
+					profesional o no.</li>
+				<li><a href="#plantillaSinFType"><code>&lt;plantilla&gt;</code></a>.
+					Opcional. Es una plantilla del tipo <a href="#plantillaSinFType">PlantillaSinFType</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#materias"><code>&lt;materias&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="grupos">grupos</h2>
+			<p>
+				El elemento <code>&lt;grupos&gt;</code> declara la lista de grupos
+				disponibles.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><a href="#grupo"><code>&lt;grupo&gt;</code></a>. <abbr
+					title="Mínimo">Mín.</abbr> 1, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="grupo">grupo</h2>
+			<p>
+				El elemento <code>&lt;grupo&gt;</code> define un grupo y sus
+				características.
+			</p>
+			<p>Tiene los atributos:</p>
+			<ul>
+				<li><code>submarco</code>. Obligatorio. Es del tipo <a
+					href="index.html#NCName">NCName</a>. Indica el submarco al que está
+					asociado el grupo. Debe ser el identificador de un marco existente
+					en el elemento <code> <a href="#marcosDeHorario">&lt;marcos&gt;</a>
+				</code>. Los tramos de la plantilla que no pertenezcan a este marco serán
+					ignorados.</li>
+			</ul>
+			<p>Contiene los elementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el identificador
+					del grupos.</li>
+				<li><code>&lt;abreviatura&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#AbreviaturaType">AbreviaturaType</a>. Es una forma abreviada del
+					nombre para que sea más fácil visualizar la materia.</li>
+				<li><code>&lt;nombreCompleto&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreCompletoType">NombreCompletoType</a>. 
+					Sirve para indicar el nombre del grupo si no cabe en su campo nombre.</li>
+				<li><code>&lt;cursoPerteneciente&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#NombreType">NombreType</a>. Indica el
+					nombre del curso al que pertenece. Si no tiene curso asociado a él,
+					no se debe poner el elemento.</li>
+				<li><code>&lt;profesorTutor&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el nombre de un
+					profesor (de la <a href="#profesores">lista de profesores</a>) el
+					cual es el tutor del grupo.</li>
+				<li><code>&lt;aula&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el nombre de un
+					aula de la <a href="#aulas">lista de aulas</a> la cual estará
+					asociada al grupo, y en ellas se intentará colocar las sesiones
+					asociadas a este grupo.</li>
+				<li><code>&lt;claveDeExportacion&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#string">string</a>. Es usado como valor de
+					referencia por algunos programas externos.</li>
+				<li><code>&lt;tardesLibres&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> restringido al
+					rango 0 a 4 (ambos inclusive). Por defecto vale 0. El número de
+					tardes libres a la semana.</li>
+				<li><code>&lt;eliminarHuecos&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>true</code>.
+					Indica si se quieren eliminar los huecos de este grupo.</li>
+				<li><a href="#plantillaSinFType"><code>&lt;plantilla&gt;</code></a>.
+					Opcional. Es de tipo <a href="#plantillaSinFType">PlantillaSinFType</a>.</li>
+				<li><code>&lt;email&gt;</code>. Opcional. Es de tipo 
+					<a href="index.html#Email">Email</a>. Asocia al grupo una dirección de email, 
+					por si se quiere comunicar algo, o exportar al calendario asociado a ese email.</li>
+				<li><code>&lt;numeroAlumnos&gt;</code>. Opcional. Es de tipo 
+					<a href="index.html#unsignedInt">unsignedInt</a>. Indica el número de alumnos que compone
+					el grupo. Por defecto vale 0.</li>
+				<li><code>&lt;noAdmiteHuecos&gt;</code>. es
+					opcional y del tipo <a href="index.html#booleano">boolean</a>.
+					Es una condición estricta que impiede los huecos en el horario del grupo.</li>
+				<li><code>&lt;huecosEnNoPreferentes&gt;</code>. es
+					opcional y del tipo <a href="index.html#booleano">boolean</a>.
+					Es una condición estricta que obliga a que las posiciones desocupadas (no asignadas al grupo)
+					estén siempre en posiciones señaladas como no preferentes en su plantilla.</li>
+				<li><a href="#gruposIncluidosType"><code>&lt;gruposIncluidos&gt;</code></a>.
+					Opcional. Permite indicar que se trata de un grupo circunstancial, formado por grupos oficiales del centro, para recibir
+					determinadas materias optativas o troncales .Es de tipo <a href="#gruposIncluidosType">GruposIncluidosType</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#grupos"><code>&lt;grupos&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="PlantillaPreferenciasUnMarcoType">
+				<a id="cursos">cursos</a>
+			</h2>
+			<p>
+				Define la lista de los cursos que están disponibles. Se declara con
+				el elemento <code>&lt;cursos&gt;</code> .
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><a href="#curso"><code>&lt;curso&gt;</code></a>. <abbr
+					title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="curso">curso</h2>
+			<p>
+				Define un curso ( <code>&lt;curso&gt;</code> ) y sus
+				características. También declara las materias que pertenecen al
+				curso.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Debe tener 1 carácter
+					como mínimo. Es el identificador del curso.</li>
+				<li><code>&lt;nombreCompleto&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreCompletoType">NombreCompletoType</a>. Es una descripción más larga
+					para facilitar al usuario el identificar el curso.</li>
+				<li><code>&lt;claveDeExportacion&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#string">string</a>. Es usado como valor de
+					referencia por algunos programas externos.</li>
+				<li><a href="#materiasDelCurso"><code>&lt;materiasDelCurso&gt;</code></a>.
+					Opcional.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#cursos"><code>&lt;cursos&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="materiasDelCurso">materiasDelCurso</h2>
+			<p>Define una lista con las materias que están asociadas a un
+				curso.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;materia&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Identifica una materia y cuantos tramos tendrá en los grupos de ese
+					curso. El subelemento <code>&lt;materia&gt;</code> tiene como valor
+					(de tipo <a href="index.html#NombreType">NombreType</a>) el nombre
+					de la materia que pertenece al curso. Además cada elemento <code>&lt;materia&gt;</code>
+					tiene un atributo <code>numSesiones</code> de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> que indica la
+					cantidad de tramos a la semana que debe tener las sesiones de esa
+					materia en el curso. Nota: no confundirlo con el elemento <a
+					href="#materia"><code>&lt;materia&gt;</code></a> que define las
+					materias.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#curso"><code>&lt;curso&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="sesionesLectivas">sesionesLectivas</h2>
+			<p>Contiene la lista de sesiones lectivas que se deben colocar.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>. <abbr
+					title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="sesion">sesion</h2>
+			<p>
+				Define una sesión y sus opciones. Para ver una guía y ejemplos sobre
+				la sesión consulte la <a href="index.html#CuartoPaso">guía del
+					xml de ghc - cuarto paso</a>.
+			</p>
+			<p>Los tramos de la plantilla que no pertenezcan al marco del
+				grupo, serán ignorados.</p>
+			<p>Tiene los atributos:</p>
+			<ul>
+				<li><code>id</code>. Obligatorio. Es de tipo <a
+					href="index.html#nonNegativeInteger">nonNegativeInteger</a>. Es el
+					identificador de la sesión.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;materia&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el nombre de la
+					materia que se impartirá en la sesión.</li>
+				<li><code>&lt;grupo&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el identificador
+					del grupo al que se quiere impartir la sesión. 
+					Puede tener el atributo <code>numeroAlumnos</code>, que indica el número 
+					de alumnos de este grupo en esta sesión. Es opcional, y por defecto vale 0.</li>
+				<li><code>&lt;profesor&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el nombre del
+					profesor que impartirá la sesión.</li>
+				<li><code>&lt;duracionSemanal&gt;</code>. Opcional. Es de tipo
+					<a href="index.html#float">float</a>. Indica la duración semanal
+					(en horas) que tendrá la sesión.</li>
+				<li><a href="#distribucionSemanal"><code>&lt;distribucionSemanal&gt;</code></a>.
+					<em><strong>Deprecated.</strong></em>. Utilizar el elemento <code>distribucionPeriodica</code>
+					para definir la distribución de la sesión.</li>
+				<li><a href="#distribucionPeriodica"><code>&lt;distribucionPeriodica&gt;</code></a>.
+					Obligatorio (aunque si no viene este elemento obtiene su valor de <code>distribucionSemanal</code>.
+					Indica la distribución de la sesión, y los <a href="#periodos">periodos</a> en que tiene que colocarse.</li>
+				<li><a href="#listaDeAulas"><code>&lt;listaDeAulas&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#listaDeAlternativas"><code>&lt;listaDeAlternativas&gt;</code></a>.
+					Opcional.</li>
+				<li><code>&lt;tarea&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el identificador de
+					la tarea asociada a la sesión.</li>
+				<li><code>&lt;grupoMateria&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#string">string</a> y puede tener los atributos <code>modificado</code> y/o <code>tipo</code>.
+					Es el grupo-materia al que pertenece la sesión. El atributo <code>modificado</code> es
+					opcional y del tipo <a href="index.html#booleano">boolean</a> indica
+					si ha sido especificado por el usuario (<code>true</code>) o ha
+					sido generado automáticamente (<code>false</code>), por defecto es
+					<code>false</code>. El atributo <code>tipo</code> es opcional
+					y del tipo <a href="index.html#string">string</a> indica el
+					tipo del grupo-materia y es usado por algunos gestores.</li>
+				<li><code>&lt;departamento&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. El departamento al
+					que pertenece la sesión, que no tiene por qué ser el mismo de sus profesores o materias.</li>
+				<li><code>&lt;notas&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#string">string</a>. Declara un texto que aclara
+					información sobre las preferencias de la sesión.</li>
+				<li><a href="#profesoresIntercambiables"><code>&lt;profesoresIntercambiables&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#OpcionesDeSesionType"><code>&lt;opciones&gt;</code></a>.
+					Opcional. Es de tipo <a href="#OpcionesDeSesionType">Opciones
+						de sesión</a>.</li>
+				<li><a href="#PlantillaType"><code>&lt;plantilla&gt;</code></a>.
+					Opcional. Es de tipo <a href="PlantillaType">PlantillaType</a>.</li>
+				<li><a href="#otrasMateriasGrupos"><code>&lt;otrasMateriasGrupos&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#otrasMateriasProfesores"><code>&lt;otrasMateriasProfesores&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#otrosGrupos"><code>&lt;otrosGrupos&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#otrosProfesores"><code>&lt;otrosProfesores&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#otrasMaterias"><code>&lt;otrasMaterias&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#otrasAulas"><code>&lt;otrasAulas&gt;</code></a>.
+					Opcional.</li>
+				<li><code>&lt;sesionesSimultaneas&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#nonNegativeInteger">nonNegativeInteger</a>.
+					Indica el identificador del <a href="#simultaneas">bloque de
+						simultaneas</a> al que pertenece.</li>
+				<li><a href="#enDistintoDia"><code>&lt;enDistintoDia&gt;</code></a>.
+					Opcional.</li>
+				<li><code>&lt;consecutivas&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#nonNegativeInteger">nonNegativeInteger</a>. Indica
+					el identificador del <a href="#consecutivas">bloque de
+						consecutivas</a> al que pertenece.</li>
+				<li><a href="#noConsecutivas"><code>&lt;noConsecutivas&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#noCoincidentes"><code>&lt;noCoincidentes&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#previoA"><code>&lt;previoA&gt;</code></a>. Opcional.</li>
+				<li><a href="#posteriorA"><code>&lt;posteriorA&gt;</code></a>. Opcional.</li>
+				<li><a href="#separadosNDiasOMas"><code>&lt;separadosNDiasOMas&gt;</code></a>. Opcional.</li>
+				<li><a href="#separadosNDiasOMenos"><code>&lt;separadosNDiasOMenos&gt;</code></a>. Opcional.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesionesLectivas"><code>&lt;sesionesLectivas&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="distribucionSemanal">distribucionSemanal</h2>
+			<p>Define las distintas posibilidades de declarar que
+				distribución tendrán las sesiones a lo largo de la semana.</p>
+			<p>
+				Se <strong>debe</strong> elegir (uno) de los subelementos:
+			</p>
+			<ul>
+				<li><a href="#distribucionFija"><code>&lt;distribucionFija&gt;</code></a>.</li>
+				<li><a href="#distribucionVariable"><code>&lt;distribucionVariable&gt;</code></a>.</li>
+				<li><a href="#distribucionPersonalizada"><code>&lt;distribucionPersonalizada&gt;</code></a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+				<li><a href="#reunion"><code>&lt;reunion&gt;</code></a>.</li>
+				<li><a href="#complementaria"><code>&lt;complementaria&gt;</code></a>.</li>
+				<li><a href="#distribucionPeriodicaFija"><code>&lt;distribucionPeriodicaFija&gt;</code></a>.</li>
+			</ul>
+			
+			<h2 id="distribucionSemanalReducida">distribucionSemanalReducida</h2>
+			<p>Define las distintas posibilidades de declarar que
+				distribución tendrán las sesiones a lo largo de la semana, 
+				pero sabiendo que no se puede tener distribucionPersonalizada.</p>
+			<p>
+				Se <strong>debe</strong> elegir (uno) de los subelementos:
+			</p>
+			<ul>
+				<li><a href="#distribucionFija"><code>&lt;distribucionFija&gt;</code></a>.</li>
+				<li><a href="#distribucionVariable"><code>&lt;distribucionVariable&gt;</code></a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+				<li><a href="#distribucionPeriodicaVariable"><code>&lt;distribucionPeriodicaVariable&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="distribucionFija">distribucionFija</h2>
+			<p>Contiene una única posible distribución semanal.</p>
+			<p>
+				Cada subelemento <code>&lt;numSesiones&gt;</code> indica cuantos
+				tramos se deben impartir en un día de la semana (sin especificar que
+				día es, lunes, martes, etc.).
+			</p>
+			<p>Contiene los subelemetos:</p>
+			<ul>
+				<li><code>&lt;numSesiones&gt;</code>. Es de tipo <a
+					href="#duracionesDistFijaType">DuracionesDistFijaType</a>. Indica en cuantos tramos
+					se impartirá la sesión en un día. Su valor máximo es 5.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#distribucionSemanal"><code>&lt;distribucionSemanal&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="distribucionVariable">distribucionVariable</h2>
+			<p>Permite definir la distribución como una cantidad de tramos a
+				la semana y un rango máximo de tramos al día. Permitiendo así una
+				mayor flexibilidad en la creación del horario.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;numSesiones&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#decimal">decimal</a> restringido al rango de 0.5 a
+					35 (ambos inclusive) con incrementos de <code>0.25</code>. Indica
+					el número de tramos a la semana que tendrá la sesión.</li>
+				<li><code>&lt;numMaximoDeSesiones&gt;</code>. Obligatorio. Es
+					de tipo <a href="#duracionesType">DuracionesType</a>. Indica el
+					tamaño máximo de una sesión. El valor máximo es 7.</li>
+				<li><code>&lt;numMinimoDeSesiones&gt;</code>. Opcional. Es
+					de tipo <a href="#duracionesType">DuracionesType</a>. Indica el
+					tamaño máximo de una sesión. El valor máximo es 7.</li>
+				<li><code>&lt;penalizarBloquesMaximos&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica si se penalizará el que tenga el
+					máximo de tramos permitidos en un día.</li>
+				<li><code>&lt;penalizarBloquesMinimos&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica si se penalizará el que tenga el
+					mínimo posible de tramos permitidos en un día.</li>
+				<li><code>&lt;admitirBloquesDiscontinuos&gt;</code>. Opcional.
+					Es de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica si se admiten bloques discontinuos,
+					es decir que tengan tramos de otras sesiones o recreos entre
+					medias.</li>
+				<li><code>&lt;distribucionInicial&gt;</code>. Opcional. Es
+					igual que el elemento <a href="#distribucionFija"><code>&lt;distribucionFija&gt;</code></a>.
+					Indica la distribución inicial de la sesión que se mostrará en el
+					planificador.</li>
+				<li><code>&lt;penalizarSesionesSueltas&gt;</code>. Opcional. <code>Deprecated</code>
+					Permite indicar si se deben permitir, evitar o prohibir las sesiones de duracion minima posible. 
+					Puede tomar los valores <code>permitido</code>, <code>penalizado</code> o <code>Prohibido</code>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#distribucionSemanal"><code>&lt;distribucionSemanal&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="distribucionPersonalizada">distribucionPersonalizada</h2>
+			<p>Esta distribución permite especificar un número indeterminado
+				de distribuciones fijas (aunque todas con el mismo número de tramos
+				a la semana).</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;distribucion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					1, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Cada elemento <code>&lt;distribucion&gt;</code> es exactamente
+					igual que el elemento <a href="#distribucionFija"><code>&lt;distribucionFija&gt;</code></a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#distribucionSemanal"><code>&lt;distribucionSemanal&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="distribucionPeriodica">distribucionPeriodica</h2>
+			<p>Define las distintas posibilidades de declarar que
+				distribución tendrán las sesiones entre los periodos definidos en el horario.</p>
+			<p>
+				Se <strong>debe</strong> elegir (uno) de los subelementos:
+			</p>
+			<ul>
+				<li><a href="#distribucionPeriodicaFija"><code>&lt;distribucionPeriodicaFija&gt;</code></a>.</li>
+				<li><a href="#distribucionPeriodicaVariable"><code>&lt;distribucionPeriodicaVariable&gt;</code></a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+				<li><a href="#reunion"><code>&lt;reunion&gt;</code></a>.</li>
+				<li><a href="#complementaria"><code>&lt;complementaria&gt;</code></a>.</li>
+			</ul>
+			
+			<h2 id="distribucionPeriodicaFija">distribucionPeriodicaFija</h2>
+			<p>Indica qué distribucionSemanal y en qué periodos se debe colocar
+			esta sesión. Se colocará (repite) la misma distribucionSemanal en cada uno de los periodos.</p>
+			
+			<p>Contiene los subelemetos:</p>
+			<ul>
+				<li><code>&lt;distribucionSemanal&gt;</code>. Obligatorio. Es de tipo 
+					<a href="#distribucionSemanal">DistribucionSemanal</a>. Indica 
+					la distribución que tendrá la sesión dentro de los días de cada periodo
+					en que se imparte esta sesión.</li>
+				<li><code>&lt;enPeriodos&gt;</code>. Obligatorio. Es de tipo 
+					<code><a href="#enPeriodos">enPeriodos</a></code>. Indica los periodos 
+					en que se <b>repite</b> la distribucionSemanal de esta distribucionPeriodicaFija.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#distribucionPeriodica"><code>&lt;distribucionPeriodica&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="distribucionPeriodicaVariable">distribucionPeriodicaVariable</h2>
+			<p>Permite definir la distribucion total de esta sesión, que se tiene que <b>repartir</b> 
+			entre los distinos periodos de esta distribución. No indica la distribución de cada periodo, 
+			sino la distribución total de la sesión entre todos los periodos. También se indican los 
+			periodos entre los que se <b>reparte</b>, y las condiciones que deben de respetarse en cada periodo 
+			para que la repartición sea válida.</p>
+			
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;distribucionTotal&gt;</code>. Obligatorio. Es de tipo 
+					<a href="#distribucionSemanalReducida">distribucionSemanalReducida</a>. Indica 
+					la distribución que tendrá la sesión, entre todos los periodos entre los que se reparte.
+					No es la distribuición de cada periodo, sino la total de esta sesión.</li>
+				<li><code>&lt;enPeriodos&gt;</code>. Obligatorio. Es de tipo 
+					<code><a href="#enPeriodos">enPeriodos</a></code>. Indica los periodos 
+					en que se <b>reparte</b> la distribucionSemanal de esta distribucionPeriodicaVariable.</li>
+				<li><code>&lt;numMaximoDeSesionesEnPeriodo&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#nonNegativeInteger">nonNegativeInteger</a>. 
+					Indica el número máximo de sesiones (duración semanal, media en la tipificación de los tramos)
+					que se puede colocar en cada periodo con entidades de esta sesión. Si no se define, 
+					se considera que no hay un límite máximo.</li>
+				<li><code>&lt;numMinimoDeSesionesEnPeriodo&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#nonNegativeInteger">nonNegativeInteger</a>. 
+					Indica el número mínimo de sesiones (duración semanal, media en la tipificación de los tramos)
+					que hay que colocar en cada periodo con entidades de esta sesión. Por defecto vale 0</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#distribucionPeriodica"><code>&lt;distribucionPeriodica&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="enPeriodos">enPeriodos</h2>
+			<p>Lista que referencia a uno o varios periodos.</p>
+			
+			<p>Contiene los elementos:</p>
+			<ul>
+				<li><code>&lt;refPeriodo&gt;</code>. <abbr title="Mínimo">Mín.</abbr> 0, 
+					<abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>. 
+					Es de tipo <a href="index.html#NombreType">NombreType</a>. Es el
+					identificador de un <a href="#periodo">periodo</a> de la lista de 
+					<a href="#periodos">periodos</a> en que se dividen los días del horario.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#distribucionPeriodicaFija"><code>&lt;distribucionPeriodicaFija&gt;</code></a>.</li>
+				<li><a href="#distribucionPeriodicaVariable"><code>&lt;distribucionPeriodicaVariable&gt;</code></a>.</li>
+			</ul>
+			<h2 id="listaDeAulas">listaDeAulas</h2>
+			<p>Indica una lista de aulas en las que debe ir la sesión.</p>
+			<p>El orden de las aulas es significativo, se intentará poner
+				primero en la primera, si no está disponible en la segunda, etc.</p>
+			<p>Si no aparece ningún aula indica que se puede colocar la
+				sesión en cualquier aula.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;aula&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#NombreType">NombreType</a>. Es el
+					identificador un aula de la <a href="#aulas">lista de aulas</a> en
+					el que se debe impartir la sesión.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="listaDeAlternativas">listaDeAlternativas</h2>
+			<p>Define la lista de conjunto de aulas alternativas a las aulas
+				principales de una sesión.</p>
+			<p>Al igual que la lista de aulas de la sesión, el orden de los
+				conjuntos es significativo. Primero se cogerá un aula del primer
+				grupo, si no hay ninguna disponibles se pondrá alguna del segundo
+				grupo, etc.</p>
+			<p>Si no se pone ningún conjunto (o si nisiquiera aparece este
+				elemento), indica que no se quiere ningún conjunto alternativo,
+				debiendose colocar solo en las aulas especificadas en la lista de
+				aulas principal de la sesión.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;conjuntoAlternativo&gt;</code>. <abbr
+					title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el identificador un
+					conjunto de aulas de la <a href="#conjuntoDeAulas">lista de
+						conjuntos de aulas</a> en el que se debe impartir la sesión si no
+					están disponibles las aulas principales de la sesión.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="profesoresIntercambiables">profesoresIntercambiables</h2>
+			<p>Define una lista de sesiones con las que se puede intercambiar
+				el profesor.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;sesion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#nonNegativeInteger">nonNegativeInteger</a>.
+					Indica el identificador de una sesión cuyo profesor se puede
+					intercambiar con la de la sesión actual.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="OpcionesDeSesionType">Opciones de sesión</h2>
+			<p>
+				Define las opciones que tiene una sesión. Es el elemento <code>&lt;opciones&gt;</code>
+				del elemento <code> <a href="#sesion">&lt;sesion&gt;</a>
+				</code> . Si no se pone o falta alguna opción se tomará los valores por
+				defecto de las opciones que falten.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;penaSesionesAPrimera&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#booleano">booleano</a>. Por defecto vale <code>true</code>.
+					Indica si se penaliza el que se ponga más del 50% de las veces en
+					tramos a primera hora.</li>
+				<li><code>&lt;penaSesionesAUltima&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#booleano">booleano</a>. Por defecto vale <code>true</code>.
+					Indica si se penaliza el que se ponga más del 50% de las veces en
+					tramos a última hora.</li>
+				<li><code>&lt;penaSalirUltimaEntrarPrimera&gt;</code>.
+					Opcional. Es de tipo <a href="index.html#booleano">booleano</a>.
+					Por defecto vale <code>true</code>. Indica si se penaliza que se
+					ponga en un tramo a última hora y que al día siguiente lo tenga en
+					el primer tramo.</li>
+				<li><code>&lt;penaSesionMismaHora&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#string">string</a>. Por defecto vale <code>distinta</code>.
+					Puede tener uno de los siguientes valores: distinta, indiferente o
+					misma. Indica si se penaliza que coincidan los tramos a la misma
+					hora, distinta o si es indiferente.</li>
+				<li><code>&lt;penaCoincidanPorLaTarde&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>true</code>. Indica si se penalizará el que se coloque
+					en tramos de la tarde (después del tramo de medio día).</li>
+				<li><code>&lt;penaCoincidanDespuesDelRecreo&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>true</code>. Indica si se penalizará el que se coloque
+					más del 50% en tramos después de los recreos.</li>
+				<li><code>&lt;noPermitirRecreosEntreSesiones&gt;</code>.
+					Opcional. Es de tipo <a href="index.html#booleano">booleano</a>.
+					Por defecto vale <code>false</code>. Indica si se permite o no que
+					en el caso de que en un mismo día haya varios tramos, no se coloque
+					un recreo entre medias (o sí se pueda colocar).</li>
+				<li><code>&lt;recreosSeparanSesionesContinuas&gt;</code>.
+					Opcional. Es de tipo <a href="index.html#booleano">booleano</a>.
+					Por defecto vale <code>false</code>. Prohíbe que se coloquen las
+					sesiones configuradas como consecutivas si están separadas por
+					recreos. Esta opción no se tiene en cuenta si las sesiones
+					consecutivas contienen bloques de más de un intervalo de duración.
+					Para las sesiones configuradas como '<em>no consecutivas'</em>
+					siempre se considera que las separa un recreo.</li>
+				<li><code>&lt;permitirImpartanEnDiasSeguidos&gt;</code>.
+					Opcional. Permite uno de los siguientes valores: <code>obligatoriamente</code>,
+					<code>preferiblemente</code>, <code>indiferente</code>, <code>prohibido</code>
+					o <code>penalizaNoSeguidas</code>. Por defecto será <code>preferiblemente</code>.
+					<strong>Advertencia:</strong> Tenga en cuenta que el nombre usado
+					para este elemento no corresponde correctamente con lo que
+					representa y puede ser confuso su uso, su significado es realmente
+					<em>"permitir que se impartan en dias alternos"</em>. Sus valores
+					tienen los siguientes significados:
+					<ul>
+						<li><code>preferiblemente</code>. Indica que el motor
+							intentará ponerlas en días alternos (penaliza que estén en días
+							seguidos). Es el valor por defecto.</li>
+						<li><code>obligado</code>. Indica que el motor
+							obligatoriamente colocará las sesiones en días alternos.</li>
+						<li><code>indiferente</code>. Indica que el motor no aplicará
+							ninguna regla respecto a si son en días seguidos o alternos.</li>
+						<li><code>penalizaNoSeguidas</code>. Indica que el motor
+							intentará ponerlas en días seguidos.</li>
+						<li><code>prohibido</code>. Indica que el motor
+							obligatoriamente las colocará en días seguidos (prohibe que estén
+							en días alternos).</li>
+					</ul></li>
+				<li><code>&lt;considerarLunesViernesSeguidos&gt;</code>.
+					Opcional. Es de tipo <a href="index.html#booleano">booleano</a>.
+					Por defecto vale <code>false</code>. Indica que, en caso de tener 2
+					o 4 días semanales, el Viernes y el Lunes de la semana siguiente
+					sean consecutivos.</li>
+				<li><code>&lt;mismaPosicionDistintosPeriodos&gt;</code>.
+					Opcional. Es de tipo <a href="#preferenciaMismaPosicionDistintosPeriodos">
+					preferenciaMismaPosicionDistintosPeriodos</a>.
+					Por defecto vale <code>ignorar</code>. Indica el tipo de criterio
+					con el que se ha de intentar colocar las entidades de esta sesión que 
+					pertenecen a distintos periodos en la misma posición.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="otrasMateriasGrupos">otrasMateriasGrupos</h2>
+			<p>
+				El elemento <code>&lt;otrasMateriasGrupos&gt;</code> indica otros
+				pares de materias y grupos, a parte de los principales, que también
+				se incluirán en el aula de la sesión.
+			</p>
+			<p>
+				Este elemento es redundante con los elementos <code>&lt;otrosGrupos&gt;</code>
+				y <code>&lt;otrasMaterias&gt;</code> . Esto quiere decir que los
+				elementos que aquí aparecen también aparecerán en las otras listas y
+				viceversa. Es aconsejado usar este elemento en vez de las otras
+				listas ya que este contiene los elementos según son definidos en el
+				planificador.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><a href="#parMateriaGrupo"><code>&lt;materiaGrupo&gt;</code></a>.
+					<abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>. Define uno de los pares de
+					materia-grupo que serán agregados (junto con los principales) a la
+					sesión.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="elementos.html#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="parMateriaGrupo">materiaGrupo</h2>
+			<p>
+				El elemento <code>&lt;materiaGrupo&gt;</code> indica un par de
+				materia y grupo que será agregado al aula de la sesión junto con la
+				materia y grupo principal.
+			</p>
+			<p>
+				Si se omite alguno de los dos elementos se tomará como parte del par
+				el correspondiente principal. Es decir, si por ejemplo se omite el
+				grupo, será como si el par materia-grupo estuviera compuesto por la
+				materia indicada y el grupo principal de la sesión definido por el
+				elemento <code>&lt;grupo&gt;</code> de la <a href="#sesion">sesión</a>.
+			</p>
+			<p>
+				Advertencia: No hay que confundir este elemento con el elemento <code>&lt;grupoMateria&gt;</code>
+				hijo del elemento <a href="#sesion"><code>&lt;sesion&gt;</code></a>.
+			</p>
+			<p>Tiene los atributos:</p>
+			<ul>
+				<li><code>tarea</code> Opcional. Es de tipo <a href="index.html#NombreType">NombreType</a>. Indica la tarea de este grupo-materia en caso de ser diferente al de la sesión.</li>
+				<li><code>claveX</code> Opcional. Es de tipo <a href="index.html#string">string</a>. Guarda un valor para ser usado por las aplicaciones externas, normalmente un grupomateria diferente al de la sesión principal.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;materia&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> 1. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Contiene el nombre de
+					la materia que también se incluirá junto con el principal.</li>
+				<li><code>&lt;grupo&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> 1. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Contiene el nombre del
+					grupo que también se incluirá junto con el principal. Sus atributos son:
+					<ul>
+						<li><code>numeroAlumnos</code> que indica el número de alumnos de este grupo 
+						en esta sesión para esta materia. Es opcional, y por defecto vale 0.</li>
+						</li>
+						<li><code>autogenerado</code> Es de tipo <a href="index.html#booleano">booleano</a></a> y valor por defecto <i>false<i>.
+						Indica si el grupo ha sido añadido a la lista de forma automática por ser un grupo incluido en el grupo principal
+						de la sesión.</li>
+					</ul>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#otrasMateriasGrupos"><code>&lt;otrasMateriasGrupos&gt;</code></a>.</li>
+			</ul>
+			
+			<h2 id="otrasMateriasProfesores">otrasMateriasProfesores</h2>
+			
+			<p>
+				El elemento <code>&lt;otrasMateriasProfesores&gt;</code> indica otros
+				pares de materias y profesores, a parte de los principales, que también
+				se incluirán en el aula de la sesión.
+			</p>
+			<p>
+				Este elemento es redundante con los elementos <code>&lt;otrosProfesores&gt;</code>
+				y <code>&lt;otrasMaterias&gt;</code> . Esto quiere decir que los
+				elementos que aquí aparecen también aparecerán en las otras listas y
+				viceversa. Es aconsejado usar este elemento en vez de las otras
+				listas ya que este contiene los elementos según son definidos en el
+				planificador.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><a href="#otraMateriaProfesor"><code>&lt;otraMateriaProfesor&gt;</code></a>.
+					<abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>. Define uno de los pares de
+					materia-profesor que serán agregados (junto con los principales) a la
+					sesión.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="elementos.html#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="otraMateriaProfesor">otraMateriaProfesor</h2>
+			<p>
+				El elemento <code>&lt;otraMateriaProfesor&gt;</code> indica un par de
+				materia y profesor que será agregado al aula de la sesión junto con la
+				materia y profesor principal.
+			</p>
+			<p>
+				Si se omite alguno de los dos elementos se tomará como parte del par
+				el correspondiente principal. Es decir, si por ejemplo se omite el
+				profesor, será como si el par materia-profesor estuviera compuesto por la
+				materia indicada y el profesor principal de la sesión definido por el
+				elemento <code>&lt;profesor&gt;</code> de la <a href="#sesion">sesión</a>.
+			</p>
+
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;profesor&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					1, <abbr title="máximo">máx.</abbr> 1. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Contiene el nombre del
+					profesor que también se incluirá junto con el principal. 
+				</li>
+				<li><code>&lt;materia&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					1, <abbr title="máximo">máx.</abbr> 1. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Contiene el nombre de
+					la materia que también se incluirá junto con el principal.</li>
+
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#otrasMateriasProfesores"><code>&lt;otrasMateriasProfesores&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="otrosGrupos">otrosGrupos</h2>
+			<p>
+				El elemento <code>&lt;otrosGrupos&gt;</code> indica otros grupos, a
+				parte del principal, que también se incluirán en el aula de la
+				sesión.
+			</p>
+			
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><p><code>&lt;grupo&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#NombreType">NombreType</a>. Contiene
+					el nombre del grupo que también se incluirá junto con el principal. Sus atributos son:</p>
+					<ul>
+						<li><code>tarea</code> que es opcional y de tipo <a href="index.html#NombreType">NombreType</a>. 
+						Indica la tarea de este grupo en caso de ser diferente al de la sesión.</li>
+						<li><code>numeroAlumnos</code> que indica el número de alumnos de este grupo en esta sesión.
+						Es opcional, y por defecto vale 0.</li>
+						<li><code>claveX</code> Opcional. Es de tipo <a href="index.html#string">string</a>. Guarda un valor para ser usado por las aplicaciones externas, normalmente un grupomateria diferente al de la sesión principal.</li>
+						<li><code>autogenerado</code> Es de tipo <a href="index.html#booleano">booleano</a></a> y valor por defecto <i>false<i>.
+						Indica si el grupo ha sido añadido a la lista de otrosGrupos de forma automática por ser un grupo incluido en el grupo principal
+						de la sesión.</li>
+					</ul>
+				</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="otrosProfesores">otrosProfesores</h2>
+			<p>
+				El elemento <code>&lt;otrosProfesores&gt;</code> indica otros
+				profesores, a parte del principal, que también se deben incluir en
+				el aula de la sesión.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><p>
+						<code>&lt;profesor&gt;</code>. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+						<abbr title="sin límite">∞</abbr>. Es de tipo <a
+							href="index.html#NombreType">NombreType</a>. Contiene el nombre
+						del profesor que también se incluirá junto con el principal.
+					</p>
+					<p>Tiene los atributos:</p>
+					<ul>
+						<li><code>tarea</code> que es opcional y de tipo <a
+							href="index.html#NombreType">NombreType</a>. Indica la tarea de
+							este profesor en caso de ser diferente al de la sesión.</li>
+						<li><code>claveX</code> Opcional. Es de tipo <a
+							href="index.html#string">string</a>. Guarda un valor para ser
+							usado por las aplicaciones externas, normalmente un grupomateria
+							diferente al de la sesión principal.</li>
+					</ul></li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="otrasMaterias">otrasMaterias</h2>
+			<p>
+				El elemento <code>&lt;otrasMaterias&gt;</code> indica otras materias
+				que también se incluirán (impartirán) junto con la principal de la
+				sesión.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><p>
+						<code>&lt;materia&gt;</code>
+						. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+						<abbr title="sin límite">∞</abbr>. Es de tipo <a
+							href="index.html#NombreType">NombreType</a>. Contiene el nombre
+						de la materia que también se incluirá junto con la principal.
+					</p>
+					<p>Tiene los atributos:</p>
+					<ul>
+						<li><code>tarea</code> que es opcional y de tipo <a
+							href="index.html#NombreType">NombreType</a>. Indica la tarea de
+							esta materia en caso de ser diferente al de la sesión.</li>
+						<li><code>claveX</code> Opcional. Es de tipo <a
+							href="index.html#string">string</a>. Guarda un valor para ser
+							usado por las aplicaciones externas, normalmente un grupomateria
+							diferente al de la sesión principal.</li>
+					</ul>
+				</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="otrasAulas">otrasAulas</h2>
+			<p>
+				El elemento <code>&lt;otrasAulas&gt;</code> declara otras
+				aulas/conjuntos que se usarán junto con el aula/conjunto principal.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#otraAula">&lt;otraAula&gt;</a>
+				</code>. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="otraAula">otraAula</h2>
+			<p>Indica una asociación de aula y conjunto alternativo que
+				también tienen que estar disponibles para la sesión.</p>
+			<p>
+				Si solo aparece un aula pero no el conjunto alternativo, indica que
+				es obligatoria ese aula y no hay alternativa a la misma. Si solo
+				aparece el conjunto alternativo, indica que se requiere una de las
+				aulas del conjunto pero que es indiferente cual de ellas se coja. Si
+				aparecen ambos indica que se necesita el aula pero que en caso de no
+				estar disponible, se cogerá una de las alternativas. Es obligatorio
+				que aparezca el elemento <code>&lt;aula&gt;</code> , el <code>&lt;grupo&gt;</code>
+				o ambos (pero no puede estar vacío).
+			</p>
+			<p>Tiene los atributos:</p>
+			<ul>
+				<li><code>tarea</code> Opcional. Es de tipo <a href="index.html#NombreType">NombreType</a>. Indica la tarea de este aula en caso de ser diferente al de la sesión.</li>
+				<li><code>origenAula</code> Opcional. Es de tipo <a href="index.html#NombreType">NombreType</a>. Indica un identificador para después poder saber con qué aula de las asignadas se correspondía esta definición de otro aula.</li>
+				<li><code>claveX</code> Opcional. Es de tipo <a href="index.html#string">string</a>. Guarda un valor para ser usado por las aplicaciones externas, normalmente un grupomateria diferente al de la sesión principal.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;aula&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica el nombre del
+					aula que es requerída.</li>
+				<li><code>&lt;grupo&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica el
+					identificador del conjunto de aulas alternativas a la requerída.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#otrasAulas"><code>&lt;otrasAulas&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="enDistintoDia">enDistintoDia</h2>
+			<p>Declara otras sesiones que deben impartirse en disitinto día
+				al de la sesión actual.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><a href="#sesionesDistintoDia"><code>&lt;sesiones&gt;</code></a>.
+					Opcional. Es de tipo de <a href="#sesionesDistintoDia">Sesiones
+						en distinto día</a>.</li>
+				<li><code>&lt;enDiasSeguidos&gt;</code>. Opcional. Puede tener
+					uno de los valores:
+					<ul>
+						<li>obligado. Indica que obligatoriamente deben ser en días
+							consecutivos (pero no en el mismo día).</li>
+						<li>preferentemente. Indica que se intentará colocarlas en
+							días consecutivos (pero no en el mismo día).</li>
+						<li>indistinto. Indica que no importa si se colocan en días
+							consecutivos o no (seguirán sin estar en el mismo día).</li>
+						<li>prohibido. Indica que está prohibido (nunca ocurrirá) que
+							se coloquen en días consecutivos ni en el mismo día.</li>
+					</ul> Por defecto vale <code>preferentemente</code>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="sesionesDistintoDia">Sesiones en distinto día</h2>
+			<p>Indica una lista de sesiones que se deberán impartir en
+				distinto día de la principal.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;sesion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#nonNegativeInteger">nonNegativeInteger</a>.
+					El identificador de la sesión que se debe impartir en distinto día
+					de la principal.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#enDistintoDia"><code>&lt;enDistintoDia&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="noConsecutivas">noConsecutivas</h2>
+			<p>Declara una lista con las sesiones que no se deben impartir de
+				forma consecutiva a la sesión actual.</p>
+			<p>Contiene los suelementos:</p>
+			<ul>
+				<li><code>&lt;sesion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#nonNegativeInteger">nonNegativeInteger</a>.
+					Es el identificador de una sesión que no pueda colocarse de forma
+					consecutiva a la sesión actual.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+<h2 id="noCoincidentes">noCoincidentes</h2>
+			<p>Declara una lista con las sesiones que no deben impartir en los mismos tramos
+				que la sesión actual.</p>
+			<p>Contiene los suelementos:</p>
+			<ul>
+				<li><code>&lt;sesion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#nonNegativeInteger">nonNegativeInteger</a>.
+					Es el identificador de una sesión que no pueda colocarse en los mismos tramos
+					que la sesión actual.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+			
+			<h2 id="previoA">previoA</h2>
+			<p>Declara una lista con las sesiones que deben ser posteriores a los días en que se imparten las entidades de esta sesión.
+				Es decir, esta sesión es previa a las sesiones que aparecen en la lista.</p>
+			<p>Contiene los suelementos:</p>
+			<ul>
+				<li><code>&lt;sesion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#nonNegativeInteger">nonNegativeInteger</a>.
+					Es el identificador de una sesión que debe colocarse en días posteriores 
+					a los días ocupados por la sesión actual.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+			
+			<h2 id="posteriorA">posteriorA</h2>
+			<p>Declara una lista con las sesiones que deben ser previas a los días en que se imparten las entidades de esta sesión.
+				Es decir, esta sesión es posterior a las sesiones que aparecen en la lista.</p>
+			<p>Contiene los suelementos:</p>
+			<ul>
+				<li><code>&lt;sesion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#nonNegativeInteger">nonNegativeInteger</a>.
+					Es el identificador de una sesión que debe colocarse en días previos 
+					a los días ocupados por la sesión actual.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+			
+			<h2 id="separadosNDiasOMas">separadosNDiasOMas</h2>
+			<p>Declara una lista con relaciones de separación entre una sesión y otras sesiones. En cada relación se indica 
+				la sesión con la que tiene la relación, y el número de días que, como mínimo, debe haber entre los días de ambas sesiones.
+				Si se indican 0 días, la relación es equivalente a <a href="#enDiasDistintos"><code>enDiasDistintos</code></a>.</p>
+			<p>Contiene los suelementos:</p>
+			<ul>
+				<li><code>&lt;separacion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="#SeparacionSesionesType">SeparacionSesionesType</a>.
+					Indica la separación, que como mínimo, debe cumplir la sesión actual 
+					con la sesión con la que está relacionada.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+			
+			<h2 id="separadosNDiasOMenos">separadosNDiasOMenos</h2>
+			<p>Declara una lista con relaciones de separación entre una sesión y otras sesiones. En cada relación se indica 
+				la sesión con la que tiene la relación, y el número de días que, como máximo, debe haber entre los días de ambas sesiones.
+				Si se indican 0 días, los días pueden ser los mismos, o ser seguidos.</p>
+			<p>Contiene los suelementos:</p>
+			<ul>
+				<li><code>&lt;separacion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="#SeparacionSesionesType">SeparacionSesionesType</a>.
+					Indica la separación, que como máximo, debe cumplir la sesión actual 
+					con la sesión con la que está relacionada.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+			
+			<h2 id="SeparacionSesionesType">SeparacionSesionesType</h2>
+			<p>.</p>
+			<p>Contiene los suelementos:</p>
+			<ul>
+				<li><code>&lt;sesion&gt;</code>. Obligatorio. 
+					Es de tipo <a href="index.html#nonNegativeInteger"></a>.
+					Indica el identificador de la sesión con el que guarda la relación.</li>
+				<li><code>&lt;dias&gt;</code>. Obligatorio.
+					Es de tipo <a href="index.html#nonNegativeInteger"></a>.
+					Indica el número de días definido sobre la relación.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#separadosNDiasOMas"><code>&lt;separadosNDiasOMas&gt;</code></a>.</li>
+				<li><a href="#separadosNDiasOMenos"><code>&lt;separadosNDiasOMenos&gt;</code></a>.</li>
+			</ul>
+			<h2 id="listasDeRelacion">listasDeRelacion</h2>
+			<p>
+				El elemento <code>&lt;listasDeRelacion&gt;</code> declara la listas
+				de relación e incompatibilidad entre sesiones así como sus opciones.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#simultaneas">&lt;simultaneas&gt;</a>
+				</code>. Opcional.</li>
+				<li><code> <a href="#consecutivas">&lt;consecutivas&gt;</a>
+				</code>. Opcional.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="simultaneas">simultaneas</h2>
+			<p>Indica la lista de bloques de sesiones que tienen que
+				colocarse en el mismo tramo.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#bloqueSimultaneas">&lt;bloqueDeSesiones&gt;</a>
+				</code>. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>. Es de tipo <a
+					href="#bloqueSimultaneas">bloque de sesiones simultaneas</a>. Nota,
+					no confundir con el de <a href="#bloqueConsecutivas">consecutivas</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#listasDeRelacion">&lt;listasDeRelacion&gt;</a>.</li>
+			</ul>
+
+			<h2 id="bloqueSimultaneas">Bloque de sesiones simultaneas</h2>
+			<p>
+				El elemento <code>&lt;bloqueDeSesiones&gt;</code> perteneciente al
+				elemento <code> <a href="#simultaneas">&lt;simultaneas&gt;</a>
+				</code> , declara un bloque de sesiones que deben ir en el mismo tramo.
+			</p>
+			<p>Contiene los atributos:</p>
+			<ul>
+				<li><code>id</code>. Obligatorio. Es de tipo <a
+					href="index.html#nonNegativeInteger">nonNegativeInteger</a>. Es el
+					identificador del bloque de sesiones simultaneas. Debe ser único.
+					Será la referencia que usen las sesiones.</li>
+				<li><code>submarco</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Indica el submarco al que irán
+					asociadas las sesiones que pertenezcan al bloque.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#sesionesDeLosBloques">&lt;sesiones&gt;</a>
+				</code>. Obligatorio. Es de tipo <a href="#sesionesDeLosBloques">sesiones
+						de los bloques</a>. Contiene una lista con las sesiones que deben ser
+					simultaneas.</li>
+				<li><code> <a href="#PlantillaType">&lt;plantilla&gt;</a>
+				</code>. Opcional. Es de tipo <a href="#PlantillaType">PlantillaType</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#simultaneas">&lt;simultaneas&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="sesionesDeLosBloques">sesiones de los bloques</h2>
+			<p>Indica una lista de identificadores de sesiones.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;sesion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					1, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#nonNegativeInteger">nonNegativeInteger</a>.
+					Es el identificador de una sesión que pertenece a este bloque.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#bloqueSimultaneas">Bloque de sesiones
+						simultaneas</a>.</li>
+				<li><a href="#bloqueConsecutivas">Bloque de sesiones
+						consecutivas</a>.</li>
+			</ul>
+
+			<h2 id="consecutivas">consecutivas</h2>
+			<p>
+				El elemento <code>&lt;consecutivas&gt;</code> indica los bloques de
+				sesiones que se deben impartir de forma consecutiva. Las sesiones de
+				un mismo bloque deben tener el mismo número de días con sesiones y
+				la distribución debe ser fija.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#bloqueConsecutivas">&lt;bloqueDeSesiones&gt;</a>
+				</code>. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>. Es de tipo <a
+					href="#bloqueConsecutivas">bloque de sesiones consecutivas</a>. No
+					confundir con el <a href="#bloqueSimultaneas">bloque de
+						sesiones simultaneas</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#listasDeRelacion"><code>&lt;listasDeRelacion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="bloqueConsecutivas">Bloque de sesiones consecutivas</h2>
+			<p>
+				El elemento <code>&lt;bloqueDeSesiones&gt;</code> del elemento <code>
+					<a href="#consecutivas">&lt;consecutivas&gt;</a>
+				</code> , declara un bloque de sesiones que deben colocarse de forma
+				consecutivas.
+			</p>
+			<p>Contiene los atributos:</p>
+			<ul>
+				<li><code>id</code>. Obligatorio. Es de tipo <a
+					href="index.html#nonNegativeInteger">nonNegativeInteger</a>. Es el
+					identificador del bloque de sesiones consecutivas. Debe ser único.
+					Será la referencia que usen las sesiones.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#sesionesDeLosBloques">&lt;sesiones&gt;</a>
+				</code>. Obligatorio. Es de tipo <a href="#sesionesDeLosBloques">sesiones
+						de los bloques</a>. Contiene una lista con las sesiones que deben ser
+					consecutivas entre sí.</li>
+				<li><code>&lt;conOrden&gt;</code>. Opcional. Por defecto vale <code>desordenadas</code>.
+					Es de tipo <a href="index.html#string">string</a> restringido a los
+					valores:
+					<ul>
+						<li><code>desordenadas</code>. Indica que las sesiones deben
+							ir seguidas pero no importa en que orden.</li>
+						<li><code>seguidas</code>. Indica que las sesiones deben ir
+							seguidas y en el orden en que están definidas.</li>
+						<li><code>separadas</code>. Indica que las sesiones pueden ir
+							en cualquier orden y no tienen que estar seguidas, solamente
+							deben estar en el mismo día.</li>
+					</ul></li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#consecutivas">&lt;consecutivas&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="optativas">Optativas</h2>
+			<p>
+				El elemento <code>&lt;optativas&gt;</code> declara la lista de
+				conjuntos de de optativas.
+			</p>
+			<p>Los datos de este elemento son usados por la versión de
+				universidad de GHC.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#OptativaType">&lt;optativa&gt;</a></code>.
+					<abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>. Es de tipo <a
+					href="#OptativaType">OptativaType</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="OptativaType">Optativa</h2>
+			<p>
+				El elemento <code>&lt;optativa&gt;</code> declara un conjuntos de
+				optativas que se pueden dar de forma simultanea.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Indica el nombre del conjunto
+					de optativas. Debe ser único entre los conjuntos de optativas.</li>
+				<li><code>&lt;grupo&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Indica el nombre del grupo al
+					que pertenecen las optativas.</li>
+				<li><code>&lt;maxSolapadas&gt;</code>. Obligatorio. Es de tipo
+					<a href="index.html#nonNegativeInteger">nonNegativeInteger</a>.
+					Indica la cantidad de sesiones lectivas que se pueden solapar al
+					mismo tiempo.</li>
+				<li><code>&lt;asignaturasOptativas&gt;</code>. Obligatorio. Es
+					del tipo anónimo <a href="#asignaturasOptativasType">asignaturasOptativasType</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#optativas"><code>&lt;optativas&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="asignaturasOptativasType">Asignaturas de las Optativas</h2>
+			<p>
+				El elemento <code>&lt;asignaturasOptativas&gt;</code> es una lista
+				de las sesiones lectivas que pertenecen a un conjunto de optativas y
+				que pueden hacerse simultaneas entre ellas de acuerdo a las
+				características del conjunto al que pertenezcan.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;asignaturaOptativa&gt;</code>. <abbr
+					title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>. Es de tipo <a
+					href="index.html#nonNegativeInteger">nonNegativeInteger</a>. Indica
+					el id de la <a href="#sesion">sesión lectiva</a> que pertenece al
+					conjunto de optativas. Tenga en cuenta que las sesiones deben
+					pertenecer al grupo indicado en el <a href="#OptativaType">conjunto
+						de optativas</a>. Tiene el parámetro opcional <code>solapable</code>
+					de tipo <a href="index.html#booleano">booleano</a> que indica si la
+					asignatura se puede solapar o no con las demás del conjunto, por
+					defecto vale <code>true</code>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#OptativaType"><code>&lt;optativa&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="reuniones">reuniones</h2>
+			<p>Indica una lista de las reuniones existentes.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#reunion">&lt;reunion&gt;</a>
+				</code>. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="reunion">reunion</h2>
+			<p>
+				El elemento <code>&lt;reunion&gt;</code> define una reunión.
+			</p>
+			<p>Contiene los atributos:</p>
+			<ul>
+				<li><code>subMarco</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Indica el marco al que está
+					asociada la reunión.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el identificador de
+					la reunión.</li>
+				<li><code>&lt;numeroDeReuniones&gt;</code>. Obligatorio. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a> restringido
+					al rango 1 a 5 (ambos inclusive). Indica la cantidad de reuniones a
+					la semana que deberán tener los profesores asignados.</li>
+				<li><code>&lt;dobleDuracion&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si la reunión ocupará uno (<code>false</code>) o dos (<code>true</code>)
+					tramos.</li>
+				<li><code>&lt;tipoDeTarea&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica el
+					identificador de la tarea a la que va asociada la reunión.</li>
+				<li><code>&lt;lectiva&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">Booleano</a>. Por defecto vale <code>false</code>. Indica si se tendrá
+					en cuenta para la preferencia sobre intervalos de duración diaria del profesor 
+					(si es <code>true</code>).</li>
+				<li><code> <a href="#plantillaPDFType">&lt;plantilla&gt;</a>
+				</code>. Opcional. Es de tipo <a href="#plantillaPDFType">PlantillaPDFType</a>.</li>
+				<li><code> <a href="integrantesDeReunion">&lt;integrantes&gt;</a>
+				</code>. Obligatorio. Es de tipo <a href="#integrantesDeReunion">integrantes
+						de reunión</a>.</li>
+				<li><a href="#distribucionSemanal"><code>&lt;distribucionSemanal&gt;</code></a>
+						<em><strong>Deprecated.</strong></em>. Utilizar el elemento <code>distribucionPeriodica</code>
+						Define cómo es la distribución sobre la que se deben impartir esta reunión.</li>
+				<li><a href="#distribucionPeriodica"><code>&lt;distribucionPeriodica&gt;</code></a>.
+					Obligatorio (aunque si no viene este elemento obtiene su valor de <code>distribucionSemanal</code>.
+					Indica la distribución y los <a href="#periodos">periodos</a> en que tiene que colocarse.</li>
+				<li><code>&lt;mismaPosicionDistintosPeriodos&gt;</code>.
+					Opcional. Es de tipo <a href="#preferenciaMismaPosicionDistintosPeriodos">
+					preferenciaMismaPosicionDistintosPeriodos</a>.
+					Por defecto vale <code>ignorar</code>. Indica el tipo de criterio
+					con el que se ha de intentar colocar las entidades de esta sesión que 
+					pertenecen a distintos periodos en la misma posición.</li>					
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#reuniones">&lt;reuniones&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="integrantesDeReunion">Integrantes de reunión</h2>
+			<p>
+				El elemento <code>&lt;integrantes&gt;</code> indica una lista de
+				integrantes que deben asistir a la reunión.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;integrante&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					1, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#NombreType">NombreType</a>. Es el
+					nombre de uno de los profesores que pertenecen a la lista (y por lo
+					tanto deben asistir a la reunión).</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#reunion">&lt;reunion&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="guardias">guardias</h2>
+			<p>Indica la lista de guardias existentes.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#guardia">&lt;guardia&gt;</a>
+				</code>. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="guardia">guardia</h2>
+			<p>Define una guardia. Esta guardia será identificada por el
+				nombre.</p>
+			<p>Contiene los atributos:</p>
+			<ul>
+				<li><code>subMarco</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Indica el marco al que está
+					asociada la guardia.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Sirve para identificar
+					la guardia y por lo tanto debe ser único en la lista de guardias.</li>
+				<li><code>&lt;tipoDeTarea&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica la tarea
+					asociada a la guardia.</li>
+				<li><code>&lt;enRecreos&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si será una guardia de recreos (<code>true</code>) o no (<code>false</code>).</li>
+				<li><code>&lt;lectiva&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">Booleano</a>. Por defecto vale <code>false</code>. Indica si se tendrá
+					en cuenta para la preferencia sobre intervalos de duración diaria del profesor
+					(si es <code>true</code>).</li>
+				<li><code> <a href="#profesoresACadaHora">&lt;profesoresACadaHora&gt;</a>
+				</code>. Obligatorio.</li>
+				<li><code> <a href="#integrantesDeGuardia">&lt;integrantes&gt;</a>
+				</code>. Obligatorio. Es de tipo <a href="#integrantesDeGuardia">integrantes
+						de guardia</a>.</li>
+				<li><a href="#PlantillaPDType"><code>&lt;plantilla&gt;</code></a>.
+					Opcional. Es una plantilla del tipo <a href="#PlantillaPDType">PlantillaPDType</a>.
+					Indica si se puede colocar la guardia en los diferentes tramos, los
+					tramos omitidos si consideran como permitidos.</li>
+				<li><code>&lt;enPeriodos&gt;</code>. Opcional. Es de tipo 
+					<code><a href="#enPeriodos">enPeriodos</a></code>. Indica los periodos 
+					en que se <b>repite</b> el servicio de guardias. Para cada periodo es independiente el servicio de guardias.
+					Si no aparece, se considera que se refiere únicamente al primer periodo.</li>
+				<li><code>&lt;mismaPosicionDistintosPeriodos&gt;</code>.
+					Opcional. Es de tipo <a href="#preferenciaMismaPosicionDistintosPeriodos">
+					preferenciaMismaPosicionDistintosPeriodos</a>.
+					Por defecto vale <code>ignorar</code>. Indica el tipo de criterio
+					con el que se ha de intentar colocar las entidades de esta sesión que 
+					pertenecen a distintos periodos en la misma posición.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#guardias"><code>&lt;guardias&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="profesoresACadaHora">profesoresACadaHora</h2>
+			<p>
+				El elemento <code>&lt;profesoresACadaHora&gt;</code> indica cuantos
+				profesores son necesarios a cada hora de la guardia.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;cantidad&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> restringido al
+					rango 1 a 8 (ambos inclusive). Indica la cantidad de profesores que
+					tiene que haber en cada tramo. En caso de que falte algún tramo (o
+					si no se ponen tramos) este será el valor que tendrán.</li>
+				<li><a href="#porTramo"><code>&lt;porTramo&gt;</code></a>.
+					Opcional.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#guardia"><code>&lt;guardia&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="porTramo">porTramo</h2>
+			<p>
+				El elemento <code>&lt;porTramo&gt;</code> indica una lista con la
+				cantidad de profesores que tendrá que haber especificamente en cada
+				tramo.
+			</p>
+			<p>
+				Los tramos vendrán indicados mediante los atributos <code>dia</code>
+				, <code>indice</code> y el submarco asociado a la guardia.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;cantidadTramo&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Tiene el valor de tipo <a href="index.html#unsignedByte">unsignedByte</a>
+					restringido al rango 0 a 8 (ambos inclusive). Que indica la
+					cantidad de profesores que se tienen que colocar en este tramo.
+					También tiene los atributos:
+					<ul>
+						<li><code>dia</code>. Obligatorio. Es de tipo <a
+							href="index.html#unsignedByte">unsignedByte</a> pero restringido
+							al rango 0 a 4 (ambos inclusive). Indica el día del tramo.</li>
+						<li><code>indice</code>. Obligatorio. Es de tipo <a
+							href="index.html#int">int</a>. Indica el índice del tramo.</li>
+					</ul></li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#profesoresACadaHora">&lt;profesoresACadaHora&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="integrantesDeGuardia">Integrantes de guardias</h2>
+			<p>
+				El elemento <code>&lt;integrantes&gt;</code> indica la lista de
+				profesores que tienen que cubrir las guardias.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#integranteDeGuardia">&lt;integrante&gt;</a>
+				</code>. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>. Es de tipo <a
+					href="#integranteDeGuardia">integrante de guardia</a>.</li>
+			</ul>
+
+			<h2 id="integranteDeGuardia">Integrante de guardia</h2>
+			<p>
+				El elemento <code>&lt;integrante&gt;</code> de las guardias declara
+				uno de los profesores que deben cubrir la guardia.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica el nombre del
+					profesor que tiene que cubrir la guardia.</li>
+				<li><code>&lt;numeroDeGuardias&gt;</code>. Opcional. Es de tipo
+					<a href="index.html#unsignedByte">unsignedByte</a> pero restringido
+					al rango 1 a 20 (ambos inclusive). Por defecto vale 1. Indica
+					cuantas guardias a la semana debe cubrir el profesor.</li>
+				<li><code> <a href="#plantillaPDFType">&lt;plantilla&gt;</a>
+				</code>. Opcional. Es de tipo <a href="#plantillaPDFType">PlantillaPDFType</a>.
+					Indica preferencia de cubrir ciertos tramos.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#integrantesDeGuardia"><code>&lt;integrantes&gt;</code></a>.
+					<a href="#integrantesDeGuardia">Integrantes de guardia</a>.</li>
+			</ul>
+
+			<h2 id="complementarias">complementarias</h2>
+			<p>
+				El elemento <code>&lt;complementarias&gt;</code> declara una lista
+				de sesiones complementarias que se deben colocar en el horario.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><a href="#complementaria"><code>&lt;complementaria&gt;</code></a>.
+					<abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="complementaria">complementaria</h2>
+			<p>Define una sesión complementaria y sus opciones.</p>
+			<p>Contiene los atributos:</p>
+			<ul>
+				<li><code>subMarco</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Indica el marco al que está
+					asociada la sesión complementaria.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;identificador&gt;</code>. Obligatorio. Es de tipo
+					<a href="index.html#string">string</a>. Debería tener 1 carácter
+					como mínimo y ser único en la lista de sesiones complementarias. Es
+					el identificador de la sesión complementaria.</li>
+				<li><code>&lt;tarea&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el identificador de
+					la tarea que tiene asignada la sesión complementaria.</li>				
+				<li><code>&lt;profesor&gt;</code>. Obligatorio. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el nombre del
+					profesor que debe impartir la sesión complementaria.</li>
+				<li><code>&lt;lectiva&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">Booleano</a>. Por defecto vale <code>false</code>. Indica si se
+					tendrá en cuenta para la preferencia sobre intervalos de duración diaria del profesor
+					(si es <code>true</code>).</li>
+				<li><code> <a href="#plantillaPDFType">&lt;plantilla&gt;</a>
+				</code>. Opcional. Es de tipo <a href="#plantillaPDFType">PlantillaPDFType</a>.
+					Indica preferencia de colocar la sesión complementaria en ciertos
+					tramos.</li>
+				<li><a href="#distribucionSemanal"><code>&lt;distribucionSemanal&gt;</code></a>
+						<em><strong>Deprecated.</strong></em>. Utilizar el elemento <code>distribucionPeriodica</code>
+						Define cómo es la distribución sobre la que se deben impartir esta complementaria.</li>
+				<li><a href="#distribucionPeriodica"><code>&lt;distribucionPeriodica&gt;</code></a>.
+					Obligatorio (aunque si no viene este elemento obtiene su valor de <code>distribucionSemanal</code>.
+					Indica la distribución y los <a href="#periodos">periodos</a> en que tiene que colocarse.</li>
+				<li><code>&lt;mismaPosicionDistintosPeriodos&gt;</code>.
+					Opcional. Es de tipo <a href="#preferenciaMismaPosicionDistintosPeriodos">
+					preferenciaMismaPosicionDistintosPeriodos</a>.
+					Por defecto vale <code>ignorar</code>. Indica el tipo de criterio
+					con el que se ha de intentar colocar las entidades de esta sesión que 
+					pertenecen a distintos periodos en la misma posición.</li>
+									<li><code>&lt;intervalosSemanales&gt;</code>. <em><strong>Deprecated.</strong></em>. Es
+					de tipo <a href="index.html#unsignedByte">unsignedByte</a> pero
+					restringido al rango 1 a 20 (ambos inclusive). Indica la cantidad
+					de tramos a la semana que tendrá esta sesión complementaria.</li>
+				<li><code>&lt;maxIntervalosDiarios&gt;</code>. <em><strong>Deprecated.</strong></em>. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a> pero
+					restringido al rango 1 a 5 (ambos inclusive). Por defecto vale 5.
+					Indica el número máximo de tramos que puede tener en un mismo día.</li>
+				<li><code>&lt;noConsecutivos&gt;</code>. <em><strong>Deprecated.</strong></em>. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si los tramos de un mismo día deben ir consecutivos (<code>false</code>)
+					o si se pueden no colocar consecutivos (<code>true</code>).</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#complementarias"><code>&lt;complementarias&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="criterios">criterios</h2>
+			<p>
+				El elemento <code>&lt;criterios&gt;</code> guarda los pesos que
+				tendrán las distintas opciones.
+			</p>
+			<p>Los elementos que no aparezcan se les tomará como con los
+				valores por defecto.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#huecosEnHorario">&lt;huecosEnHorario&gt;</a>
+				</code>. Opcional.</li>
+				<li><code> <a href="#posicionesNoPreferentes">&lt;posicionesNoPreferentes&gt;</a>
+				</code>. Opcional.</li>
+				<li><code> <a href="#colocarSesionesLectivas">&lt;colocarSesionesLectivas&gt;</a>
+				</code>. Opcional.</li>
+				<li><code> <a href="#horarioDeProfesores">&lt;horarioDeProfesores&gt;</a>
+				</code>. Opcional.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="huecosEnHorario">huecosEnHorario</h2>
+			<p>Agrupa las opciones relacionadas con los pesos de los huecos.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;huecosEnGrupos&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a>. Por defecto vale
+					5. Indica el peso que se asigna al hecho de dejar huecos en los
+					horarios de los grupos.</li>
+				<li><code>&lt;huecosEnProfesores&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a>. Por
+					defecto vale 2. Indica el peso que se asigna a dejar huecos en los
+					horarios de los profesores.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#criterios">&lt;criterios&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="posicionesNoPreferentes">posicionesNoPreferentes</h2>
+			<p>Agrupa las opciones relacionadas con con los pesos de la
+				colocación en tramos no preferentes.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;enGrupos&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a>. Por defecto vale
+					4. Indica el peso de colocar en un tramo no preferente de un grupo.</li>
+				<li><code>&lt;enProfesores&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a>. Por defecto vale
+					3. Indica el peso de colocar en un tramo no preferente de un
+					profesor.</li>
+				<li><code>&lt;enMateriasYTareas&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a>. Por
+					defecto vale 1. Indica el peso de colocar en un tramo no preferente
+					de las materias o tareas.</li>
+				<li><code>&lt;enSesionesLectivas&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a>. Por
+					defecto vale 2. Indica el peso de colocar en un tramo no preferente
+					de una sesión lectiva.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#criterios">&lt;criterios&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="colocarSesionesLectivas">colocarSesionesLectivas</h2>
+			<p>Agrupa las opciones relacionadas con los pesos de colocar las
+				sesiones lectivas en tramos extremos o de manera especial.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;enDiasConsecutivos&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a>. Por
+					defecto vale 1. Indica el peso de colocar las sesiones en días
+					seguidos (solo es aplicable cuando solo se imparte en 2 o 3 días).</li>
+				<li><code>&lt;enAulaNoPreferente&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a>. Por
+					defecto vale 3. Indica el peso de colocar una sesión en una aula
+					del conjunto de alternativas en vez de en la preferente.</li>
+				<li><code>&lt;enHorasExtremas&gt;</code>. Opcional. Es de tipo
+					<a href="index.html#unsignedByte">unsignedByte</a>. Por defecto
+					vale 2. Indica el peso de colocar una sesión en las horas de los
+					extremos de un horario.</li>
+				<li><code>&lt;coincidanPorLaTarde&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a>. Por
+					defecto vale 1. Indica el peso de colocar varias veces la misma
+					sesión en los turnos de la tarde.</li>
+				<li><code>&lt;coincidanALaMismaHora&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a>. Por
+					defecto vale 0. Indica el peso de colocar la sesión en misma hora
+					varios días.</li>
+				<li><code>&lt;conCambiosDeAula&gt;</code>. Opcional. Es de tipo
+					<a href="index.html#unsignedByte">unsignedByte</a>. Por defecto
+					vale 1. Indica el peso de colocar las sesiones en aulas diferentes
+					o de que se un grupo deba cambiar de aula.</li>
+				<li><code>&lt;optativaSolapada&gt;</code>. Opcional. Es de tipo
+					<a href="index.html#unsignedByte">unsignedByte</a>. Por defecto
+					vale 1. Indica el peso de colocar varias sesiones optativas de
+					universidad de manera que se solapen.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#criterios">&lt;criterios&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="horarioDeProfesores">horarioDeProfesores</h2>
+			<p>Agrupa las opciones de los pesos de los horarios de los
+				profesores.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;horasExcluyentes&gt;</code>. Opcional. Es de tipo
+					<a href="index.html#unsignedByte">unsignedByte</a>. Por defecto
+					vale 3. Indica el peso de colocar las sesiones del profesor en
+					horas problemáticas (a primera y a última, por la mañana y por la
+					tarde en el mismo día, etc).</li>
+				<li><code>&lt;masClasesEnUnDiaQueEnOtro&gt;</code>. Opcional.
+					Es de tipo <a href="index.html#unsignedByte">unsignedByte</a>. Por
+					defecto vale 3. Indica el peso de colocar las sesiones de un
+					profesor de forma no uniforme durante la semana.</li>
+				<li><code>&lt;horasDeClaseSeguidas&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a>. Por
+					defecto vale 2. Indica el peso de colocar más sesiones seguidas que
+					las declaradas en su cuadro de opciones.</li>
+				<li><code>&lt;masPermanencia&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a>. Por defecto vale
+					2. Indica el peso de que tenga más horas de permanencia semanal,
+					contando los huecos entre sesiones, que las declaradas como máximo
+					en el cuadro de propiedades de cada uno.</li>
+				<li><code>&lt;seguidoConElMismoGrupo&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#unsignedByte">unsignedByte</a>. Por
+					defecto vale 1. Indica el peso de tenga sesiones seguidas
+					impartidas al mismo grupo.</li>
+				<li><code>&lt;guardiasEnExtremos&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#unsignedByte">unsignedByte</a>. Por
+					defecto vale 1. Indica el peso de que le toquen las guardias en los
+					extremos de su horario, intentando así encajarlas en los huecos de
+					sus sesiones lectivas.</li>
+				<li><code>&lt;ordenProfesores&gt;</code>. Opcional. Es de tipo
+					<a href="index.html#unsignedShort">unsignedShort</a>. Por defecto
+					vale 1. Indica el peso de que no se respete el orden del profesor,
+					con lo que a mayor valor más se intentará respetar el orden de los
+					profesores.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#criterios">&lt;criterios&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="horario">horario</h2>
+			<p>
+				El elemento <code>&lt;horario&gt;</code> define una solución del
+				horario.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#tramoDeHorario">&lt;tramo&gt;</a>
+				</code>. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>. Es de tipo <a
+					href="#tramoDeHorario">tramo de horario</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="tramoDeHorario">Tramo de horario</h2>
+			<p>
+				El elemento <code>&lt;tramo&gt;</code> del <a href="#horario">horario</a>,
+				contiene las referencias de lo que se ha colocado en un determinado
+				tramo.
+			</p>
+			<p>Contiene los atributos:</p>
+			<ul>
+				<li><code>marco</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Indica el marco al que
+					pertenece el tramo referenciado.</li>
+				<li><code>dia</code>. Obligatorio. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> pero restringido al
+					rango 0 a 4 (ambos inclusive). Indica el día al que pertenece el
+					tramo.</li>
+				<li><code>indice</code>. Obligatorio. Es de tipo <a
+					href="index.html#int">int</a>. Indica el índice del tramo
+					referenciado.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#aulaDeHorario">&lt;aula&gt;</a>
+				</code>. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>. Es de tipo <a
+					href="#aulaDeHorario">aula de horario</a>.</li>
+				<li><code>&lt;reunion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Tipo <a href="index.html#NombreType">NombreType</a>. Es el nombre
+					de la reunión colocada en este tramo.</li>
+				<li><code> <a href="#guardiaDeHorario">&lt;guardia&gt;</a>
+				</code>. <abbr title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr>
+					<abbr title="sin límite">∞</abbr>. Es de tipo <a
+					href="#guardiaDeHorario">guardia de horario</a>.</li>
+				<li><code>&lt;complementaria&gt;</code>.<abbr title="Mínimo">
+						Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#string">string</a>. Es el
+					identificador de una sesión complementaria que esté colocada en
+					este tramo.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#horario">&lt;horario&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="aulaDeHorario">Aula de horario</h2>
+			<p>
+				El elemento <code>&lt;aula&gt;</code> de los <a
+					href="#tramoDeHorario">tramos de horario</a>, declara las sesiones
+				y profesores que se han colocado en una determinada aula.
+			</p>
+			<p>
+				En caso de aparecer el atributo <code>anonima</code> , indica que el
+				aula es anónima y el valor es el conjunto del que se ha seleccionado
+				(en este caso el <code>id</code> solo sería para diferenciar aulas
+				anónimas y podría ser cualquier valor, además de poder ser omitido).
+				Si no aparece indica que es un aula con nombre y el <code>id</code>
+				indica el identificador del aula (que debería aparecer en la lista
+				de aulas). Debe aparecer obligatoriamente uno de los dos atributos,
+				o el <code>id</code> o el <code>anonima</code> .
+			</p>
+			<p>
+				Solo aparecerá el profesor principal asignado a la sesión; Es
+				decir el principal original de la sesión o el alternativo si el
+				motor escogió el profesor alternativo configurado en la sesión.
+				El profesor principal de las sesiones no se debe tener en cuenta
+				a no ser que no haya subelementos <code>&lt;profesor&gt;</code>,
+				sin embargo el resto de profesores
+				(<a href="#otrosProfesores">&lt;otrosProfesores&gt;</a>) sí que
+				se tienen que tener en cuenta y siempre se consideran asignados
+				en el aula, tramo y sesión correspondiente.
+			</p>
+			<p>
+				Para calcular que profesores están asignados, se deberá realizar
+				el siguiente proceso:
+			</p>
+			
+			<ol>
+				<li>Si hay un elemento <code>&lt;profesor&gt;</code>, se toma este. Si no, se tomara el principal de la sesión.</li>
+				<li>Se tomarán todos los profesores del elemento <a href="#otrosProfesores"><code>&lt;otrosProfesores&gt;</code></a> de la sesión.</li>
+			</ol>
+			
+			<p>Contiene los atributos:</p>
+			<ul>
+				<li><code>id</code>. Opcional. Tipo <a
+					href="index.html#NombreType">NombreType</a>. Es el identificador
+					del aula que se está usando en el tramo o un identificador temporal
+					si es un aula anónima.</li>
+				<li><code>anonima</code>. Opcional. Tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica el nombre de un
+					conjunto de aulas.</li>
+			</ul>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;sesion&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					1, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Extiende al tipo <a href="index.html#nonNegativeInteger">nonNegativeInteger</a>.
+					Es el identificador de una sesión que está colocada en esta aula
+					(en el tramo al que pertenezca). Contiene los siguientes atributos:
+					<ul>
+						<li><code>refAula</code>. Opcional. Tipo <a	href="index.html#NombreType">NombreType</a>. 
+						Indica a qué aula definida en la sesión se corresponde esta asignación. </li>
+					</ul>
+				</li>
+				<li><code>&lt;profesor&gt;</code>. <abbr title="Mínimo">Mín.</abbr>
+					1, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Tipo <a href="index.html#NombreType">NombreType</a>. Es el nombre
+					de un profesor que se ha usado para impartir la/las sesiones en
+					este aula (del tramo al que pertenezca).
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#tramoDeHorario">&lt;tramo&gt;</a>
+				</code>. <a href="#tramoDeHorario">Tramo de horario</a>.</li>
+			</ul>
+
+			<h2 id="guardiaDeHorario">Guardia de horario</h2>
+			<p>
+				El elemento <code>&lt;guardia&gt;</code> declara una guardia que ha
+				sido asignada a un determinado tramo.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;nombre&gt;</code>. Obligatorio. Tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica el nombre de la
+					guardia que se está cubriendo.</li>
+				<li><code>&lt;profesor&gt;</code>. Obligatorio. <abbr title="Mínimo">Mín.</abbr>
+					1, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>. Tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica los nombres de los
+					profesores que cubren la guardia. Deberían ser uno de sus integrantes.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#tramoDeHorario">&lt;tramo&gt;</a>
+				</code>. <a href="#tramoDeHorario">Tramo de horario</a>.</li>
+			</ul>
+
+			<h2 id="otros">otros</h2>
+			<p>
+				El elemento <code>&lt;otros&gt;</code> contiene otras funciones
+				auxiliares del xml, como puede ser el intercambio de mensajes entre
+				el planificador y la captación de desideratas.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#restriccionesCD">&lt;restriccionesCD&gt;</a>
+				</code>. Opcional.</li>
+				<li><code> <a href="#funcionesAdicionales">&lt;funcionesAdicionales&gt;</a>
+				</code>. Opcional.</li>
+				<li><code> <a href="#mensajesIntercambio">&lt;mensajesIntercambio&gt;</a>
+				</code>. Opcional.</li>
+				<li><code> <a href="#otrasOpciones">&lt;opciones&gt;</a>
+				</code>. Opcional. Es del tipo <a href="#otrasOpciones">Otras opciones</a>.</li>
+				<li><code>&lt;notas&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#string">string</a>. Guarda una anotación que puede
+					usar el usuario.</li>
+				<li><a href="#gruposAlejados"><code>&lt;gruposAlejados&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#extensiones"><code>&lt;extensiones&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#perfil"><code>&lt;perfil&gt;</code></a>.
+					Opcional.</li>
+				<li><a href="#claveXDias"><code>&lt;claveXDias&gt;</code></a>.
+					Opcional.<br /></li>
+				<li><code>&lt;origenDatos&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#string">string</a>. Guarda un identificador de la
+					aplicación de terceros de la que se obtuvieron los datos, por
+					ejemplo al hacer una importación.
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#datosGHC"><code>&lt;datosGHC&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="restriccionesCD">restriccionesCD</h2>
+			<p>Contiene las opciones de restricción del modulo de captación
+				de desideratas.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;permitirAgregarProfesor&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica si está permitido que se puedan
+					agregar nuevos profesores en el módulo de captación de desideratas.</li>
+				<li><code>&lt;permitirAgregarDepartamento&gt;</code>. Opcional.
+					Es de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica si está permitido que se agregen
+					nuevos departamentos en el módulo de captación de desideratas.</li>
+				<li><code>&lt;permitirAgregarAsignatura&gt;</code>. Opcional.
+					Es de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica si esta permitido agregar nuevas
+					asignaturas (sesiones) en el módulo de captación de desideratas.</li>
+				<li><code>&lt;permitirCamDepProfesor&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica si está permitido cambiar de
+					departamento a los profesores en el módulo de captación de
+					desideratas.</li>
+				<li><code>&lt;permitirCamDepAsignatura&gt;</code>. Opcional. Es
+					de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica si está permitido cambiar el
+					departamento de las asignaturas en el módulo de captación de
+					desideratas.</li>
+				<li><code>&lt;permitirCamDuracion&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si se permite cambiar la duración semanal de las sesiones en
+					el módulo de captación de desideratas.</li>
+				<li><code>&lt;permitirCamHorasReduccion&gt;</code>. Opcional.
+					Es de tipo <a href="index.html#booleano">booleano</a>. Por defecto
+					vale <code>false</code>. Indica si se permite cambiar la cantidad
+					de reducción de horas por cargo del profesor en el módulo de
+					captación de desideratas.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#otros">&lt;otros&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="funcionesAdicionales">funcionesAdicionales</h2>
+			<p>
+				El elemento <code>&lt;funcionesAdicionales&gt;</code> indica si
+				están disponibles las distintas funcinoes y opciones en el modulo de
+				captación de desideratas.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#restriccionDePlantilla">&lt;restriccionDePlantilla&gt;</a>
+				</code>. Opcional.</li>
+				<li><code>&lt;definirTutor&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>true</code>.
+					Indica si se permite que se establezca si un profesor quiere ser
+					tutor o no en el módulo de captación de desideratas.</li>
+				<li><code>&lt;elegirGrupoTutor&gt;</code>. Opcional. Es de tipo
+					<a href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica que en caso de que se pueda decidir si un profesor es tutor
+					o no, pueda escoger también el grupo del que posiblemente será
+					tutor.</li>
+				<li><code>&lt;hacerGuardias&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>true</code>.
+					Indica si se permite que los profesores elijan que puedan hacer
+					guardias o no.</li>
+				<li><code>&lt;cambiarAula&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si se permite que en el módulo de captación de desideratas
+					se permita cambiar el aula de una sesión.</li>
+				<li><code>&lt;permitirDistAlt&gt;</code>. Opcional. Es de tipo
+					<a href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si se permite en el módulo de captación de desideratas
+					permitir o no establecer una distribución alternativa de los tramos
+					de las sesiones.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#otros">&lt;otros&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="restriccionDePlantilla">restriccionDePlantilla</h2>
+			<p>
+				El elemento <code>&lt;restriccionDePlantilla&gt;</code> contiene los
+				elementos que declaran las restricciones de las plantillas de los
+				profesores.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;cantidadDeProhibidos&gt;</code>. Opcional. Es de
+					tipo <a href="#entero">entero</a>. Por defecto vale <em>0</em>.
+					Indica la cantidad de prohibidos que se puede colocar en la
+					plantilla de los profesores. Un valor negativo indica que no hay
+					ninguna restricción.</li>
+				<li><code>&lt;cantidadDePrefNo1&gt;</code>. Opcional. Es de
+					tipo <a href="#entero">entero</a>. Por defecto vale <em>-1</em>.
+					Indica la cantidad de PreferentementeNo1 que se puede colocar en la
+					plantilla de los profesores. Un valor negativo indica que no hay
+					ninguna restricción.</li>
+				<li><code>&lt;cantidadDePrefNo2&gt;</code>. Opcional. Es de
+					tipo <a href="#entero">entero</a>. Por defecto vale <em>-1</em>.
+					Indica la cantidad de PreferentementeNo2 que se pueden colocar en
+					la plantilla de los profesores. Un valor negativo indica que no hay
+					ninguna restricción.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#funcionesAdicionales">&lt;funcionesAdicionales&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="mensajesIntercambio">mensajesIntercambio</h2>
+			<p>Contiene los elementos que dan soporte al intercambio de
+				mensajes.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#haciaDesideratas">&lt;haciaDesideratas&gt;</a>
+				</code>. Opcional.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#otros">&lt;otros&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="otrasOpciones">Otras opciones</h2>
+			<p>
+				El elemento <code>&lt;opciones&gt;</code> declara las opciones
+				globales del horario.
+			</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#opcionesGenerales">&lt;opcionesGenerales&gt;</a>
+				</code>. Opcional.</li>
+				<li><code> <a href="#opcionesDeProfesor">&lt;valorInicialProfesores&gt;</a>
+				</code>. Opcional. Es de tipo <a href="#opcionesDeProfesor">Opciones de
+						profesor</a>. Indica los valores de las opciones de los profesores que
+					inicialmente tendrán los profesores al ser creados.</li>
+				<li><code> <a href="#OpcionesDeSesionType">&lt;valorInicialSesiones&gt;</a>
+				</code>. Opcional. Es de tipo <a href="#OpcionesDeSesionType">Opciones
+						de sesión</a>. Indica los valores de las opciones de las sesiones que
+					tendrán inicialmente al ser creadas.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#otros">&lt;otros&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="opcionesGenerales">opcionesGenerales</h2>
+			<p>Declara las opciones generales.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;contarHuecosMediodia&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#booleano">booleano</a>. Por defecto vale <code>true</code>.
+					Indica para los profesores que tengan mañana y tarde contar como
+					huecos los intervalos entre las sesiones de la mañana y las de la
+					tarde. Si a un profesores se le asignan sesiones de cualquier tipo,
+					de mañana y de tarde el mismo día, se les contarán como huecos en
+					su horario y horas de permanencia en el centro los intervalos no
+					ocupados situados entre las correspondientes sesiones de la mañana
+					y de la tarde.</li>
+				<li><code>&lt;desecharGuardias&gt;</code>. Opcional. Es de tipo
+					<a href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si se generan resultados completos aunque no coloque todas
+					las guardias (desechar las guardias no colocadas). Esta opción que
+					permite generar resultados completos aunque no se puedan encajar
+					todas las guardias previstas. Simplemente se desecharían las
+					posiciones de guardia que no se hayan podido encajar en el
+					resultado.</li>
+				<li><code>&lt;mantener5Sesiones&gt;</code>. <em><strong>Deprecated.</strong> Opcional. Es de
+					tipo <a href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					En el caso de profesores con 20, 21, 22, 23 ó 24 sesiones lectivas
+					semanales, mantener un máximo de 5 sesiones al día. Esta opción le
+					permite, en estos casos particulares, reducir el máximo de 6 a 5
+					sesiones lectivas diarias.</em></li>
+				<li><code>&lt;minimoHuecosGrupos&gt;</code>.  <em><strong>Deprecated.</strong>Opcional. Es de
+					tipo <a href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si se da prioridad a quitar los huecos del horario de los
+					grupos.</em></li>
+				<li><code>&lt;minMaxSesiones&gt;</code>. <em><strong>Deprecated.</strong>
+						Este elemento ya no se debe usar y solo aparece definido por
+						compatibilidad con versiones anteriores. Su uso será ignorado.
+						Antigua definición: Opcional. Es de tipo <a
+						href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+						Indica si se dará prioridad al máximo/mínimo de sesiones diarias
+						de los profesores.</em></li>
+				<li><code>&lt;posNoPrefDeGrupos&gt;</code>. <em><strong>Deprecated.</strong> Opcional. Es de
+					tipo <a href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si se prioriza el horario cuando se observa colocaciones en
+					posiciones no preferentes de los grupos. </em></li>
+				<li><code>&lt;maxHoraPermanencia&gt;</code>. <em><strong>Deprecated.</strong>
+						Este elemento ya no se debe usar y solo aparece definido por
+						compatibilidad con versiones anteriores. Su uso será ignorado.
+						Antigua definición: Opcional. Es de tipo <a
+						href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+						Indica si se priorizará al observar la máximas horas de
+						permanencia de los profesores.</em></li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#otrasOpciones">Otras opciones</a>.</li>
+			</ul>
+
+			<h2 id="gruposAlejados">gruposAlejados</h2>
+			<p>Declara los grupos que se encuentran alejados.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code> <a href="#opcionesDeGruposAlejados">&lt;opciones&gt;</a>
+				</code>. Opcional. Es de tipo <a href="#opcionesDeGruposAlejados">Opciones
+						de grupos alejados</a>.</li>
+				<li><code> <a href="#listaDeGruposAlejados">&lt;listaDeGrupos&gt;</a>
+				</code>. Opcional. Es de tipo <a href="#listaDeGruposAlejados">Lista de
+						grupos alejados</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#otros">&lt;otros&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="opcionesDeGruposAlejados">Opciones de grupos alejados</h2>
+			<p>Declara las opciones de los grupos alejados.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;actualizarAlGenerar&gt;</code>. Opcional. Es de
+					tipo <a href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si se actualizarán las relaciones cada vez que se vaya a
+					generar un horario, haciendo que aunque se cambien las relaciones
+					estas estén actualizadas al generar el horario.</li>
+				<li><code>&lt;evitarDobleDesp&gt;</code>. Opcional. Es de tipo
+					<a href="index.html#booleano">booleano</a>. Por defecto vale <code>false</code>.
+					Indica si se intentará evitar que un profesor tenga que desplazarse
+					varias veces en un mismo día. Además tiene el atributo opcional <code>tipo</code>
+					que puede tener los valores <code>evitar</code> o <code>prohibir</code>. El valor
+					<code>evitar</code> del atributo <code>tipo</code> indica que será una condición
+					ponderable (es el valor por defecto si no aparece el atributo), mientras que el
+					valor <code>prohibir</code> indica que no se considerará válido un horario con
+					un profesor tenga un doble desplazamiento en el mismo día (criterio estricto).</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#gruposAlejados"><code>&lt;gruposAlejados&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="listaDeGruposAlejados">Lista de grupos alejados</h2>
+			<p>Declara la lista de los grupos alejados.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;grupo&gt;</code>.<abbr title="Mínimo">
+						Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr title="sin límite">∞</abbr>.
+					Es de tipo <a href="index.html#NombreType">NombreType</a>. Indica
+					el nombre de uno de los grupos alejados. El nombre debe existir en
+					la lista de grupos.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#gruposAlejados"><code>&lt;gruposAlejados&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="haciaDesideratas">haciaDesideratas</h2>
+			<p>Contiene los mensajes que serán leidos y mostrados por el
+				capta desideratas, y supuestamente a los profesores.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>&lt;texto&gt;</code>. Opcional. Es de tipo <a
+					href="index.html#string">string</a>. Contiene el texto que se
+					mostrará al cargar el archivo en Capta desideratas GHC.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#mensajesIntercambio">&lt;mensajesIntercambio&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="PlantillaType">Plantilla</h2>
+			<p>
+				Esta plantilla define las preferencias de los tramos. La plantilla
+				(como todas las plantillas) se declara mediante el elemento <code>&lt;plantilla&gt;</code>
+				.
+			</p>
+			<p>Si no aparece algún tramo se tomará como si fuese disponible o
+				si no aparece la plantilla, se tomarán todos los tramos como
+				disponibles.</p>
+			<p>Contiene los subelementos:</p>
+			<p>
+				<a href="#tramoType"><code>&lt;tramo&gt;</code></a>. <abbr
+					title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>. Es de tipo <a href="#tramoType">TramoType</a>.
+			</p>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#sesion"><code>&lt;sesion&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="tramoType">TramoType</h2>
+			<p>
+				Define la preferencia de un tramo concreto. Como todos los tramos,
+				está definido mediante el elemento <code>&lt;tramo&gt;</code> . El
+				tramo al que hace referencia viene determinado por los atributos.
+				Por defecto vale disponible.
+			</p>
+			<p>Puede tener uno de los valores:</p>
+			<ul>
+				<li><code>prohibido</code>. Indica que no se puede usar el
+					tramo referenciado.</li>
+				<li><code>preferentementeNo2</code>. Indica que se intentará no
+					usar el tramo referenciado.</li>
+				<li><code>preferentementeNo1</code>. Indica que se intentará no
+					usar el tramo referenciado pero en menor medida que la 2.</li>
+				<li><code>disponible</code>. Indica que se puede usar el tramo
+					referenciado.</li>
+				<li><code>fijado</code>. Indica que está en uso el tramo
+					referenciado.</li>
+			</ul>
+			<p>Tiene los atributos:</p>
+			<ul>
+				<li><code>dia</code>. Obligatorio. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> pero restringido al
+					rango 0 a 4 (ambos inclusive). Indica el día al que pertenece el
+					tramo.</li>
+				<li><code>indice</code>. Obligatorio. Es de tipo <a
+					href="index.html#int">int</a>. Indica el índice del tramo
+					referenciado.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#PlantillaType"><code>&lt;plantilla&gt;</code></a>.
+					<a href="#PlantillaType">PlantillaType</a>.</li>
+			</ul>
+
+			<h2 id="plantillaSinFType">Plantilla sin fijado</h2>
+			<p>
+				Esta plantilla define las preferencias de los tramos pero sin el
+				valor fijado. La plantilla (como todas las plantillas) se declara
+				mediante el elemento <code>&lt;plantilla&gt;</code> .
+			</p>
+			<p>Si no aparece algún tramo se tomará como si fuese disponible o
+				si no aparece la plantilla, se tomarán todos los tramos como
+				disponibles.</p>
+			<p>Contiene los subelementos:</p>
+			<p>
+				<a href="#tramoSinFType"><code>&lt;tramo&gt;</code></a>. <abbr
+					title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>. Es de tipo <a href="#tramoSinFType">TramoSinFType</a>.
+			</p>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#materia"><code>&lt;materia&gt;</code></a>.</li>
+				<li><a href="#grupo"><code>&lt;grupo&gt;</code></a>.</li>
+				<li><a href="#profesor"><code>&lt;profesor&gt;</code></a>.</li>
+				<li><a href="#tarea"><code>&lt;tarea&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="tramoSinFType">TramoSinFType</h2>
+			<p>
+				Define la preferencia de un tramo concreto pero sin el valor fijado.
+				Como todos los tramos, está definido mediante el elemento <code>&lt;tramo&gt;</code>
+				. El tramo al que hace referencia viene determinado por los
+				atributos. Por defecto vale disponible.
+			</p>
+			<p>Puede tener uno de los valores:</p>
+			<ul>
+				<li><code>prohibido</code>. Indica que no se puede usar el
+					tramo referenciado.</li>
+				<li><code>preferentementeNo2</code>. Indica que se intentará no
+					usar el tramo referenciado.</li>
+				<li><code>preferentementeNo1</code>. Indica que se intentará no
+					usar el tramo referenciado pero en menor medida que la 2.</li>
+				<li><code>disponible</code>. Indica que se puede usar el tramo
+					referenciado.</li>
+			</ul>
+			<p>Tiene los atributos:</p>
+			<ul>
+				<li><code>marco</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Indica el marco al que
+					pertenece el tramo referenciado.</li>
+				<li><code>dia</code>. Obligatorio. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> pero restringido al
+					rango 0 a 4 (ambos inclusive). Indica el día al que pertenece el
+					tramo.</li>
+				<li><code>indice</code>. Obligatorio. Es de tipo <a
+					href="index.html#int">int</a>. Indica el índice del tramo
+					referenciado.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#plantillaSinFType"><code>&lt;plantilla&gt;</code></a>.
+					<a href="#plantillaSinFType">PlantillaSinFType</a>.</li>
+			</ul>
+
+			<h2 id="plantillaPDFType">Plantilla de prohibido, disponible y
+				fijado</h2>
+			<p>
+				Esta plantilla define si los tramos son no disponibles, disponibles
+				o en uso. La plantilla (como todas las plantillas) se declara
+				mediante el elemento <code>&lt;plantilla&gt;</code> .
+			</p>
+			<p>Si no aparece algún tramo se tomará como si fuese disponible o
+				si no aparece la plantilla, se tomarán todos los tramos como
+				disponibles.</p>
+			<p>Contiene los subelementos:</p>
+			<p>
+				<a href="#tramoPDFType"><code>&lt;tramo&gt;</code></a>. <abbr
+					title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>. Es de tipo <a href="#tramoPDFType">TramoPDFType</a>.
+			</p>
+			<p>Aparece en:</p>
+
+			<h2 id="tramoPDFType">TramoPDFType</h2>
+			<p>
+				Define si un tramo no está disponible, si sí que lo está o si está
+				en uso. Como todos los tramos, está definido mediante el elemento <code>&lt;tramo&gt;</code>
+				. El tramo al que hace referencia viene determinado por los
+				atributos. Por defecto vale disponible.
+			</p>
+			<p>Puede tener uno de los valores:</p>
+			<ul>
+				<li><code>prohibido</code>. Indica que no se puede usar el
+					tramo referenciado.</li>
+				<li><code>disponible</code>. Indica que se puede usar el tramo
+					referenciado.</li>
+				<li><code>fijado</code>. Indica que el tramo está en uso.</li>
+			</ul>
+			<p>Tiene los atributos:</p>
+			<ul>
+				<li><code>marco</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Indica el marco al que
+					pertenece el tramo referenciado.</li>
+				<li><code>dia</code>. Obligatorio. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> pero restringido al
+					rango 0 a 4 (ambos inclusive). Indica el día al que pertenece el
+					tramo.</li>
+				<li><code>indice</code>. Obligatorio. Es de tipo <a
+					href="index.html#int">int</a>. Indica el índice del tramo
+					referenciado.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#plantillaPDFType"><code>&lt;plantilla&gt;</code></a>.
+					<a href="#plantillaPDFType">PlantillaPDFType</a>.</li>
+			</ul>
+
+			<h2 id="PlantillaPDType">Plantilla de prohibido y disponible</h2>
+			<p>
+				Esta plantilla define si los tramos estan disponibles o no. La
+				plantilla (como todas las plantillas) se declara mediante el
+				elemento <code>&lt;plantilla&gt;</code> .
+			</p>
+			<p>Si no aparece algún tramo se tomará como si fuese disponible o
+				si no aparece la plantilla, se tomarán todos los tramos como
+				disponibles.</p>
+			<p>Contiene los subelementos:</p>
+			<p>
+				<a href="#tramoPDType"><code>&lt;tramo&gt;</code></a>. <abbr
+					title="Mínimo">Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>. Es de tipo <a href="#tramoPDType">TramoPDType</a>.
+			</p>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#aula"><code>&lt;aula&gt;</code></a>.</li>
+			</ul>
+
+			<h2 id="tramoPDType">TramoPDType</h2>
+			<p>
+				Define si un tramo está disponible o no. Como todos los tramos, está
+				definido mediante el elemento <code>&lt;tramo&gt;</code> . El tramo
+				al que hace referencia viene determinado por los atributos. Por
+				defecto vale disponible.
+			</p>
+			<p>Puede tener uno de los valores:</p>
+			<ul>
+				<li><code>prohibido</code>. Indica que no se puede usar el
+					tramo referenciado.</li>
+				<li><code>disponible</code>. Indica que se puede usar el tramo
+					referenciado.</li>
+			</ul>
+			<p>Tiene los atributos:</p>
+			<ul>
+				<li><code>marco</code>. Obligatorio. Es de tipo <a
+					href="index.html#NCName">NCName</a>. Indica el marco al que
+					pertenece el tramo referenciado.</li>
+				<li><code>dia</code>. Obligatorio. Es de tipo <a
+					href="index.html#unsignedByte">unsignedByte</a> pero restringido al
+					rango 0 a 4 (ambos inclusive). Indica el día al que pertenece el
+					tramo.</li>
+				<li><code>indice</code>. Obligatorio. Es de tipo <a
+					href="index.html#int">int</a>. Indica el índice del tramo
+					referenciado.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#PlantillaPDType"><code>&lt;plantilla&gt;</code></a>.
+					<a href="#PlantillaPDType">PlantillaPDType</a>.</li>
+			</ul>
+
+			<h2 id="extensiones">Extensiones</h2>
+			<p>Permite extender el xml con elementos personalizados, que
+				puedan definirse en un futuro o para uso concreto de otras
+				aplicaciones externas.</p>
+			<p>
+				Se declara mediante el elemento <code>&lt;extensiones&gt;</code> .
+				Los subelementos pueden ser de cualquier tipo y tener cualquier
+				nombre además de poder aparecer repetido.
+			</p>
+			<p>Estos elementos serán validados si se encuentra el esquema
+				adecuado pero sino simplemente serán ignorados.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>any</code>. Es cualquier definición de elemento.<abbr
+					title="Mínimo"> Mín.</abbr> 0, <abbr title="máximo">máx.</abbr> <abbr
+					title="sin límite">∞</abbr>. Es de tipo any.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#otros">&lt;otros&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="perfil">Perfil</h2>
+			<p>Indica con que perfil de GHC se creó el archivo.</p>
+			<p>Puede tener uno de los siguientes valores:</p>
+			<ul>
+				<li><code>primaria</code>. Indica que se creó con el perfil de
+					primaria.</li>
+				<li><code>secundaria</code>. Indica que se creó con el perfil
+					de secundaria.</li>
+				<li><code>universidad</code>. Indica que se creó con el perfil
+					de universidad.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#otros">&lt;otros&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="claveXDias">claveXDias</h2>
+			<p>Contiene una lista con las claves de exportación de los días
+				de las semanas.</p>
+			<p>Contiene los subelementos:</p>
+			<ul>
+				<li><code>lunes</code>. Indica la clave de exportación
+					correspondiente a los lunes.<abbr title="Mínimo"> Mín.</abbr> 0, <abbr
+					title="máximo">máx.</abbr> 1. Es de tipo <a
+					href="index.html#string">String</a>.</li>
+				<li><code>martes</code>. Indica la clave de exportación
+					correspondiente a los martes.<abbr title="Mínimo"> Mín.</abbr> 0, <abbr
+					title="máximo">máx.</abbr> 1. Es de tipo <a
+					href="index.html#string">String</a>.</li>
+				<li><code>miercoles</code>. Indica la clave de exportación
+					correspondiente a los miércoles.<abbr title="Mínimo"> Mín.</abbr>
+					0, <abbr title="máximo">máx.</abbr> 1. Es de tipo <a
+					href="index.html#string">String</a>.</li>
+				<li><code>jueves</code>. Indica la clave de exportación
+					correspondiente a los jueves.<abbr title="Mínimo"> Mín.</abbr> 0, <abbr
+					title="máximo">máx.</abbr> 1. Es de tipo <a
+					href="index.html#string">String</a>.</li>
+				<li><code>viernes</code>. Indica la clave de exportación
+					correspondiente a los viernes.<abbr title="Mínimo"> Mín.</abbr> 0,
+					<abbr title="máximo">máx.</abbr> 1. Es de tipo <a
+					href="index.html#string">String</a>.</li>
+				<li><code>sabado</code>. Indica la clave de exportación
+					correspondiente a los sábado.<abbr title="Mínimo"> Mín.</abbr> 0, <abbr
+					title="máximo">máx.</abbr> 1. Es de tipo <a
+					href="index.html#string">String</a>.</li>
+				<li><code>domingo</code>. Indica la clave de exportación
+					correspondiente a los domingo.<abbr title="Mínimo"> Mín.</abbr> 0,
+					<abbr title="máximo">máx.</abbr> 1. Es de tipo <a
+					href="index.html#string">String</a>.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><code> <a href="#otros">&lt;otros&gt;</a>
+				</code>.</li>
+			</ul>
+
+			<h2 id="duracionesType">DuracionesType</h2>
+			<p>Define la proporción de un tramo con respecto a los demás.</p>
+			<p>Puede tener uno de los valores:</p>
+			<ul>
+				<li><code>M</code>. Media duración.</li>
+				<li><code>1</code>. Duración completa.</li>
+				<li><code>T</code>. Duración de tres cuartos.</li>
+				<li><code>S</code>. Duración de seis cuartos (una y media).</li>
+				<li><code>2</code>. Duración doble.</li>
+				<li><code>3</code>. Duración triple.</li>
+				<li><code>4</code>. Duración cuadruple.</li>
+				<li><code>5</code>. Duración quintuple.</li>
+				<li><code>6</code>. Duración sextuple.</li>
+				<li><code>7</code>. Duración sextuple.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#distribucionVariable"><code>&lt;numSesiones&gt;</code></a>.</li>
+				<li><a href="#distribucionVariable"><code>&lt;numMaximoDeSesiones&gt;</code></a>.</li>
+				<li><a href="#distribucionVariable"><code>&lt;numMinimoDeSesiones&gt;</code></a>.</li>
+				<li><a href="#distribucionVariable">distribucionVariable</a>.</li>
+			</ul>
+			
+			<h2 id="duracionesDistFijaType">DuracionesDistFijaType</h2>
+			<p>Define la proporción de un tramo con respecto a los demás.</p>
+			<p>Puede tener uno de los valores:</p>
+			<ul>
+				<li><code>M</code>. Media duración.</li>
+				<li><code>1</code>. Duración completa.</li>
+				<li><code>T</code>. Duración de tres cuartos.</li>
+				<li><code>S</code>. Duración de seis cuartos (una y media).</li>
+				<li><code>2</code>. Duración doble.</li>
+				<li><code>3</code>. Duración triple.</li>
+				<li><code>4</code>. Duración cuadruple.</li>
+				<li><code>5</code>. Duración quintuple.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#distribuicionFija"><code>&lt;numSesiones&gt;</code></a>.</li>
+				<li><a href="#distribucionFija">distribucionFija</a>.</li>
+			</ul>
+
+			<h2 id="duracionesTramoType">DuracionesTramoType</h2>
+			<p>
+				Define las proporciones de un tramo restringiendo el tipo <a
+					href="#duracionesType">DuracionesType</a>.
+			</p>
+			<p>Puede tener uno de los valores:</p>
+			<ul>
+				<li><code>M</code>. Media duración.</li>
+				<li><code>1</code>. Duración completa.</li>
+				<li><code>T</code>. Duración de tres cuartos.</li>
+			</ul>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#DefinicionDeTramo"><code>&lt;duracion&gt;</code></a>.</li>
+				<li><a href="#DefinicionDeTramo">Definicion de tramo</a>.</li>
+			</ul>													  
+			
+			<h2 id="preferenciaMismaPosicionDistintosPeriodos">PreferenciaMismaPosicionDistintosPeriodos</h2>
+			<p>
+				Define la preferencia que se observa sobre colocar las entidades de una sesión que ocupa varios periodos
+				en las mismas posiciones.
+			</p>
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#OpcionesDeSesionType"><code>&lt;OpcionesDeSesionType&gt;</code></a>.</li>
+			</ul>
+			
+			<h2 id="gruposIncluidosType">GruposIncluidosType</h2>
+			
+			<p>
+				Indica la lista de grupos reales que forman parte de un grupo ficticio/circunstancial formado para que unos determiandos
+				alumnos de los grupos que lo forman se agrupen para recibir una determinada materia o materias.
+			</p>
+			
+			<p>Contiene una lista de elementos tipo:</p>
+			<ul>
+				<li><code>grupoIncluido</code>. Es de tipo <a
+					href="index.html#NombreType">NombreType</a>. Indica el nombre identificativo de un grupo del horario.</li>
+			</ul>
+			
+			<p>Aparece en:</p>
+			<ul>
+				<li><a href="#grupo"><code>&lt;grupo&gt;</code></a>.</li>
+			</ul>
+			
+			
+			
+		</div>
+	</div>
+
+</body>
+</html>
