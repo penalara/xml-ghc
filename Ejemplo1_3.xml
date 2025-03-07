@@ -1,6 +1,6 @@
 <datosGHC xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./GHCFile.xsd">
 	<!--Element version is optional -->
-	<version>20230206</version>
+	<version>20240619</version>
 	<!-- Lista de semanas o periodos del horario si el horario varia a lo largo del curso. Puede omitirse si es único -->
 	<periodos>
 		<!-- Definicion de periodo -->
@@ -312,6 +312,12 @@
 			<nombre>RDP</nombre>
 			<nombreCompleto>Reunión de departamento</nombreCompleto>
 		</tarea>
+		<tarea>
+			<nombre>PDC</nombre>
+			<nombreCompleto>Programa de Diversificación Curricular</nombreCompleto>
+			<requiereMateria>false</requiereMateria>
+			<requiereGrupo>false</requiereGrupo>
+		</tarea>
 	</tareas>
 	<!-- El elemento departamentos contiene una lista con los departamentos existentes. -->
 	<departamentos>
@@ -362,7 +368,7 @@
 				<!-- Indica si al generar el horario se intentará quitar los huecos entre horas de los profesores. Por defecto true (activado). -->
 				<eliminarHuecos>true</eliminarHuecos>
 				<!-- Indica si se quiere penaliar la existencia de sesiones a ambos lados de una guardia de recreo del profesor. Por defecto vale false.-->
-				<penalizarAlrededorGuardiaRecreo>true</penalizarAlrededorGuardiaRecreo>
+				<penalizarAlrededorGuardiaRecreo estricto="true">true</penalizarAlrededorGuardiaRecreo>
 				<!-- Indica los periodos libres que debe tener el profesor. Si no aparece se tomará como ningún periodo libre. -->
 				<periodosLibres>
 					<!-- La cantidad de días en los que tendrá periodos libres. Por defecto 0 (ninguno). -->
@@ -481,6 +487,9 @@
 			</plantilla>
 		</materia>
 		<materia>
+			<nombre>Inglés1ESO - PDC</nombre>
+		</materia>
+		<materia>
 			<nombre>Lengua1ESO</nombre>
 		</materia>
 		<materia>
@@ -591,7 +600,7 @@
 						<refPeriodo>2</refPeriodo>
 					</enPeriodos>
 				</distribucionPeriodicaFija>
-			</distribucionPeriodica>	
+			</distribucionPeriodica>
 			<!-- Es una lista de aulas en las que se debe impartir la sesión (cualquiera de ellas). Si no aparece la lista o no tiene elementos, se puede poner en cualquier aula. El orden es significativo, los que están primeros tendrán preferencia sobre los últimos. -->
 			<listaDeAulas>
 				<!-- El nombre de una aula. Debe estar definido en la lista de aulas. -->
@@ -629,6 +638,8 @@
 				<permitirImpartanEnDiasSeguidos>preferiblemente</permitirImpartanEnDiasSeguidos>
 				<!-- Indica si para la opción anterior (permitirImpartanEnDiasSeguidos), se considera a los Lunes como consecutivos de los viernes. Esta opción solo es válida cuando lo es la opción anterior. Por defecto es "false". -->
 				<considerarLunesViernesSeguidos>false</considerarLunesViernesSeguidos>
+				<!-- Indica que todas las horas de la sesion, deben de asignarse obligatoriamente en el mismo aula -->
+				<sinCambioAula>true</sinCambioAula>
 			</opciones>
 			<!-- Define la plantilla de preferencia horaria de la sesión. Si se omite, o se omite algún tramo se tomará el que falte como preferente. -->
 			<plantilla>
@@ -774,10 +785,17 @@
 		<sesion id="3">
 			<materia>Inglés1ESO</materia>
 			<grupo>1ºESOB</grupo>
+			<profesor>Juanjo</profesor>
 			<duracionSemanal>4</duracionSemanal>
 			<tarea>LEC</tarea>
 			<grupoMateria>1ºESOB-Inglés1ESO</grupoMateria>
 			<departamento>Inglés</departamento>
+			<otrasMateriasProfesores>
+				<otraMateriaProfesor tarea="PDC">
+					<profesor>Nuria</profesor>
+					<materia>Inglés1ESO - PDC</materia>
+				</otraMateriaProfesor>
+			</otrasMateriasProfesores>
 		</sesion>
 	</sesionesLectivas>
 	<!-- Contiene las listas de relaciones entre sesiones (simultáneas, en distinto día, consecutivas, no consecutivas). Es opcional si no hay necesidad de usarla. -->
@@ -1094,7 +1112,7 @@
 			</opcionesGenerales>
 			<valorInicialProfesores>
 				<intervalosDePermanenciaSemanales>30</intervalosDePermanenciaSemanales>
-				<maximasHorasSeguidas>5</maximasHorasSeguidas>
+				<maximasHorasSeguidas estricto="true">6</maximasHorasSeguidas>
 			</valorInicialProfesores>
 			<valorInicialSesiones>
 				<permitirImpartanEnDiasSeguidos>obligatoriamente</permitirImpartanEnDiasSeguidos>

@@ -5,6 +5,89 @@ En este documento se puede ver un historial con los cambios en el formato xml de
 
 En los cambios se omite (de no ser necesario su mención) que el número de versión también se ha actualizado. Por ejemplo, para los cambios de la versión 20130514, se omite que el xml tendrá la versión 20130514.
 
+
+Cambios de la versión 20250304
+------------------------------
+
+Fecha de publicación 04/03/2024
+
+Los grupos ahora incorporan de forma opcional la etiqueta `<limiteOcupacionDia>` que permite indicar un máximo de intervalos al día para el grupo.
+
+Cambios de la versión 20240701
+------------------------------
+
+Fecha de publicación 02/10/2024
+
+Los profesores ya no son obligatorios dentro de la etiqueta ``<aula> `de los tramos de resultado.` ``
+
+Cambios de la versión 20240701
+------------------------------
+
+Fecha de publicación 01/07/2024
+
+Se añade el atributo opcional de las sesiones . A partir de ahora se integra dentro de `<opciones></opciones> `de `<sesion>`.
+
+Cambios de la versión 20240619
+------------------------------
+
+Fecha de publicación 19/06/2024
+
+Se añaden el atributo opcional `<sinCambioAula>`. Que puede tener valores `true` o `false`.
+
+Indica si deben asignarse todas las horas de la sesion en el mismo aula de forma estricta. No importará si se asigna el aula principal o un aula del conjunto alternativo (si hubiera), pero deberá ser el mismo para toda la sesion.
+
+Cambios de la versión 20240618
+------------------------------
+
+Fecha de publicación 18/06/2024
+
+Se añaden el atributo opcional `estricto`. Que puede tener valores `true` o `false` en las etiquetas:`
+
+- `<maximasHorasSeguidas>`
+- `<penalizarAlrededorGuardiaRecreo>`
+
+Se inlcuyen para permitir que estas condiciones se puedan indicar como obligatorias.
+
+Cambios de la versión 20231212
+------------------------------
+
+Fecha de publicación 12/12/2023
+
+Se añaden dos nuevas etiquetas dentro de <tarea>. Son opcionales y su valor puede ser `true` o `false`. Su ausencia será interpretada como `undefined`.
+
+Estas etiquetas son:
+
+* `<requiereMateria>`
+* `<requiereGrupo>`
+
+Sirven para validar si el tipo de tarea o actividad se puede asignar a las lectivas, con grupo y materia, o a las actividades del profesorado sin grupo de alumnos ni materia. También pueden ser tareas sin materia, pero con profesor y grupo, por ejemplo las tutorías. En caso de no informarse, simplemente no se realizaría validación alguna al respecto.
+
+Ejemplo:
+
+    
+    			<tarea>
+    				<nombre>LEC</nombre>
+    				<requiereMateria>true</requiereMateria>
+    				<requiereGrupo>false</requiereGrupo>
+    			</tarea>
+    		
+
+Cambios de la versión 20230831
+------------------------------
+
+Fecha de publicación 31/08/2023
+
+Cauando se define otro profesor en el aula, asociado a una materia distinta a la principal con un elemento `<otraMateriaProfesor>`, ahora se puede indicar, de forma opcional una tarea distinta a la principal de la sesión lectiva.
+
+Ejemplo:
+
+    
+    			<otrasMateriasProfesores>				
+    				<otraMateriaProfesor tarea="PDC">
+    					<profesor>Nuria</profesor>
+    					<materia>Lengua PDC</materia>
+    				</otraMateriaProfesor>				
+    			</otrasMateriasProfesores>
   
 
 Cambios de la versión 20230206

@@ -10,7 +10,7 @@
 			<xsd:documentation xml:lang="es">Este tipo define el elemento raíz de los datos de intercambio de GHC</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="version" minOccurs="0" maxOccurs="1" type="xsd:string" default="20230206">
+			<xsd:element name="version" minOccurs="0" maxOccurs="1" type="xsd:string" default="20250304">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="es">Especifica cual es la versión del formato.</xsd:documentation>
 				</xsd:annotation>
@@ -266,7 +266,7 @@
 														</xsd:simpleContent>
 													</xsd:complexType>
 												</xsd:element>
-												<xsd:element name="profesor" minOccurs="1" maxOccurs="unbounded" type="NombreType"/>
+												<xsd:element name="profesor" minOccurs="0" maxOccurs="unbounded" type="NombreType"/>
 											</xsd:sequence>
 											<xsd:attribute name="id" type="NombreType" use="optional"/>
 											<xsd:attribute name="anonima" type="NombreType" use="optional"/>
@@ -962,21 +962,28 @@
 					<xsd:documentation xml:lang="es">Indica si se quiere eliminar los huecos de este profesor</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="maximasHorasSeguidas" default="5" minOccurs="0">
+			<xsd:element name="maximasHorasSeguidas" default="5" minOccurs="0" maxOccurs="1">
 				<xsd:annotation>
-					<xsd:documentation xml:lang="es">El número máximo de sesiones lectivas continuadas que se admiten sin incluir un hueco o una complementaria</xsd:documentation>
+					<xsd:documentation xml:lang="es">
+						El número máximo de sesiones lectivas continuadas que se admiten sin incluir un hueco o una complementaria
+					</xsd:documentation>
 				</xsd:annotation>
-				<xsd:simpleType>
-					<xsd:restriction base="xsd:unsignedByte">
-						<xsd:maxInclusive value="14"/>
-						<xsd:minInclusive value="0"/>
-					</xsd:restriction>
-				</xsd:simpleType>
+			  	<xsd:complexType>
+				    <xsd:simpleContent>
+				      <xsd:extension base="DeCeroACatorce">
+				        <xsd:attribute name="estricto" type="xsd:boolean" default="false" use="optional"/>
+				      </xsd:extension>
+				    </xsd:simpleContent>
+			  	</xsd:complexType>
 			</xsd:element>
-			<xsd:element name="penalizarAlrededorGuardiaRecreo" default="false" type="xsd:boolean" minOccurs="0">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="es">Indica si se quiere penalizar la existencia de sesiones a ambos lados de una guardia de recreo del profesor (true) o no (false). Por defecto vale false.</xsd:documentation>
-				</xsd:annotation>
+			<xsd:element name="penalizarAlrededorGuardiaRecreo" minOccurs="0" maxOccurs="1" default="false">
+			  <xsd:complexType>
+			    <xsd:simpleContent>
+			      <xsd:extension base="xsd:boolean">
+			        <xsd:attribute name="estricto" type="xsd:boolean" default="false" use="optional"/>
+			      </xsd:extension>
+			    </xsd:simpleContent>
+			  </xsd:complexType>
 			</xsd:element>
 			<xsd:element name="periodosLibres" type="PeriodosLibresType" minOccurs="0"></xsd:element>
 			<xsd:element name="periodoLibreJornadaPartida" type="PeriodosLibresJornadaPartidaType" minOccurs="0"></xsd:element>
@@ -1427,6 +1434,11 @@
 					<xsd:documentation xml:lang="es">Indica si se quiere procurar eliminar los huecos del grupo.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="limiteOcupacionDia" minOccurs="0" maxOccurs="1" type="RangoEntre1y64">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">Indica el máximo de intervalos al día que se le pueden asignar al grupo.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 			<xsd:element name="plantilla" type="PlantillaSinFType" minOccurs="0"></xsd:element>
 			<xsd:element name="email" type="Email" minOccurs="0">
 				<xsd:annotation>
@@ -1542,9 +1554,11 @@
 			<xsd:documentation xml:lang="es">Define los tipos de tareas. Es identificado por el nombre.</xsd:documentation>
 		</xsd:annotation>
 		<xsd:all>
-			<xsd:element name="nombre" type="NombreType" minOccurs="0"/>
-			<xsd:element name="nombreCompleto" type="NombreCompletoType" minOccurs="0"/>
+			<xsd:element name="nombre" type="NombreType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="nombreCompleto" type="NombreCompletoType" minOccurs="0" maxOccurs="1"/>
 			<xsd:element name="claveDeExportacion" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="requiereMateria" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="requiereGrupo" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
 			<xsd:element name="plantilla" type="PlantillaSinFType" minOccurs="0" maxOccurs="1"></xsd:element>
 		</xsd:all>
 	</xsd:complexType>
@@ -1581,7 +1595,10 @@
 			</xsd:element>
 			<xsd:element name="plantilla" minOccurs="0" type="PlantillaPDFType">
 				<xsd:annotation>
-					<xsd:documentation xml:lang="es">Indica los tramos en los que está permitido colocar la reunión. Todos los tramos deben pertenecer al submarco asociado a la reunión.</xsd:documentation>
+					<xsd:documentation xml:lang="es">
+						Indica los tramos en los que está permitido colocar la reunión. Todos los tramos deben pertenecer al submarco asociado 
+						a la reunión.
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="integrantes" minOccurs="0">
@@ -1605,9 +1622,21 @@
 					<xsd:field xpath="."/>
 				</xsd:key>
 			</xsd:element>
+			<xsd:element name="distribucionSemanal"
+                minOccurs="0" type="DistribucionSemanalType">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="es">Deprecated.
+                        Puesto que ahora se trabaja con periodos,
+                        utilizar el elemento distribucionPeriodica.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
 			<xsd:element name="distribucionPeriodica" type="DistribucionPeriodicaType" minOccurs="0" maxOccurs="1">
 				<xsd:annotation>
-					<xsd:documentation>Indica cómo es la distribución que se debe colocar en cada periodo que corresponda para esta reunión.</xsd:documentation>
+					<xsd:documentation>
+						Indica cómo es la distribución que se debe colocar en 
+						cada periodo que corresponda para esta reunión.
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="mismaPosicionDistintosPeriodos" type="PreferenciaMismaPosicionDistintosPeriodos" default="ignorar" minOccurs="0"/>
@@ -1776,6 +1805,14 @@
 					<xsd:documentation xml:lang="es">Indica si está prohibido, permitido o fijado colocar las sesiones de esta complementaria. Si no aparece se supone que todos los tramos están permitidos.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+           	<xsd:element name="distribucionSemanal"
+                minOccurs="0" type="DistribucionSemanalType">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="es">
+                    	Se informa por GHC Classic cuando no se trabaja con periodos.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
 			<xsd:element name="distribucionPeriodica" type="DistribucionPeriodicaType" minOccurs="0" maxOccurs="1">
 				<xsd:annotation>
 					<xsd:documentation>Indica cómo es la distribución que se debe colocar en cada periodo que corresponda para esta complementaria.</xsd:documentation>
@@ -2054,6 +2091,16 @@
 										</xsd:annotation>
 									</xsd:element>
 								</xsd:all>
+								<xsd:attribute name="tarea" type="NombreType"
+									use="optional">
+										<xsd:annotation>
+											<xsd:documentation>
+											  Indica la tarea asociada a la relacion
+											  entre profesor y materia adicionales
+											  en la sesion.
+											</xsd:documentation>
+										</xsd:annotation>
+								</xsd:attribute>
 							</xsd:complexType>
 						</xsd:element>
 					</xsd:sequence>
@@ -2383,6 +2430,8 @@
 						<xsd:enumeration value="5"/>
 						<xsd:enumeration value="6"/>
 						<xsd:enumeration value="7"/>
+						<xsd:enumeration value="8"/>
+						<xsd:enumeration value="9"/>
 					</xsd:restriction>
 				</xsd:simpleType>
 			</xsd:element>
@@ -2402,6 +2451,8 @@
 						<xsd:enumeration value="5"/>
 						<xsd:enumeration value="6"/>
 						<xsd:enumeration value="7"/>
+						<xsd:enumeration value="8"/>
+						<xsd:enumeration value="9"/>
 					</xsd:restriction>
 				</xsd:simpleType>
 			</xsd:element>
@@ -2514,6 +2565,14 @@
 			<xsd:element name="considerarLunesViernesSeguidos" type="xsd:boolean" default="false" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="es">Considerar que los Lunes son seguidos a los Viernes.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="sinCambioAula" default="false" type="xsd:boolean"  minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="es">
+						Indica si deben asignarse todas las horas de la sesion en el mismo aula de forma estricta. No importara si se asigna el
+						aula principal o un aula del conjunto alternativo (si hubiera), pero deberá ser el mismo para toda la sesion.
+					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="mismaPosicionDistintosPeriodos" type="PreferenciaMismaPosicionDistintosPeriodos" default="ignorar" minOccurs="0"/>
@@ -2934,6 +2993,9 @@
 			<xsd:enumeration value="5"/>
 			<xsd:enumeration value="6"/>
 			<xsd:enumeration value="7"/>
+			<xsd:enumeration value="8"/>
+			<xsd:enumeration value="9"/>
+			
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="DuracionesDistFijaType">
@@ -3052,6 +3114,18 @@
 			<!-- Mirar si tiene sentido un valor tan alto -->
 			<xsd:maxInclusive value="300"/>
 		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DeCeroACatorce">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="14"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RangoEntre1y64">
+	  <xsd:restriction base="xsd:unsignedInt">
+	    <xsd:minInclusive value="1"/>
+	    <xsd:maxInclusive value="64"/>
+	  </xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="Horas">
 		<xsd:restriction base="xsd:unsignedByte">
