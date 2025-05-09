@@ -6,6 +6,15 @@ En este documento se puede ver un historial con los cambios en el formato xml de
 En los cambios se omite (de no ser necesario su mención) que el número de versión también se ha actualizado. Por ejemplo, para los cambios de la versión 20130514, se omite que el xml tendrá la versión 20130514.
 
 
+Cambios de la versión 20250509
+------------------------------
+
+Fecha de publicación 09/05/2025
+
+Ahora la etiqueta de los grupos `<profesorTutor>` permite de forma opcional incluir los atributos `imparteAPrimeras` y/o `imparteAUltimas`, que son de tipo `boolean`.
+
+Permite que el motor intente optimizar que el tutor del grupo tenga asignada clase con su grupo a primera y última hora.
+
 Cambios de la versión 20250304
 ------------------------------
 
