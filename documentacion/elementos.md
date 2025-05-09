@@ -808,7 +808,7 @@ Contiene los elementos:
 * `<abreviatura>`. Opcional. Es de tipo [AbreviaturaType](index.html#AbreviaturaType). Es una forma abreviada del nombre para que sea más fácil visualizar la materia.
 * `<nombreCompleto>`. Opcional. Es de tipo [NombreCompletoType](index.html#NombreCompletoType). Sirve para indicar el nombre del grupo si no cabe en su campo nombre.
 * `<cursoPerteneciente>`. Opcional. Es de tipo [NombreType](index.html#NombreType). Indica el nombre del curso al que pertenece. Si no tiene curso asociado a él, no se debe poner el elemento.
-* `<profesorTutor>`. Opcional. Es de tipo [NombreType](index.html#NombreType). Es el nombre de un profesor (de la [lista de profesores](#profesores)) el cual es el tutor del grupo.
+* `<profesorTutor>`. Opcional. Es de tipo [NombreType](index.html#NombreType). Es el nombre de un profesor (de la [lista de profesores](#profesores)) el cual es el tutor del grupo. Permite definir de forma opcional los atributos `<imparteAPrimeras>` y/o `<imparteAUltimas>` de tipo <code>boolean</code> para procurar en la optimización que el tutor del grupo tenga asignada clase con el grupo a primera y ultima hora todos los días.
 * `<aula>`. Opcional. Es de tipo [NombreType](index.html#NombreType). Es el nombre de un aula de la [lista de aulas](#aulas) la cual estará asociada al grupo, y en ellas se intentará colocar las sesiones asociadas a este grupo.
 * `<claveDeExportacion>`. Opcional. Es de tipo [string](index.html#string). Es usado como valor de referencia por algunos programas externos.
 * `<tardesLibres>`. Opcional. Es de tipo [unsignedByte](index.html#unsignedByte) restringido al rango 0 a 4 (ambos inclusive). Por defecto vale 0. El número de tardes libres a la semana.
