@@ -10,7 +10,7 @@
 			<xsd:documentation xml:lang="es">Este tipo define el elemento raíz de los datos de intercambio de GHC</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="version" minOccurs="0" maxOccurs="1" type="xsd:string" default="20250304">
+			<xsd:element name="version" minOccurs="0" maxOccurs="1" type="xsd:string" default="20250509">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="es">Especifica cual es la versión del formato.</xsd:documentation>
 				</xsd:annotation>
@@ -1412,7 +1412,16 @@
 					<xsd:documentation xml:lang="es">Indica a que curso pertenece este grupo.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="profesorTutor" type="NombreType" minOccurs="0"/>
+			<xsd:element name="profesorTutor"  minOccurs="0" maxOccurs="1" default="false">
+			  <xsd:complexType>
+				<xsd:simpleContent>
+				  <xsd:extension base="NombreType">
+					<xsd:attribute name="imparteAPrimeras" type="xsd:boolean" default="false" use="optional"/>
+					<xsd:attribute name="imparteAUltimas" type="xsd:boolean" default="false" use="optional"/>
+				  </xsd:extension>
+				</xsd:simpleContent>
+			  </xsd:complexType>
+			</xsd:element>
 			<xsd:element name="aula" type="NombreType" minOccurs="0"/>
 			<xsd:element name="claveDeExportacion" minOccurs="0" type="xsd:string"/>
 			<xsd:element name="numeroAlumnos" minOccurs="0" maxOccurs="1" type="xsd:unsignedInt" default="0"/>
