@@ -544,7 +544,7 @@
 			<!-- El curso al que pertenece, debe ser un curso de la lista de cursos. Es un elemento opcional aunque es conveniente que se ponga. -->
 			<cursoPerteneciente>1ºESO</cursoPerteneciente>
 			<!-- El tutor del grupo. Debe ser un nombre de un profesor de la lista de profesores. Es opcional. -->
-			<profesorTutor imparteAPrimeras="true" imparteAUltimas="true">Raúl</profesorTutor>
+			<profesorTutor imparteTodosLosDias="true" imparteAPrimeras="true" imparteAUltimas="true">Raúl</profesorTutor>
 			<!-- El aula por defecto del grupo. Debe ser un aula de la lista de aulas. Es opcional. -->
 			<aula>Aula1</aula>
 			<!-- Es la clave usada por algunos programas para identificar el grupo. No es necesaria si no se usan estos programas. -->

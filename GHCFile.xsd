@@ -10,7 +10,7 @@
 			<xsd:documentation xml:lang="es">Este tipo define el elemento raíz de los datos de intercambio de GHC</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="version" minOccurs="0" maxOccurs="1" type="xsd:string" default="20250509">
+			<xsd:element name="version" minOccurs="0" maxOccurs="1" type="xsd:string" default="20250512">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="es">Especifica cual es la versión del formato.</xsd:documentation>
 				</xsd:annotation>
@@ -1416,6 +1416,7 @@
 			  <xsd:complexType>
 				<xsd:simpleContent>
 				  <xsd:extension base="NombreType">
+					<xsd:attribute name="imparteTodosLosDias" type="xsd:boolean" default="false" use="optional"/>
 					<xsd:attribute name="imparteAPrimeras" type="xsd:boolean" default="false" use="optional"/>
 					<xsd:attribute name="imparteAUltimas" type="xsd:boolean" default="false" use="optional"/>
 				  </xsd:extension>
