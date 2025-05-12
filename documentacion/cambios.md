@@ -5,6 +5,14 @@ En este documento se puede ver un historial con los cambios en el formato xml de
 
 En los cambios se omite (de no ser necesario su mención) que el número de versión también se ha actualizado. Por ejemplo, para los cambios de la versión 20130514, se omite que el xml tendrá la versión 20130514.
 
+Cambios de la versión 20250512
+------------------------------
+
+Fecha de publicación 12/05/2025
+
+Ahora la etiqueta de los grupos `<profesorTutor>` permite de forma opcional incluir el atributo `imparteTodosLosDias`  de tipo `boolean`.
+
+Permite que el motor intente optimizar que el tutor del grupo tenga asignada clase con su grupo todos los días.
 
 Cambios de la versión 20250509
 ------------------------------
